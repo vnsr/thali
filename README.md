@@ -3,6 +3,28 @@
 Log food, calories, protein, carbs, fat and fibre, plus water and weight. Includes Indian and international foods.
 Your log stays on the phone. Nothing is sent anywhere unless you turn on automatic sync, which goes to your own private GitHub repository.
 
+**Try it:** open **https://vnsr.github.io/thali/** on a phone (best in Safari on iPhone → Share → Add to Home Screen). In the app: Settings → **What Thali can do**.
+
+## What Thali can do
+
+| Area | Features |
+|---|---|
+| **Logging** | Breakfast, lunch, dinner and snacks with real portions (roti, katori, Brötchen, glass, grams). Recent foods per meal with your last portion, favourites, "same as yesterday", quick add, edit or undo anything. |
+| **Type a whole meal** | "3 roti, 1 katori dal tadka, 200 ml chaas" → each item is matched and added in one go. |
+| **Food database (offline)** | About 8,500 foods: Thali's own list of everyday Indian (incl. Gujarati), German and international foods and drinks, the Indian Nutrient Databank (858 dishes) and USDA (7,233). Search understands English, Hindi, Gujarati and German words. |
+| **When a food is missing** | Closest matches, automatic Open Food Facts search, **estimate from ingredients** (saved as your recipe), create a food from a label. |
+| **Barcode scanning** | Camera, photo or typed number → Open Food Facts; products are kept for offline use. |
+| **Recipes** | Build dishes from raw ingredients and the cooked weight; kcal, macros and vitamins per portion. |
+| **Two people** | Separate profiles and targets. **Also log for** your partner with their own portion (½, ¾, same, 1¼…), or **copy your partner's meal** and adjust each item. |
+| **Planning** | Plan future days or use the **Week plan**; planned food counts once you tick ✓. **Shopping list for the week's plan** splits recipes into ingredients and skips what is in stock. |
+| **Staying on track** | **Ideas for the next meal** from what you usually eat, sized to the calories left; **protein boost** ideas when protein is short. |
+| **Weekly check-in** | Compares 3 weeks of eating with your weight trend, shows your real maintenance calories and suggests a target (max ±300 kcal per change). |
+| **Vitamins & minerals** | Calcium, iron, vitamin B12 and vitamin D against German (DGE) reference values, with how much of your food has data. Supplements can be logged. |
+| **Targets** | Calculated from body data, activity and goal (Mifflin–St Jeor), or set your own. Water target and glass size on the Water card. |
+| **Trends** | Calories, protein, macro split, weight trend (7-day average), water, biggest calorie sources (7–90 days). |
+| **Shopping & pantry** | Shared list sorted by aisle, usual items, share as text; pantry with stock levels and best-before dates. |
+| **Your data** | Offline-first, stays on the phone. Optional automatic sync between phones via your own private GitHub repo; backup/import; CSV export. |
+
 ## Install (once)
 1. This repository (`vnsr/thali`) is public, but your food log never goes into it.
 2. Repo → **Settings → Pages** → Source: "Deploy from a branch", branch `main`, folder `/ (root)` → Save.
@@ -50,7 +72,7 @@ Everything here works offline.
 
 | Source | What | Count |
 |---|---|---|
-| **THALI** (curated) | Everyday Indian (incl. Gujarati farsan), German and international foods with home portions (roti, katori, Brötchen…), including your usual dishes, café drinks and bubble tea | 452 |
+| **THALI** (curated) | Everyday Indian (incl. Gujarati farsan), German and international foods with home portions (roti, katori, Brötchen…), including your usual dishes, café drinks, bubble tea and supplements | 457 |
 | **INDB** | Indian Nutrient Databank (Jaacks et al. 2024): standard recipes. 156 rows with impossible values (e.g. deep-frying oil counted fully) were removed | 858 |
 | **USDA** | USDA SR Legacy: generic ingredients and foods (public domain) | 7,233 |
 | **OFF** | Packaged products you scan or find online (Open Food Facts) | grows |
@@ -95,6 +117,15 @@ Replace the files in this repo. The phone picks up the new version on the second
 - Open Food Facts: data under the Open Database License (ODbL), openfoodfacts.org
 - zxing-wasm: MIT licence (lib/zxing-LICENSE.txt)
 - Calorie targets are estimates, not medical advice.
+
+## v1.3.0 (15 Oct 2026)
+- **What Thali can do**: an in-app guide (Settings, or on the welcome screen) and a features table in this README.
+- **Week plan & planning**: plan future days (› on Today) or the whole week; planned items are dashed and count once ticked ✓. **Shopping list for this week's plan** turns planned recipes into ingredients (with amounts) for all profiles.
+- **Two people**: "Also log for [partner]" with their own portion size; "Same as [partner]'s lunch" copies their meal with per-item amounts.
+- **Weekly check-in**: real maintenance calories from 3 weeks of logging and weight trend; one tap to use the suggested target. A reminder on Sundays/Mondays when a change is suggested.
+- **Type a whole meal**: comma-separated items with amounts are matched and added together.
+- **Ideas for the next meal** and **protein boost** suggestions on Today.
+- **Vitamins & minerals** in Trends (calcium, iron, B12, vitamin D), with data for the curated list, USDA and INDB (calcium and iron), plus scanned products where Open Food Facts has them. New supplement entries (vitamin D3, B12, calcium, iron).
 
 ## v1.2.2 (15 Oct 2026)
 - **Water target right on Today:** tap the amount on the Water card (e.g. “750 / 3000 ml ✎”) to pick 1,5–4 L or an exact amount, and the glass size. Per profile, synced.

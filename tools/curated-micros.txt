@@ -1,0 +1,458 @@
+# per 100 g: calcium mg | iron mg | vitamin B12 µg | vitamin D µg  (estimates from IFCT/USDA/BLS reference values; plant drinks assumed fortified)
+Roti / chapati (plain)|30 2.7 0 0
+Roti with ghee|28 2.5 0 0
+Phulka (small, no oil)|30 2.7 0 0
+Bhakri (wheat)|30 2.6 0 0
+Bajra rotla|30 5 0 0
+Jowar roti|20 3 0 0
+Methi thepla|60 3 0 0
+Plain paratha|25 2.2 0 0
+Aloo paratha|25 1.8 0 0
+Gobi paratha|30 1.9 0 0
+Paneer paratha|120 1.8 0.2 0
+Paneer cheese paratha|180 1.7 0.3 0.1
+Methi paratha|55 2.8 0 0
+Makki ki roti|10 1.5 0 0
+Missi roti|50 4 0 0
+Tandoori roti|25 2.7 0 0
+Naan (plain)|60 1.4 0.1 0
+Butter naan|60 1.3 0.1 0.1
+Garlic naan|60 1.3 0.1 0
+Kulcha|50 1.4 0.1 0
+Bhatura|40 1.3 0.1 0
+Poori|25 2.2 0 0
+Puran poli|40 2 0 0
+Pav (bread roll)|50 1.5 0 0
+Pav with butter (toasted)|45 1.3 0 0.1
+Wheat tortilla wrap|60 1.5 0 0
+High-protein wrap (Lidl-type, approx.)|60 2 0 0
+Khakhra (plain/methi)|40 4 0 0
+Steamed rice (white, cooked)|10 0.2 0 0
+Jeera rice|12 0.3 0 0
+Brown rice (cooked)|10 0.4 0 0
+Veg pulao|15 0.4 0 0
+Veg biryani|20 0.5 0.05 0
+Khichdi (moong dal & rice)|15 1 0 0
+Masala khichdi|18 1.1 0 0
+Curd rice|70 0.3 0.2 0
+Lemon rice|12 0.4 0 0
+Veg fried rice (Indo-Chinese)|15 0.5 0 0
+Rajma chawal (plate)|25 1 0 0
+Chole chawal (plate)|28 1.1 0 0
+Dal chawal (plate)|15 0.8 0 0
+Dal tadka + jeera rice (plate)|15 0.8 0 0
+Dal tadka (toor)|20 1.2 0 0
+Gujarati dal (khatti-meethi)|18 0.9 0 0
+Moong dal (yellow)|20 1.1 0 0
+Punjabi whole moong (sabut moong)|25 1.3 0 0
+Urad dal (dhuli)|30 1.3 0 0
+Dal makhani|45 1.5 0.05 0
+Chana dal|25 1.5 0 0
+Masoor dal|18 1.6 0 0
+Mixed dal|22 1.3 0 0
+Sambar|25 0.8 0 0
+Rasam|12 0.4 0 0
+Gujarati kadhi|70 0.3 0.1 0
+Punjabi kadhi pakora|75 0.6 0.1 0
+Chole (chana masala)|45 1.8 0 0
+Rajma curry|35 1.8 0 0
+Black chana curry|50 2 0 0
+Lobia curry|25 1.5 0 0
+Usal (matki/vatana)|25 1.5 0 0
+Sev usal|30 1.8 0 0
+Misal (with farsan)|30 1.8 0 0
+Ragda (white peas)|25 1.4 0 0
+Soya chunks curry|90 3 0 0
+Sprouts salad (moong)|15 1 0 0
+Paneer butter masala|160 0.6 0.25 0.1
+Cheese butter masala|220 0.4 0.3 0.1
+Kadai paneer|170 0.8 0.25 0.05
+Palak paneer|180 1.4 0.2 0.05
+Matar paneer|150 0.9 0.2 0.05
+Paneer bhurji|280 0.6 0.35 0.1
+Paneer sabzi (home-style)|200 0.6 0.3 0.1
+Shahi paneer|170 0.5 0.25 0.1
+Chilli paneer|200 0.8 0.3 0.05
+Malai kofta|90 0.6 0.15 0.05
+Dum aloo|20 0.6 0 0
+Aloo gobi|22 0.6 0 0
+Aloo matar|20 0.9 0 0
+Jeera aloo|12 0.6 0 0
+Bataka nu shaak|15 0.6 0 0
+Sev tameta nu shaak|25 1 0 0
+Undhiyu|45 1.4 0 0
+Bhindi masala|70 0.6 0 0
+Baingan bharta|15 0.4 0 0
+Mix veg sabzi|35 0.7 0 0
+Lauki sabzi|20 0.3 0 0
+Cabbage sabzi|40 0.5 0 0
+Tindora sabzi|30 0.6 0 0
+Methi aloo|60 1.3 0 0
+Sarson ka saag|100 1.5 0 0
+Mushroom masala|8 0.5 0.04 0.2
+Tofu bhurji|180 2 0 0
+Veg kofta / manchurian gravy|25 0.7 0 0
+Gobi manchurian (dry)|25 0.8 0 0
+Thai green curry (veg, coconut)|25 0.8 0 0
+Egg curry|40 1.3 0.6 1
+Egg bhurji|55 1.6 0.8 1.4
+Chicken curry|15 0.9 0.2 0.1
+Butter chicken|30 0.8 0.25 0.1
+Chicken tikka|15 1 0.3 0.1
+Chicken biryani|15 0.6 0.1 0
+Fish curry|30 0.6 1.5 3
+Mutton curry|15 2 1.5 0.1
+Khaman dhokla|40 1.8 0 0
+White dhokla (khatta)|20 0.6 0 0
+Rava dhokla (Hartweizengrieß)|25 0.6 0.05 0
+Sev khamni|45 2.2 0 0
+Handvo|50 1.6 0.05 0
+Khandvi|60 1.5 0.1 0
+Patra|120 2.5 0 0
+Muthia (steamed)|50 1.8 0 0
+Fafda|60 4 0 0
+Jalebi|10 0.5 0 0
+Gathiya|60 4.5 0 0
+Sev (namkeen)|60 4.5 0 0
+Chevdo / chivda|30 3 0 0
+Chakri / chakli|30 2 0 0
+Bhakarwadi|50 3 0 0
+Dabeli|40 1.5 0 0
+Khasta kachori|40 2.5 0 0
+Samosa (aloo)|25 1.5 0 0
+Veg pakora|40 2 0 0
+Batata vada|25 1.3 0 0
+Vada pav|35 1.4 0 0
+Pav bhaji (bhaji only)|25 0.8 0.02 0
+Pav bhaji (plate, 2 buttered pav)|35 1 0.02 0.05
+Bhel puri|25 2 0 0
+Sev puri|30 1.8 0 0
+Pani puri|20 1.2 0 0
+Dahi puri|50 1.2 0.1 0
+Aloo chaat|15 0.7 0 0
+Ragda pattice|22 1.2 0 0
+Aloo tikki|15 0.8 0 0
+Frankie (veg patty roll)|45 1.5 0.05 0
+Paneer kathi roll|110 1.5 0.15 0.05
+Veg momos (steamed)|20 1 0 0
+Veg hakka noodles|20 0.9 0 0
+Tofu chilli noodles (schezwan)|70 1.5 0 0
+Chinese noodles with spaghetti|18 0.9 0 0
+Maggi masala noodles (prepared)|12 1 0 0
+Zucchini chilla (besan & yoghurt)|60 1.8 0.1 0
+Besan chilla (plain)|45 2.6 0 0
+Moong dal chilla|30 1.8 0 0
+Idli|15 0.6 0 0
+Plain dosa|15 0.8 0 0
+Masala dosa|18 0.8 0 0
+Rava dosa|18 0.7 0 0
+Uttapam|20 0.7 0 0
+Medu vada|40 1.8 0 0
+Upma (rava)|18 0.8 0 0
+Bataka poha|15 1.8 0 0
+Pongal|18 0.6 0 0
+Coconut chutney|20 1.3 0 0
+Green chutney|60 1.5 0 0
+Tamarind chutney (sweet)|40 1.5 0 0
+Cucumber raita|100 0.2 0.2 0
+Boondi raita|100 0.6 0.2 0
+Papad (roasted)|80 5 0 0
+Papad (fried)|70 4.5 0 0
+Pickle (mango, oil)|30 1 0 0
+Kachumber salad|15 0.3 0 0
+Gulab jamun|90 0.5 0.15 0
+Rasgulla|50 0.2 0.1 0
+Rasmalai|140 0.2 0.25 0.05
+Kheer (rice)|110 0.2 0.25 0.05
+Shrikhand|110 0.1 0.2 0.05
+Basundi|220 0.2 0.35 0.1
+Kaju katli|30 3 0 0
+Besan ladoo|40 2.5 0 0
+Motichoor ladoo|25 1.5 0 0
+Milk barfi|250 0.4 0.4 0.1
+Mohanthal|50 2.3 0.05 0
+Sukhdi (gol papdi)|40 3 0 0
+Gajar halwa|120 0.5 0.2 0.05
+Sheera (sooji halwa)|30 0.8 0.02 0
+Peanut chikki|50 2.5 0 0
+Kulfi|200 0.2 0.4 0.1
+Ice cream (vanilla)|128 0.1 0.4 0.2
+Masala chai (milk & sugar)|55 0.1 0.12 0.03
+Chai (milk, no sugar)|55 0.1 0.12 0.03
+Filter coffee (milk & sugar)|60 0.1 0.13 0.03
+Coffee (black)|2 0.02 0 0
+Coffee with milk (1.5%, no sugar)|30 0.02 0.1 0
+Cappuccino (whole milk)|75 0.05 0.2 0.05
+Latte macchiato (whole milk)|100 0.05 0.3 0.06
+Sweet lassi|100 0.05 0.25 0.03
+Mango lassi|90 0.1 0.2 0.03
+Chaas (buttermilk, salted)|45 0 0.1 0
+Nimbu pani (with sugar)|3 0 0 0
+Haldi doodh (turmeric milk)|110 0.3 0.4 0.08
+Hot chocolate (milk)|110 0.4 0.4 0.08
+Cola|2 0 0 0
+Cola zero / diet soda|2 0 0 0
+Apfelschorle|3 0.1 0 0
+Orange juice|11 0.2 0 0
+Apple juice|7 0.1 0 0
+Beer (Pils)|4 0 0.02 0
+Weißbier|5 0 0.02 0
+Alcohol-free beer|4 0 0 0
+Red wine|8 0.4 0 0
+White wine|8 0.3 0 0
+Prosecco / sparkling wine|8 0.3 0 0
+Whisky / vodka (40%)|0 0 0 0
+Oat drink (barista)|120 0.2 0.38 1.1
+Oat drink (regular)|120 0.2 0.38 1.1
+Soy drink (unsweetened)|120 0.4 0.38 0.75
+Almond drink (unsweetened)|120 0.1 0.38 0.75
+Coconut water|24 0.3 0 0
+Matcha milk tea (sweetened, no pearls)|40 0.2 0.1 0.02
+Matcha latte (café, milk, sweetened)|100 0.3 0.3 0.05
+Matcha latte (unsweetened, whole milk)|115 0.4 0.43 0.08
+Matcha latte (oat drink, sweetened)|100 0.3 0.3 0.8
+Matcha powder|420 17 0 0
+Bubble tea (milk tea with tapioca pearls)|35 0.2 0.1 0.02
+Milk tea (sweetened, no pearls)|40 0.1 0.1 0.02
+Thai iced tea (condensed milk)|60 0.1 0.15 0.03
+Tapioca pearls (cooked, in syrup)|5 0.6 0 0
+Chai latte (café, sweetened)|70 0.2 0.2 0.04
+Iced latte (milk, no sugar)|70 0.05 0.2 0.05
+Iced coffee (milk & sugar)|40 0.05 0.12 0.03
+Frappuccino / blended coffee (whipped cream)|60 0.1 0.15 0.05
+Indian cold coffee|90 0.1 0.25 0.05
+Green tea (plain)|0 0.02 0 0
+Black tea (plain)|0 0.02 0 0
+Herbal tea (plain)|2 0.08 0 0
+Milkshake (vanilla)|110 0.1 0.4 0.1
+Banana milkshake (home)|95 0.15 0.3 0.03
+Fruit smoothie|15 0.3 0 0
+Badam milk|120 0.3 0.35 0.05
+Falooda|100 0.3 0.25 0.05
+Sugarcane juice|10 0.4 0 0
+Jaljeera|10 0.5 0 0
+Kombucha|3 0.1 0 0
+Energy drink|3 0 0.8 0
+Energy drink (sugar-free)|3 0 0.8 0
+Lemon-lime / orange soda|3 0 0 0
+Spezi / cola-orange mix|3 0 0 0
+Club-Mate|5 0.1 0 0
+Bottled iced tea (peach/lemon)|2 0.1 0 0
+Radler (beer + lemonade)|4 0 0.01 0
+Protein shake (whey + 300 ml milk 1.5%)|145 0.1 0.5 0.03
+Milk 3.5%|120 0.03 0.45 0.08
+Milk 1.5%|123 0.03 0.45 0.03
+Skimmed milk 0.1%|125 0.03 0.45 0
+Dahi / curd (whole milk)|120 0.05 0.37 0.05
+Yoghurt 1.5%|140 0.05 0.4 0.02
+Yoghurt 3.5%|120 0.05 0.37 0.05
+Greek yoghurt 10%|100 0.05 0.3 0.1
+Skyr (natural)|100 0.05 0.5 0
+Magerquark|90 0.1 0.6 0
+Quark 20%|85 0.1 0.5 0.05
+Hüttenkäse / cottage cheese|85 0.1 0.45 0.05
+Paneer|400 0.3 0.4 0.1
+Tofu (natural)|200 2 0 0
+Gouda|700 0.2 1.5 0.2
+Cheddar|710 0.7 1.1 0.6
+Mozzarella|500 0.3 1.6 0.4
+Feta|490 0.6 1.7 0.4
+Halloumi|700 0.3 1.2 0.2
+Parmesan|1180 0.8 1.2 0.5
+Cream cheese|80 0.1 0.2 0.2
+Cream cheese (light)|110 0.1 0.3 0.1
+Butter|24 0 0.17 1.5
+Ghee|4 0 0 0
+Cream 30% (Sahne)|80 0 0.4 0.6
+Cooking cream 15%|90 0.05 0.3 0.3
+Sour cream 20% (Schmand)|100 0.1 0.3 0.3
+Egg (boiled or raw)|50 1.9 1.1 2
+Fried egg|60 1.9 1 2
+Masala omelette (2 eggs)|45 1.5 0.65 1.2
+Scrambled eggs|70 1.4 0.75 1.3
+Egg white|7 0.1 0.1 0
+Rolled oats (dry)|52 4.3 0 0
+Oats with milk (40 g oats + 200 ml 1.5%)|111 0.7 0.38 0.02
+Kellogg's Chocos|40 4 0 0
+Cornflakes|5 1.5 0 0
+Müsli (no added sugar)|60 3.5 0 0
+Crunchy granola|50 3 0 0
+Wheat roll (Brötchen)|25 1 0 0
+Wholegrain roll|40 2.2 0 0
+Laugenbrezel|20 1 0 0
+Croissant (butter)|37 1.3 0.2 0.1
+Wholegrain rye bread|25 2.3 0 0
+Mixed bread (Mischbrot)|25 1.6 0 0
+Toast bread (white)|50 1 0 0
+Wholemeal toast|45 2 0 0
+Fladenbrot (Turkish bread)|25 1.2 0 0
+Peanut butter|45 1.9 0 0
+Jam|15 0.3 0 0
+Nutella / chocolate spread|110 3.5 0.1 0
+Honey|6 0.4 0 0
+PB&J sandwich|35 1.5 0 0
+Cheese sandwich (toast, butter)|280 1 0.5 0.15
+Veg sandwich (Bombay)|50 1.2 0.05 0.05
+Pancakes|90 1 0.3 0.4
+Whey protein powder|400 1 1 0
+Protein bar|150 2 0.5 0
+Apple|6 0.1 0 0
+Banana|5 0.3 0 0
+Orange|40 0.1 0 0
+Mandarin|37 0.15 0 0
+Mango|11 0.16 0 0
+Grapes|10 0.36 0 0
+Blueberries|6 0.28 0 0
+Strawberries|16 0.4 0 0
+Raspberries|25 0.7 0 0
+Pear|9 0.2 0 0
+Kiwi|34 0.3 0 0
+Pomegranate seeds|10 0.3 0 0
+Papaya|20 0.25 0 0
+Watermelon|7 0.24 0 0
+Pineapple|13 0.3 0 0
+Guava|18 0.26 0 0
+Chikoo (sapota)|21 0.8 0 0
+Peach / nectarine|6 0.25 0 0
+Plums|6 0.17 0 0
+Cherries|13 0.36 0 0
+Avocado|12 0.55 0 0
+Dates (dried)|39 1 0 0
+Medjool date|64 0.9 0 0
+Raisins|50 1.9 0 0
+Dried apricots|55 2.7 0 0
+Dried figs|162 2 0 0
+Cucumber|16 0.28 0 0
+Tomato|10 0.27 0 0
+Onion|23 0.21 0 0
+Carrot|33 0.3 0 0
+Potato (boiled)|8 0.3 0 0
+Sweet potato (baked)|38 0.7 0 0
+Broccoli|47 0.73 0 0
+Cauliflower|22 0.42 0 0
+Spinach (raw)|99 2.7 0 0
+Bell pepper|7 0.4 0 0
+Green peas|25 1.5 0 0
+Sweet corn|3 0.5 0 0
+Mushrooms|3 0.5 0.04 0.2
+Zucchini|16 0.37 0 0
+Eggplant|9 0.23 0 0
+Okra|82 0.6 0 0
+Cabbage|40 0.47 0 0
+Lettuce / salad leaves|35 0.9 0 0
+Beetroot|16 0.8 0 0
+Green beans|37 1 0 0
+Moong sprouts (raw)|13 0.9 0 0
+Edamame|63 2.3 0 0
+Mixed salad with dressing|30 0.8 0 0
+Chickpeas (cooked/canned)|49 2.9 0 0
+Kidney beans (cooked/canned)|28 2.9 0 0
+Lentils (cooked)|19 3.3 0 0
+Mung beans (cooked)|27 1.4 0 0
+Black beans (cooked/canned)|27 2.1 0 0
+Soya chunks (dry)|240 9 0 0
+Toor dal (raw)|130 5 0 0
+Moong dal (raw)|75 4 0 0
+Masoor dal (raw)|56 7.5 0 0
+Urad dal (raw)|140 7.5 0 0
+Chana dal (raw)|56 5.3 0 0
+Rajma (dry)|140 8.2 0 0
+Kabuli chana (dry)|105 6.2 0 0
+Whole moong (dry)|132 6.7 0 0
+Basmati rice (raw)|9 0.8 0 0
+Poha (raw)|20 6 0 0
+Wheat flour (atta)|34 3.9 0 0
+Maida (white flour)|15 1.2 0 0
+Besan (gram flour)|45 4.9 0 0
+Rava / Hartweizengrieß|17 1.2 0 0
+Pasta (dry)|21 1.3 0 0
+Pasta (cooked)|7 0.5 0 0
+Wholewheat pasta (cooked)|15 1.4 0 0
+Quinoa (cooked)|17 1.5 0 0
+Couscous (cooked)|8 0.4 0 0
+Bulgur (cooked)|10 1 0 0
+Makhana (fox nuts)|60 1.4 0 0
+Roasted chana|58 5 0 0
+Murmura (puffed rice)|5 3 0 0
+Sugar|1 0 0 0
+Jaggery|80 3 0 0
+Almonds|269 3.7 0 0
+Cashews|37 6.7 0 0
+Walnuts|98 2.9 0 0
+Peanuts (roasted)|54 1.5 0 0
+Pistachios|105 3.9 0 0
+Mixed nuts|70 2.6 0 0
+Chia seeds|631 7.7 0 0
+Flaxseed|255 5.7 0 0
+Pumpkin seeds|46 8.8 0 0
+Sunflower seeds|78 5.3 0 0
+Sesame seeds|975 14.6 0 0
+Desiccated coconut|26 3.3 0 0
+Cooking oil|0 0 0 0
+Olive oil|1 0.6 0 0
+Mayonnaise|18 0.2 0.1 0.2
+Ketchup|15 0.4 0 0
+Pesto (jar, Genovese)|250 1 0.2 0.1
+Soy sauce|33 1.9 0 0
+Schezwan sauce|20 1 0 0
+Hummus|40 2.2 0 0
+Salsa (tomato)|20 0.5 0 0
+Guacamole|15 0.5 0 0
+Tomato pasta sauce (jar)|20 0.8 0 0
+Cream sauce (Rahmsauce)|60 0.05 0.2 0.3
+Salad dressing (vinaigrette)|5 0.1 0 0
+Pizza Margherita|190 1.5 0.4 0.1
+Pizza vegetable|160 1.4 0.35 0.1
+Pizza on Turkish bread (home)|180 1.4 0.4 0.1
+Vegetable lasagna|120 0.8 0.3 0.1
+Pasta with mushroom cream sauce|50 0.6 0.1 0.15
+Pesto spaghetti|70 0.7 0.1 0.05
+Spaghetti with tomato sauce|20 0.6 0 0
+Penne arrabbiata|20 0.6 0 0
+Mac and cheese|120 0.5 0.3 0.1
+Käsespätzle|230 0.9 0.6 0.4
+Mexican bowl (nachos, beans, veg)|90 1.3 0.15 0.05
+Nachos with cheese|180 1.2 0.3 0.1
+Tortilla chips|150 1.5 0 0
+Bean & cheese burrito|80 1.6 0.1 0
+Falafel|54 3.4 0 0
+Falafel wrap (Dürüm)|50 1.6 0.03 0
+Veggie döner (halloumi/veg)|120 1.2 0.3 0.1
+Veg burger (bun, patty, sauce)|70 1.6 0.1 0.05
+Gemüse patty (veg patty, pan-fried)|30 1 0 0
+Chilli cheese balls (frozen, baked)|120 0.8 0.2 0.1
+Potato croquettes (Kroketten, oven)|15 0.6 0 0
+French fries (fried)|18 0.8 0 0
+Oven fries|10 0.6 0 0
+Bratkartoffeln|8 0.5 0 0
+Potato salad (mayo)|15 0.4 0.1 0.2
+Potato salad (vinegar & oil)|8 0.4 0 0
+Mashed potatoes|30 0.3 0.1 0.1
+Greek salad|120 0.5 0.3 0.1
+Tomato soup|10 0.5 0 0
+Lentil soup|15 1.5 0 0
+Veg sushi (maki)|7 0.4 0 0
+Pad thai (tofu)|35 1.2 0.1 0.2
+Cheeseburger (fast food)|150 2.5 1 0.1
+Schnitzel (breaded)|15 1 0.5 0.3
+Bratwurst|15 1 0.8 0.5
+Currywurst with sauce|15 0.8 0.5 0.3
+Cake (pound / Rührkuchen)|50 1.2 0.2 0.5
+German cheesecake (Käsekuchen)|70 0.6 0.3 0.4
+Apple strudel|15 0.5 0 0.1
+Berliner / doughnut|30 1 0.1 0.1
+Chocolate muffin|60 1.5 0.1 0.2
+Chocolate chip cookie|30 2 0.1 0
+Butter biscuit|40 1.5 0 0
+Dark chocolate 70%|73 11.9 0.3 0
+Milk chocolate|190 2.3 0.7 0.1
+Gummy bears|5 0.5 0 0
+Potato chips|20 1.2 0 0
+Popcorn (salted)|10 2 0 0
+Pretzel sticks (Salzstangen)|20 1 0 0
+Rice cakes|10 1.5 0 0
+Vitamin D3 1000 IU (25 µg)|0 0 0 2500
+Vitamin D3 800 IU (20 µg)|0 0 0 2000
+Vitamin B12 tablet (500 µg)|0 0 50000 0
+Calcium tablet (500 mg)|50000 0 0 0
+Iron tablet (20 mg)|0 2000 0 0

@@ -488,3 +488,10 @@ Potato chips | 536 6.5 53 34 4.4 | 1 handful=30;1 bag=175 | | chips,crisps,karto
 Popcorn (salted) | 480 8 58 23 10 | 1 bowl=30 | | popcorn
 Pretzel sticks (Salzstangen) | 380 10 77 3 3 | 1 handful=25 | | salzstangen
 Rice cakes | 387 8 81 2.8 3 | 1 cake=8 | | reiswaffeln
+
+# Supplements (log them to count vitamins/minerals)
+Vitamin D3 1000 IU (25 µg) | 0 0 0 0 0 | 1 tablet=1 | | vitamin d,vit d,d3,vigantol,dekristol,supplement,nahrungsergänzung
+Vitamin D3 800 IU (20 µg) | 0 0 0 0 0 | 1 tablet=1 | | vitamin d,vit d,d3,supplement
+Vitamin B12 tablet (500 µg) | 0 0 0 0 0 | 1 tablet=1 | | b12,vitamin b12,cobalamin,supplement
+Calcium tablet (500 mg) | 0 0 0 0 0 | 1 tablet=1 | | calcium,kalzium,supplement
+Iron tablet (20 mg) | 0 0 0 0 0 | 1 tablet=1 | | iron,eisen,supplement
