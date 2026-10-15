@@ -1,0 +1,1402 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Thali">
+<meta name="theme-color" content="#F6F3EC">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<title>Thali</title>
+<style>
+:root{--bg:#F6F3EC;--surface:#FFFFFF;--surface2:#EEE9DE;--ink:#1F1B15;--muted:#6E675B;--line:#E3DDD0;
+--kcal:#D9661A;--pro:#2B8A5E;--carb:#3A76CF;--fat:#C0437A;--fib:#7B8A24;--water:#2394BE;--wt:#7A55C0;--danger:#C2392F;--ok:#2B8A5E;--on:#FFFFFF;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#13110D;--surface:#1D1A15;--surface2:#29251E;--ink:#EDE8DE;--muted:#9C9484;--line:#332E26;
+--kcal:#F08A3E;--pro:#4DBB89;--carb:#6C9DEB;--fat:#E173A2;--fib:#A9BA4A;--water:#4FB8DD;--wt:#A585E6;--danger:#F0685C;--ok:#4DBB89;--on:#13110D;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#13110D;--surface:#1D1A15;--surface2:#29251E;--ink:#EDE8DE;--muted:#9C9484;--line:#332E26;
+--kcal:#F08A3E;--pro:#4DBB89;--carb:#6C9DEB;--fat:#E173A2;--fib:#A9BA4A;--water:#4FB8DD;--wt:#A585E6;--danger:#F0685C;--ok:#4DBB89;--on:#13110D;color-scheme:dark}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;height:100%}
+body{font-family:ui-rounded,"SF Pro Rounded",-apple-system,system-ui,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.4;font-variant-numeric:tabular-nums;-webkit-tap-highlight-color:transparent;min-height:100%}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;touch-action:manipulation}
+input,textarea,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--kcal);outline-offset:2px}
+header.top{position:sticky;top:0;z-index:5;background:var(--bg);padding:calc(env(safe-area-inset-top,0px) + 10px) 16px 8px;display:flex;align-items:center;gap:10px}
+.who{flex:1;min-width:0;text-align:left}.who h1{font-size:24px;font-weight:700;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.15;display:flex;align-items:center;gap:4px}
+.who h1 svg{width:18px;height:18px;color:var(--muted)}.who p{font-size:14px;color:var(--muted)}
+.icon-btn{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--surface);border:1px solid var(--line);flex:none;position:relative}
+.icon-btn svg{width:20px;height:20px}
+.icon-btn.alert::after{content:"";position:absolute;top:2px;right:2px;width:10px;height:10px;border-radius:50%;background:var(--danger);border:2px solid var(--bg)}
+main{padding:4px 16px calc(100px + env(safe-area-inset-bottom,0px));max-width:560px;margin:0 auto}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:6;display:flex;justify-content:center;background:var(--surface);border-top:1px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px))}
+.tab{flex:1;max-width:110px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;color:var(--muted);padding:4px 0}
+.tab svg{width:24px;height:24px}.tab.on{color:var(--ink);font-weight:600}
+.tab.add{color:var(--on)}.tab.add span.plus{width:46px;height:46px;border-radius:50%;background:var(--kcal);display:grid;place-items:center;margin-top:-18px;box-shadow:0 4px 14px color-mix(in srgb,var(--kcal) 40%,transparent)}
+.tab.add span.plus svg{width:26px;height:26px}.tab.add em{font-style:normal;color:var(--muted)}
+.datebar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:2px 0 10px}
+.datebar button.nav{width:38px;height:38px;border-radius:50%;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center}
+.datebar button.nav svg{width:18px;height:18px}.datebar button.nav:disabled{opacity:.35}
+.datebar .dl{flex:1;text-align:center;font-weight:700;font-size:17px}.datebar .dl small{display:block;font-weight:500;font-size:12px;color:var(--muted)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:14px 16px;margin-bottom:12px}
+.card h3{font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px}.card h3 .r{margin-left:auto;font-weight:600;font-size:14px;color:var(--muted)}
+.sum{display:flex;align-items:center;gap:14px}
+.ring{width:132px;height:132px;flex:none}
+.ring .trk{fill:none;stroke:var(--surface2);stroke-width:12}.ring .val{fill:none;stroke:var(--kcal);stroke-width:12;stroke-linecap:round;transition:stroke-dasharray .4s}
+.ring .val.over{stroke:var(--danger)}.ring .big{fill:var(--ink);font-size:27px;font-weight:700;text-anchor:middle}.ring .sm{fill:var(--muted);font-size:12px;text-anchor:middle}
+.sumtx{flex:1;min-width:0;display:grid;gap:7px}
+.mac{font-size:13px}.mac .l{display:flex;justify-content:space-between;color:var(--muted)}.mac .l b{color:var(--ink);font-weight:600}
+.bar{height:7px;border-radius:4px;background:var(--surface2);overflow:hidden;margin-top:3px}.bar i{display:block;height:100%;border-radius:4px;background:var(--c)}
+.bar i.over{background:repeating-linear-gradient(45deg,var(--c),var(--c) 4px,color-mix(in srgb,var(--c) 55%,var(--surface)) 4px,color-mix(in srgb,var(--c) 55%,var(--surface)) 8px)}
+.kline{display:flex;justify-content:space-around;text-align:center;margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
+.kline div{font-size:12px;color:var(--muted)}.kline b{display:block;font-size:17px;color:var(--ink)}
+.meal{padding:12px 14px 6px}
+.meal-h{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.meal-h .mi{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:color-mix(in srgb,var(--kcal) 14%,var(--surface));color:var(--kcal);flex:none}
+.meal-h .mi svg{width:18px;height:18px}.meal-h b{font-size:16px}.meal-h span{font-size:13px;color:var(--muted)}
+.meal-h .t{margin-left:auto;font-weight:700;font-size:15px}.meal-h .plus{width:34px;height:34px;border-radius:50%;background:var(--kcal);color:var(--on);display:grid;place-items:center}
+.meal-h .plus svg{width:18px;height:18px}
+.ent{list-style:none}.ent li+li{border-top:1px solid var(--line)}
+.ent button.row{width:100%;display:flex;align-items:center;gap:10px;padding:9px 0;text-align:left}
+.ent .nm{flex:1;min-width:0}.ent .nm b{display:block;font-weight:600;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ent .nm small{color:var(--muted);font-size:13px}.ent .kc{font-weight:600;font-size:15px;white-space:nowrap}
+.ghost{display:flex;gap:8px;flex-wrap:wrap;padding:6px 0 8px}
+.chip{padding:7px 12px;border-radius:999px;background:var(--surface2);font-size:14px;font-weight:600;white-space:nowrap}
+.chip.on{background:var(--ink);color:var(--bg)}.chip.k{background:color-mix(in srgb,var(--kcal) 14%,var(--surface));color:var(--kcal)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips.scroll{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px}.chips.scroll::-webkit-scrollbar{display:none}
+.water{display:flex;align-items:center;gap:10px}
+.glasses{display:flex;gap:4px;flex-wrap:wrap;flex:1}
+.glass{width:22px;height:28px;border:2px solid var(--water);border-top:0;border-radius:0 0 7px 7px;position:relative;overflow:hidden;opacity:.55}
+.glass.full{opacity:1}.glass.full::after{content:"";position:absolute;left:0;right:0;bottom:0;height:78%;background:var(--water)}
+.rbtn{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:color-mix(in srgb,var(--c) 15%,var(--surface));color:var(--c);flex:none;font-weight:700;font-size:20px}
+.rbtn svg{width:20px;height:20px}
+.wrow{display:flex;align-items:center;gap:12px}.wrow .v{flex:1}.wrow .v b{font-size:20px}.wrow .v small{display:block;color:var(--muted);font-size:13px}
+.btn{flex:1;padding:13px 10px;border-radius:14px;background:var(--surface2);font-weight:600;text-align:center;font-size:16px}
+.btn.primary{background:var(--kcal);color:var(--on)}.btn.dark{background:var(--ink);color:var(--bg)}
+.btn.small{flex:none;padding:9px 14px;font-size:15px}.btn.danger{color:var(--danger)}.btn:disabled{opacity:.45}
+.row-btns{display:flex;gap:8px}
+.link{display:block;margin:10px auto 0;color:var(--muted);font-size:14px;text-decoration:underline;text-underline-offset:3px}
+.muted{color:var(--muted);font-size:14px}.small{font-size:13px}
+.empty{text-align:center;color:var(--muted);padding:28px 10px;font-size:15px}
+.nudge{display:flex;gap:10px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin-bottom:10px;font-size:14px}.nudge span{flex:1}
+.nudge.err{border-color:var(--danger);color:var(--danger)}
+/* sheets */
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:20;opacity:0;pointer-events:none;transition:opacity .2s}
+.scrim.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:21;background:var(--bg);border-radius:22px 22px 0 0;max-height:94vh;max-height:94dvh;display:flex;flex-direction:column;transform:translateY(105%);transition:transform .24s cubic-bezier(.2,.8,.2,1);max-width:600px;margin:0 auto}
+.sheet.on{transform:none}.sheet.full{height:94vh;height:94dvh}
+.grab{width:40px;height:5px;border-radius:3px;background:var(--line);margin:8px auto 2px;flex:none}
+.sh-head{display:flex;align-items:center;gap:8px;padding:6px 16px 8px;flex:none}.sh-head h2{flex:1;font-size:19px;font-weight:700;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sh-head .icon-btn{width:36px;height:36px}.sh-head .icon-btn svg{width:18px;height:18px}
+.sh-body{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:4px 16px calc(18px + env(safe-area-inset-bottom,0px));flex:1}
+.sh-foot{padding:10px 16px calc(12px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);background:var(--bg);flex:none}
+.search{display:flex;gap:8px;align-items:center;margin:0 0 10px}
+.search .in{flex:1;position:relative}input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-search-decoration{-webkit-appearance:none;appearance:none;display:none}.search input{width:100%;padding:11px 36px 11px 38px;border-radius:14px;border:1px solid var(--line);background:var(--surface);font-size:16px;-webkit-appearance:none;appearance:none}
+.search .in svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--muted)}
+.search .clr{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;display:grid;place-items:center;color:var(--muted)}
+.search .clr svg{position:static;transform:none;width:16px;height:16px}
+.search .icon-btn{width:44px;height:44px;border-radius:14px}
+.res{list-style:none;background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-bottom:12px}
+.res li+li{border-top:1px solid var(--line)}
+.res button.it{width:100%;display:flex;align-items:center;gap:10px;padding:10px 12px;text-align:left}
+.res .nm{flex:1;min-width:0}.res .nm b{display:block;font-weight:600;font-size:15px;line-height:1.25}
+.res .nm small{color:var(--muted);font-size:12.5px}.res .kc{font-weight:600;font-size:14px;white-space:nowrap;text-align:right}.res .kc small{display:block;font-weight:500;color:var(--muted);font-size:11.5px}
+.src{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.02em;padding:1px 6px;border-radius:6px;margin-right:5px;vertical-align:1px;background:var(--surface2);color:var(--muted)}
+.src.my{background:color-mix(in srgb,var(--kcal) 16%,var(--surface));color:var(--kcal)}.src.th{background:color-mix(in srgb,var(--pro) 16%,var(--surface));color:var(--pro)}
+.src.off{background:color-mix(in srgb,var(--carb) 16%,var(--surface));color:var(--carb)}.src.rc{background:color-mix(in srgb,var(--fat) 14%,var(--surface));color:var(--fat)}
+.vdot{display:inline-block;width:11px;height:11px;border:1.5px solid var(--ok);border-radius:2px;position:relative;vertical-align:-1px;margin-right:4px}
+.vdot::after{content:"";position:absolute;inset:2px;border-radius:50%;background:var(--ok)}.vdot.n{border-color:var(--danger)}.vdot.n::after{background:var(--danger)}.vdot.e{border-color:#C9A227}.vdot.e::after{background:#C9A227}
+.sec{font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin:14px 2px 6px;display:flex;align-items:center}
+.sec .r{margin-left:auto;text-transform:none;letter-spacing:0;font-weight:600}
+.big-k{text-align:center;margin:6px 0 4px}.big-k b{font-size:44px;font-weight:700;letter-spacing:-.02em;color:var(--kcal)}.big-k span{font-size:16px;color:var(--muted);margin-left:4px}
+.m4{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:8px 0 14px}
+.m4 div{background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--c);border-radius:12px;padding:7px 4px;text-align:center}
+.m4 b{display:block;font-size:17px}.m4 span{font-size:11.5px;color:var(--muted)}
+.qty{display:flex;align-items:center;gap:10px;justify-content:center;margin:12px 0}
+.qty button{width:48px;height:48px;border-radius:50%;background:var(--surface2);font-size:24px;font-weight:600}
+.qty input{width:110px;text-align:center;font-size:26px;font-weight:700;padding:8px;border-radius:14px;border:1px solid var(--line);background:var(--surface)}
+.qty small{display:block;text-align:center;color:var(--muted)}
+.fld{display:block;margin-bottom:12px}.fld>span{display:block;font-size:13px;color:var(--muted);margin-bottom:5px;font-weight:600}
+.fld input,.fld select,.fld textarea{width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);font-size:16px;-webkit-appearance:none;appearance:none}
+.fld select{background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 18px) 50%,calc(100% - 13px) 50%;background-size:5px 5px;background-repeat:no-repeat;padding-right:32px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.tog{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.tog span{flex:1}.tog small{display:block;color:var(--muted);font-size:13px}
+.sw{width:50px;height:30px;border-radius:15px;background:var(--surface2);position:relative;flex:none;transition:background .15s;border:1px solid var(--line)}
+.sw::after{content:"";position:absolute;top:2px;left:2px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .15s}
+.sw.on{background:var(--ok);border-color:var(--ok)}.sw.on::after{transform:translateX(20px)}
+.set-sec{font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin:20px 0 6px}
+.list{list-style:none;background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.list li+li{border-top:1px solid var(--line)}.list button.it{width:100%;display:flex;align-items:center;gap:10px;padding:12px 14px;text-align:left}
+.list .nm{flex:1;min-width:0}.list .nm small{display:block;color:var(--muted);font-size:13px}
+.stack{display:flex;flex-wrap:wrap;gap:8px}
+.ing{display:flex;align-items:center;gap:8px;padding:9px 12px}.ing .nm{flex:1;min-width:0}.ing .nm b{display:block;font-size:15px;font-weight:600}.ing .nm small{color:var(--muted);font-size:13px}
+.ing input{width:76px;padding:8px;border-radius:10px;border:1px solid var(--line);background:var(--bg);text-align:right;font-size:16px}
+.ing .x{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;color:var(--muted)}.ing .x svg{width:16px;height:16px}
+.seg{display:flex;background:var(--surface2);border-radius:12px;padding:3px;margin-bottom:12px}.seg button{flex:1;padding:8px 6px;border-radius:9px;font-size:14px;font-weight:600;color:var(--muted)}
+.seg button.on{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.chart{width:100%;height:auto;display:block}.chart text{font-size:10px;fill:var(--muted)}
+.chart .tl{stroke:var(--ink);stroke-dasharray:4 3;stroke-width:1.2;opacity:.65}.chart .gl{stroke:var(--line);stroke-width:1}
+.stat{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat div{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 12px}
+.stat span{display:block;font-size:12px;color:var(--muted)}.stat b{font-size:20px}.stat small{color:var(--muted);font-size:12px;margin-left:4px}
+.split{display:flex;height:14px;border-radius:7px;overflow:hidden;margin:8px 0 6px}.split i{display:block;height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--muted)}.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.cam{position:relative;border-radius:18px;overflow:hidden;background:#000;aspect-ratio:3/4;max-height:55vh;margin:0 auto 12px}
+.cam video{width:100%;height:100%;object-fit:cover;display:block}
+.cam .frame{position:absolute;left:10%;right:10%;top:36%;height:28%;border:3px solid rgba(255,255,255,.9);border-radius:14px;box-shadow:0 0 0 999px rgba(0,0,0,.35)}
+.cam .line{position:absolute;left:14%;right:14%;top:50%;height:2px;background:#ff5a3c;animation:scan 1.6s ease-in-out infinite}
+@keyframes scan{0%,100%{transform:translateY(-34px)}50%{transform:translateY(34px)}}
+.toast{position:fixed;left:50%;bottom:calc(86px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:11px 16px;border-radius:14px;font-size:14.5px;font-weight:600;z-index:40;opacity:0;pointer-events:none;transition:all .2s;max-width:calc(100vw - 32px);display:flex;gap:12px;align-items:center}
+.toast.on{opacity:1;transform:translateX(-50%);pointer-events:auto}.toast button{color:var(--kcal);font-weight:700;text-decoration:underline}
+.addedbar{display:flex;align-items:center;gap:10px}.addedbar span{flex:1;font-size:14px;color:var(--muted)}.addedbar b{color:var(--ink)}
+.star{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:var(--muted)}.star.on{color:#E0A50C}.star svg{width:22px;height:22px}
+.hint{font-size:12.5px;color:var(--muted);margin-top:-6px;margin-bottom:12px}
+.warn{background:color-mix(in srgb,var(--danger) 9%,var(--surface));border:1px solid color-mix(in srgb,var(--danger) 35%,var(--line));border-radius:12px;padding:9px 12px;font-size:13.5px;margin-bottom:12px}
+.calc{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 12px;font-size:13.5px;color:var(--muted);margin-bottom:12px}.calc b{color:var(--ink)}
+.spin{display:inline-block;width:16px;height:16px;border:2px solid var(--line);border-top-color:var(--kcal);border-radius:50%;animation:sp .8s linear infinite;vertical-align:-3px;margin-right:6px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.foodlist .it .kc{min-width:58px}
+.top8 li{display:flex;gap:10px;padding:8px 12px;font-size:14px}.top8 li span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.top8 li b{white-space:nowrap}
+</style>
+</head>
+<body>
+<header class="top">
+  <button class="who" data-act="profiles" aria-label="Switch profile"><h1 id="hName">Thali</h1><p id="hSub"></p></button>
+  <button class="icon-btn" id="gearBtn" data-act="settings" aria-label="Settings"></button>
+</header>
+<main id="main"></main>
+<nav class="tabs" id="tabs"></nav>
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true"></div>
+<div class="toast" id="toast" role="status"></div>
+<input type="file" id="fileIn" accept=".json,application/json" hidden>
+<input type="file" id="photoIn" accept="image/*" capture="environment" hidden>
+<script>
+'use strict';
+/* Thali – private calorie & macro log. Offline-first PWA.
+   All personal data lives on this phone (IndexedDB). Optional: automatic sync through the
+   owner's private GitHub repository; online lookups at Open Food Facts / USDA FoodData Central. */
+const APP_VERSION='1.0.0',APP_DATE='2026-10-15',SYNC_DIR='thali';
+const MEALS=[['b','Breakfast'],['l','Lunch'],['d','Dinner'],['s','Snacks']];
+const MEALNAME=Object.fromEntries(MEALS);
+
+/* ---------- icons ---------- */
+const ic=p=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
+const I={
+  gear:ic('<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>'),
+  plate:ic('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/>'),
+  book:ic('<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5v14z"/><path d="M8 7h8M8 11h6"/>'),
+  bars:ic('<path d="M5 20V11M11 20V5M17 20v-6M3 20h18"/>'),
+  plus:ic('<path d="M12 5v14M5 12h14"/>'),
+  left:ic('<path d="M15 18l-6-6 6-6"/>'),right:ic('<path d="M9 18l6-6-6-6"/>'),
+  down:ic('<path d="M6 9l6 6 6-6"/>'),
+  x:ic('<path d="M18 6 6 18M6 6l12 12"/>'),
+  search:ic('<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>'),
+  scan:ic('<path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M7 8v8M10 8v8M13 8v8M17 8v8"/>'),
+  star:ic('<path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>'),
+  starF:`<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg>`,
+  sun:ic('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>'),
+  bowl:ic('<path d="M3 11h18a9 9 0 0 1-18 0z"/><path d="M8 7c0-1.5 1-2 1-3.5M12 7c0-1.5 1-2 1-3.5M16 7c0-1.5 1-2 1-3.5"/>'),
+  moon:ic('<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>'),
+  apple:ic('<path d="M12 7c-1.5-2-5-2.5-6.5.5S5 16 8 19c1.3 1.3 2.5 1.5 4 .5 1.5 1 2.7.8 4-.5 3-3 4-8.5 2.5-11.5S13.5 5 12 7z"/><path d="M12 7c0-2 1-3.5 3-4"/>'),
+  drop:ic('<path d="M12 2.7s7 7.3 7 12.3a7 7 0 0 1-14 0c0-5 7-12.3 7-12.3z"/>'),
+  scale:ic('<rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 9a5 5 0 0 1 8 0l-3 3"/>'),
+  copy:ic('<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>'),
+  globe:ic('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>'),
+  edit:ic('<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>'),
+  camera:ic('<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/>'),
+  users:ic('<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/>'),
+};
+const MEALICON={b:I.sun,l:I.bowl,d:I.moon,s:I.apple};
+
+/* ---------- helpers ---------- */
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+const pad=n=>String(n).padStart(2,'0');
+const dayKey=ts=>{const d=new Date(ts);return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());};
+const today=()=>dayKey(Date.now());
+const dayTs=k=>{const [y,m,d]=k.split('-').map(Number);return new Date(y,m-1,d,12).getTime();};
+const addDay=(k,n)=>dayKey(dayTs(k)+n*864e5);
+const monthOf=k=>k.slice(0,7);
+const r0=x=>Math.round(x||0);
+const r1=x=>Math.round((x||0)*10)/10;
+const fmt=x=>String(Math.round(x||0));
+const fmtG=x=>{x=x||0;return x<10?String(r1(x)).replace('.',','):String(Math.round(x));};
+const num=v=>{const n=parseFloat(String(v??'').replace(',','.'));return isFinite(n)?n:NaN;};
+function dayLabel(k){
+  const t=today();if(k===t)return 'Today';if(k===addDay(t,-1))return 'Yesterday';if(k===addDay(t,1))return 'Tomorrow';
+  return new Date(dayTs(k)).toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
+}
+const fullDate=k=>new Date(dayTs(k)).toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
+const shortDate=k=>new Date(dayTs(k)).toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+function toast(msg,undo){
+  const t=$('#toast');t.innerHTML=`<span>${esc(msg)}</span>${undo?'<button data-act="undo">Undo</button>':''}`;
+  window._undo=undo||null;t.classList.add('on');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('on'),undo?5000:2400);
+}
+function vib(){try{navigator.vibrate&&navigator.vibrate(10);}catch(e){}}
+
+/* ---------- state ---------- */
+function blank(){return {v:1,
+  settings:{device:'',theme:'auto',pid:'',hideNV:true,hideEgg:false,off:true,offDE:true,usdaKey:'',lastBackup:0,trendRange:7,foodsSeg:'mine'},
+  profiles:[],entries:[],foods:[],
+  sync:{repo:'',token:'',on:false,shas:{},dirty:{},last:0,err:''}};}
+function hydrate(d){const b=blank();return {...b,...d,settings:{...b.settings,...(d.settings||{})},sync:{...b.sync,...(d.sync||{})},
+  profiles:Array.isArray(d.profiles)?d.profiles:[],entries:Array.isArray(d.entries)?d.entries:[],foods:Array.isArray(d.foods)?d.foods:[]};}
+let S=blank(),IDB=null,storeMode='idb',saving=false,saveAgain=false;
+const LSKEY='thali-state';
+function idbOpen(){return new Promise((res,rej)=>{try{if(!window.indexedDB)return rej(new Error('none'));const r=indexedDB.open('thali',1);
+  r.onupgradeneeded=()=>{if(!r.result.objectStoreNames.contains('kv'))r.result.createObjectStore('kv');};
+  r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);r.onblocked=()=>rej(new Error('blocked'));}catch(e){rej(e);}});}
+function idbGet(k){return new Promise((res,rej)=>{const q=IDB.transaction('kv','readonly').objectStore('kv').get(k);q.onsuccess=()=>res(q.result);q.onerror=()=>rej(q.error);});}
+function idbPut(k,v){return new Promise((res,rej)=>{const tx=IDB.transaction('kv','readwrite');tx.objectStore('kv').put(v,k);tx.oncomplete=()=>res();tx.onerror=()=>rej(tx.error);tx.onabort=()=>rej(tx.error);});}
+async function loadState(){
+  try{IDB=await idbOpen();const d=await idbGet('state');if(d)return hydrate(d);return blank();}
+  catch(e){storeMode='ls';IDB=null;try{const raw=localStorage.getItem(LSKEY);if(raw)return hydrate(JSON.parse(raw));}catch(_){}return blank();}
+}
+function saveLS(){try{localStorage.setItem(LSKEY,JSON.stringify(S));}catch(e){toast('This phone refused to save. Back up now.');}}
+function save(){
+  if(storeMode!=='idb'||!IDB)return saveLS();
+  if(saving){saveAgain=true;return;}
+  saving=true;let p;try{p=idbPut('state',S);}catch(e){p=Promise.reject(e);}
+  p.then(()=>{saving=false;if(saveAgain){saveAgain=false;save();}}).catch(()=>{saving=false;storeMode='ls';saveLS();});
+}
+const prof=()=>S.profiles.find(p=>p.id===S.settings.pid&&!p.deleted)||S.profiles.find(p=>!p.deleted)||null;
+const liveProfiles=()=>S.profiles.filter(p=>!p.deleted);
+
+/* ---------- targets ---------- */
+const ACTIVITY=[[1.2,'Sedentary','desk job, little exercise'],[1.375,'Lightly active','walks, exercise 1–3×/week'],[1.55,'Moderately active','exercise 3–5×/week'],[1.725,'Very active','hard exercise 6–7×/week'],[1.9,'Extra active','physical job + training']];
+const GOALS=[[-0.5,'Lose 0.5 kg/week'],[-0.25,'Lose 0.25 kg/week'],[0,'Maintain weight'],[0.25,'Gain 0.25 kg/week']];
+function latestWeight(p,upto){
+  let best=null;for(const e of S.entries){if(e.deleted||e.type!=='weight'||e.pid!==p.id)continue;if(upto&&e.day>upto)continue;if(!best||e.day>best.day||(e.day===best.day&&e.ts>best.ts))best=e;}
+  return best?best.kg:(p.weight||0);
+}
+function calcTargets(p,day){
+  if(!p)return {k:2000,p:60,c:250,f:65,fi:30,w:2000,bmr:0,tdee:0,auto:true};
+  const w=latestWeight(p,day)||70,h=p.height||170,age=Math.max(16,(new Date().getFullYear())-(p.birthYear||1990));
+  const bmr=10*w+6.25*h-5*age+(p.sex==='f'?-161:5);
+  const tdee=bmr*(p.activity||1.375);
+  const adj=(p.goal||0)*7700/7; // kcal/day for kg/week
+  let k=Math.round((tdee+adj+(+p.extraKcal||0))/10)*10;
+  let pro=Math.round(w*(p.proteinPerKg||1.6));
+  let fat=Math.round(k*((p.fatPct||30)/100)/9);
+  let carb=Math.max(0,Math.round((k-pro*4-fat*9)/4));
+  const out={k,p:pro,c:carb,f:fat,fi:p.fibre||30,w:p.water||2000,bmr:Math.round(bmr),tdee:Math.round(tdee),adj:Math.round(adj),weight:w,age,auto:true};
+  if(p.manual&&p.manual.on){const m=p.manual;out.auto=false;
+    if(m.k>0)out.k=+m.k;if(m.p>0)out.p=+m.p;if(m.f>0)out.f=+m.f;
+    out.c=m.c>0?+m.c:Math.max(0,Math.round((out.k-out.p*4-out.f*9)/4));}
+  return out;
+}
+
+/* ---------- entries ---------- */
+const liveEntries=()=>S.entries.filter(e=>!e.deleted);
+function dayEntries(day,pid){pid=pid||(prof()||{}).id;return S.entries.filter(e=>!e.deleted&&e.day===day&&e.pid===pid);}
+function entN(e){const g=e.g||0;const n=e.n||[0,0,0,0,0];return [n[0]*g/100,n[1]*g/100,n[2]*g/100,n[3]*g/100,(n[4]||0)*g/100];}
+function sumN(list){const t=[0,0,0,0,0];for(const e of list){if(e.type!=='food')continue;const n=entN(e);for(let i=0;i<5;i++)t[i]+=n[i];}return t;}
+function touch(o){o.updatedAt=Date.now();o.by=S.settings.device||'';return o;}
+function putEntry(e){touch(e);const i=S.entries.findIndex(x=>x.id===e.id);if(i<0)S.entries.push(e);else{const old=S.entries[i];if(monthOf(old.day)!==monthOf(e.day))markDirty(monthOf(old.day));S.entries[i]=e;}markDirty(monthOf(e.day));save();}
+function delEntry(id,silent){
+  const e=S.entries.find(x=>x.id===id);if(!e)return;const before={...e};
+  e.deleted=true;touch(e);markDirty(monthOf(e.day));save();
+  if(!silent)toast(`${e.type==='food'?e.name:e.type==='water'?'Water':'Weight'} deleted`,()=>{Object.assign(e,before,{deleted:false});touch(e);markDirty(monthOf(e.day));save();render();});
+}
+function entryLabel(e){
+  if(e.u==='quick')return 'Quick add';
+  if(e.u==='g'||!e.u)return `${fmtG(e.g)} g`;
+  const q=e.q||1;return q===1?`${e.u} · ${fmtG(e.g)} g`:`${fmtG(q)} × ${e.u.replace(/^1 /,'')} · ${fmtG(e.g)} g`;
+}
+/* ---------- food database ----------
+   Built-in files (cached for offline use by the service worker):
+   data/foods-thali.json  curated everyday foods with Indian/German portions
+   data/foods-indb.json   Indian Nutrient Databank recipes (implausible rows removed)
+   data/foods-usda.json   USDA SR Legacy (public domain)
+   Personal foods (my foods, recipes, scanned/online products) live in S.foods and sync. */
+const SRC={c:['MY','my','My food'],r:['RECIPE','rc','My recipe'],o:['OFF','off','Open Food Facts'],f:['USDA','','USDA (online)'],t:['THALI','th','Thali list'],i:['INDB','','Indian Nutrient Databank'],u:['USDA','','USDA SR Legacy']};
+const SRCW={c:0,r:0,o:12,f:22,t:8,i:20,u:30};
+const DB=new Map();let dbReady={t:false,i:false,u:false},dbInfo={version:'',counts:{}};
+const norm=s=>String(s||'').toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g,'').replace(/ß/g,'ss').replace(/ae/g,'a').replace(/oe/g,'o').replace(/ue/g,'u').replace(/[^a-z0-9]+/g,' ').trim();
+function indexFood(f){
+  const s=norm(f.name+' '+(f.brand||'')+' '+(f.al||''));
+  f._s=' '+s+' ';f._t=s.split(' ');f._n=norm(f.name);
+  f._raw=/\((raw|dry)\)|\braw\b|\bdry\b|unprepared/i.test(f.name);f._a=new Set([...String(f.al||'').split(','),...f.name.split('(')[0].split('/')].map(norm).filter(Boolean));
+  return f;
+}
+function rowToFood(r){return indexFood({id:r[0],name:r[1],n:[r[2],r[3],r[4],r[5],r[6]],ps:r[7]||[],tags:r[8]||'',al:r[9]||'',cat:r[10]||'',src:r[0][0]});}
+async function loadDbFile(key,fresh){
+  const r=await fetch(`data/foods-${key}.json`,fresh?{cache:'no-store'}:{});if(!r.ok)throw new Error(r.status);
+  const rows=await r.json();
+  for(const id of [...DB.keys()])if(id[0]===key[0])DB.delete(id);
+  for(const row of rows)DB.set(row[0],rowToFood(row));
+  dbReady[key[0]]=true;
+}
+async function loadDb(fresh){
+  try{const r=await fetch('data/db-version.json',fresh?{cache:'no-store'}:{});if(r.ok)dbInfo=await r.json();}catch(e){}
+  await Promise.all([loadDbFile('thali',fresh).catch(()=>{}),loadDbFile('indb',fresh).catch(()=>{})]);
+  if(sheetOpen())refreshSearch();
+  loadDbFile('usda',fresh).then(()=>{if(sheetOpen())refreshSearch();}).catch(()=>{});
+}
+function personalFood(f){return indexFood({...f,src:f.kind==='recipe'?'r':f.kind==='off'?'o':f.kind==='usda'?'f':'c'});}
+let PF=new Map();
+function rebuildPersonal(){PF=new Map();for(const f of S.foods){if(!f.deleted)PF.set(f.id,personalFood(f));}}
+function getFood(id){return PF.get(id)||DB.get(id)||null;}
+
+/* search: every word must match the start of a word in the name/aliases (or, from 4 letters, appear inside).
+   Common Indian/German words are expanded, e.g. "aloo" also finds potato, "dahi" finds yoghurt. */
+const SYN={aloo:['potato'],alu:['potato'],bataka:['potato','aloo'],batata:['potato','aloo'],kartoffel:['potato'],chawal:['rice'],bhaat:['rice'],bhat:['rice'],reis:['rice'],
+  dahi:['curd','yoghurt','yogurt'],curd:['dahi','yoghurt'],joghurt:['yoghurt','yogurt'],yogurt:['yoghurt'],yoghurt:['yogurt'],rotli:['roti','chapati'],chapati:['roti'],roti:['chapati'],
+  gobi:['cauliflower'],gobhi:['cauliflower'],palak:['spinach'],matar:['peas'],mutter:['peas'],bhindi:['okra'],bhinda:['okra'],baingan:['eggplant','brinjal'],ringan:['eggplant','brinjal'],brinjal:['eggplant'],aubergine:['eggplant'],
+  chana:['chickpea','chickpeas'],chole:['chickpea','chickpeas'],rajma:['kidney'],moong:['mung'],mung:['moong'],methi:['fenugreek'],lauki:['bottle gourd'],dudhi:['bottle gourd'],
+  pyaz:['onion'],kanda:['onion'],dungli:['onion'],tamatar:['tomato'],tameta:['tomato'],gajar:['carrot'],kheera:['cucumber'],kakdi:['cucumber'],kela:['banana'],aam:['mango'],seb:['apple'],
+  doodh:['milk'],dudh:['milk'],milch:['milk'],kase:['cheese'],kaese:['cheese'],brot:['bread'],ei:['egg'],eier:['egg'],anda:['egg'],apfel:['apple'],banane:['banana'],
+  nusse:['nuts'],mandeln:['almonds'],badam:['almonds'],kaju:['cashew'],haferflocken:['oats'],hafer:['oat','oats'],nudeln:['pasta','noodles'],sahne:['cream'],malai:['cream'],zucker:['sugar'],chini:['sugar'],
+  ol:['oil'],tel:['oil'],kichererbsen:['chickpeas'],linsen:['lentils'],bohnen:['beans'],gurke:['cucumber'],tomate:['tomato'],zwiebel:['onion'],karotte:['carrot'],mohre:['carrot'],
+  erdbeeren:['strawberries'],heidelbeeren:['blueberries'],blaubeeren:['blueberries'],bier:['beer'],wein:['wine'],saft:['juice'],kaffee:['coffee'],tee:['tea'],chai:['tea'],
+  wasser:['water'],hahnchen:['chicken'],murgh:['chicken'],fisch:['fish'],machli:['fish'],pilze:['mushroom'],champignons:['mushroom'],paprika:['pepper'],capsicum:['pepper'],spinat:['spinach'],
+  erdnuss:['peanut'],mungfali:['peanut'],shing:['peanut'],wurst:['sausage'],schokolade:['chocolate'],kuchen:['cake'],keks:['biscuit','cookie'],brotchen:['roll'],semmel:['roll'],
+  quark:['quark'],nimbu:['lemon'],zitrone:['lemon'],honig:['honey'],shahad:['honey'],ghee:['ghee','butter'],makhan:['butter'],tofu:['tofu'],soja:['soy','soya'],soya:['soy'],soy:['soya']};
+function qTokens(q){return norm(q).split(' ').filter(Boolean).map(t=>[t,...(SYN[t]||[]).map(norm)]);}
+function tokMatch(f,alts){ // returns penalty (lower = better) or -1 if no match; alts[0] is what was typed
+  let best=-1;
+  alts.forEach((a,i)=>{const syn=i>0?1.5:0;let m=-1;
+    if(a.includes(' ')){if(f._s.includes(' '+a))m=1;}
+    else{for(const t of f._t){if(t===a){m=0;break;}if(m<0&&t.startsWith(a))m=1;}
+      if(m<0&&a.length>=4&&f._s.includes(a))m=3;}
+    if(m>=0){m+=syn;if(best<0||m<best)best=m;}});
+  return best;
+}
+function usageStats(pid){
+  const m=new Map();const cut=addDay(today(),-90);
+  for(const e of S.entries){if(e.deleted||e.type!=='food'||!e.fid||e.pid!==pid||e.day<cut)continue;const s=m.get(e.fid)||{n:0,last:''};s.n++;if(e.day>s.last)s.last=e.day;m.set(e.fid,s);}
+  return m;
+}
+function visible(f){const st=S.settings;if(st.hideNV&&/n/.test(f.tags||''))return false;if(st.hideEgg&&/e/.test(f.tags||''))return false;return true;}
+function searchFoods(q,limit=60,mode){
+  const qt=qTokens(q);if(!qt.length)return [];
+  const p=prof(),use=p?usageStats(p.id):new Map(),favs=new Set((p&&p.favs)||[]);
+  const out=[];const qn=norm(q);
+  const scan=f=>{
+    if(!visible(f))return;let sc=0;
+    for(const alts of qt){const m=tokMatch(f,alts);if(m<0)return;sc+=m*2;}
+    if(f._a.has(qn))sc-=10;
+    sc+=SRCW[f.src]||20;if(f._raw)sc+=mode==='recipe'?-3:12;
+    if(f._n.startsWith(qn))sc-=8;else if(f._n.startsWith(qt[0][0]))sc-=4;
+    sc+=Math.min(12,f._n.length/9);
+    const u=use.get(f.id);if(u)sc-=Math.min(18,6+u.n*2);if(favs.has(f.id))sc-=14;
+    out.push([sc,f]);
+  };
+  for(const f of PF.values())scan(f);
+  for(const f of DB.values())scan(f);
+  out.sort((a,b)=>a[0]-b[0]);
+  const seen=new Set(),res=[];
+  for(const [,f] of out){const key=f.src+'|'+f._n;if(seen.has(key))continue;seen.add(key);res.push(f);if(res.length>=limit)break;}
+  return res;
+}
+function defPortion(f){return (f.ps&&f.ps.length)?f.ps[0]:['100 g',100];}
+function kcalFor(f,g){return (f.n[0]||0)*g/100;}
+
+/* ---------- online sources ---------- */
+function offToFood(p,code){
+  const nm=p.nutriments||{};
+  let k=nm['energy-kcal_100g'];if(k==null&&nm['energy_100g']!=null)k=nm['energy_100g']/4.184;if(k==null&&nm['energy-kj_100g']!=null)k=nm['energy-kj_100g']/4.184;
+  const name=(p.product_name_de||p.product_name||p.product_name_en||p.generic_name||'').trim();
+  if(k==null||!name)return null;
+  const ps=[];const sq=parseFloat(p.serving_quantity);
+  if(sq>0&&sq<2000){const ss=String(p.serving_size||'').trim();ps.push([ss&&!/^\d+([.,]\d+)?\s*(g|ml)$/i.test(ss)?`1 serving (${ss})`.slice(0,40):'1 serving',Math.round(sq)]);}
+  const pq=parseFloat(p.product_quantity);if(pq>0&&pq<=3000&&pq!==sq)ps.push(['1 pack',Math.round(pq)]);
+  ps.push(['100 g',100]);
+  const brand=String(p.brands||'').split(',')[0].trim();
+  return {id:'o:'+(code||p.code),kind:'off',code:String(code||p.code||''),name,brand,
+    n:[r1(k),r1(+nm.proteins_100g||0),r1(+nm.carbohydrates_100g||0),r1(+nm.fat_100g||0),r1(+nm.fiber_100g||0)],ps,tags:'',src:'o'};
+}
+const OFF_FIELDS='code,product_name,product_name_de,product_name_en,generic_name,brands,nutriments,serving_quantity,serving_size,product_quantity';
+async function offProduct(code){
+  const r=await fetch(`https://world.openfoodfacts.org/api/v2/product/${encodeURIComponent(code)}.json?fields=${OFF_FIELDS}`);
+  if(r.status===404)return {missing:true};
+  if(!r.ok)throw new Error('http '+r.status);
+  const j=await r.json();if(!j||j.status===0||!j.product)return {missing:true};
+  const f=offToFood(j.product,code);return f?{food:f}:{missing:true,name:j.product.product_name||''};
+}
+async function offSearch(q){
+  const mk=list=>list.map(p=>offToFood(p,p.code)).filter(Boolean).map(indexFood);
+  const tries=[];
+  const base=`https://search.openfoodfacts.org/search?page_size=30&langs=de,en&fields=${OFF_FIELDS}&q=`;
+  if(S.settings.offDE)tries.push(base+encodeURIComponent(`${q} countries_tags:"en:germany"`));
+  tries.push(base+encodeURIComponent(q));
+  for(const u of tries){try{const r=await fetch(u);if(!r.ok)continue;const j=await r.json();const res=mk(j.hits||[]);if(res.length)return res;}catch(e){}}
+  const r=await fetch(`https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(q)}&search_simple=1&action=process&json=1&page_size=30&fields=${OFF_FIELDS}`);
+  if(!r.ok)throw new Error('http '+r.status);const j=await r.json();return mk(j.products||[]);
+}
+async function usdaSearch(q){
+  const key=S.settings.usdaKey||'DEMO_KEY';
+  const r=await fetch(`https://api.nal.usda.gov/fdc/v1/foods/search?api_key=${encodeURIComponent(key)}&query=${encodeURIComponent(q)}&pageSize=25&dataType=${encodeURIComponent('Foundation,SR Legacy,Survey (FNDDS)')}`);
+  if(r.status===429)throw new Error('limit');if(!r.ok)throw new Error('http '+r.status);
+  const j=await r.json();
+  return (j.foods||[]).map(x=>{
+    const v=nr=>{const n=(x.foodNutrients||[]).find(a=>String(a.nutrientNumber)===nr);return n?+n.value:null;};
+    let k=v('208');if(k==null)k=v('958');if(k==null)k=v('957');if(k==null&&v('268')!=null)k=v('268')/4.184;if(k==null)return null;
+    const name=x.description.charAt(0)+x.description.slice(1).toLowerCase();
+    return indexFood({id:'f:'+x.fdcId,kind:'usda',name,brand:'',n:[r1(k),r1(v('203')),r1(v('205')),r1(v('204')),r1(v('291'))],ps:[['100 g',100]],tags:/\b(chicken|beef|pork|fish|turkey|lamb|shrimp|tuna|salmon|ham|bacon|sausage)\b/i.test(name)?'n':'',src:'f'});
+  }).filter(Boolean);
+}
+function savePersonalFood(f){
+  const clean={...f};delete clean._s;delete clean._t;delete clean._n;delete clean.src;
+  const i=S.foods.findIndex(x=>x.id===clean.id);
+  if(i>=0)S.foods[i]={...S.foods[i],...clean,deleted:false};else S.foods.push(clean);
+  touch(S.foods[i>=0?i:S.foods.length-1]);
+  rebuildPersonal();markDirty('foods');save();
+  return getFood(clean.id);
+}
+/* ---------- main screens ---------- */
+const VIEW={tab:'today',day:today()};
+function defaultMeal(){const h=new Date().getHours()+new Date().getMinutes()/60;return h<10.5?'b':h<15?'l':h<17.5?'s':h<22?'d':'s';}
+function renderTabs(){
+  const t=[['today','Today',I.plate],['foods','Foods',I.book],['add','Add',I.plus],['trends','Trends',I.bars]];
+  $('#tabs').innerHTML=t.map(([k,l,i])=>k==='add'?`<button class="tab add" data-act="add" aria-label="Add food"><span class="plus">${i}</span><em>${l}</em></button>`
+    :`<button class="tab ${VIEW.tab===k?'on':''}" data-act="tab" data-t="${k}">${i}<span>${l}</span></button>`).join('');
+}
+function renderHeader(){
+  const p=prof();
+  $('#hName').innerHTML=esc(p?p.name:'Thali')+(liveProfiles().length>1?I.down:'');
+  const T=p?calcTargets(p,VIEW.day):null;
+  $('#hSub').textContent=p?`Target ${fmt(T.k)} kcal · ${T.p} g protein`:'Calories & macros';
+  $('#gearBtn').innerHTML=I.gear;$('#gearBtn').classList.toggle('alert',!!(S.sync.on&&S.sync.err));
+}
+function render(){
+  document.documentElement.dataset.theme=S.settings.theme==='auto'?'':S.settings.theme;
+  renderHeader();renderTabs();
+  const m=$('#main');
+  if(!prof()){m.innerHTML=onboardHtml();return;}
+  m.innerHTML=VIEW.tab==='foods'?foodsHtml():VIEW.tab==='trends'?trendsHtml():todayHtml();
+}
+function onboardHtml(){
+  return `<div class="card" style="margin-top:20px;text-align:center"><div style="font-size:44px">🍽️</div>
+  <h2 style="margin:6px 0">Welcome to Thali</h2><p class="muted" style="margin-bottom:14px">A private calorie and macro log with Indian and international foods. Everything stays on this phone and works offline.</p>
+  <button class="btn primary" style="width:100%" data-act="profile-new">Set up my profile</button>
+  <button class="link" data-act="settings">Already use Thali on another phone? Turn on sync first</button></div>`;
+}
+function ringSvg(eaten,target){
+  const r=54,C=2*Math.PI*r,frac=target?Math.min(1,eaten/target):0,left=target-eaten,over=left<0;
+  return `<svg class="ring" viewBox="0 0 132 132"><circle class="trk" cx="66" cy="66" r="${r}"/>
+ ${eaten>0?`<circle class="val ${over?'over':''}" cx="66" cy="66" r="${r}" stroke-dasharray="${(over?1:frac)*C} ${C}" transform="rotate(-90 66 66)"/>`:''}
+  <text class="big" x="66" y="70">${fmt(Math.abs(left))}</text><text class="sm" x="66" y="88">${over?'kcal over':'kcal left'}</text></svg>`;
+}
+function macBar(label,val,tgt,color){
+  const pct=tgt?val/tgt:0;
+  return `<div class="mac" style="--c:var(${color})"><div class="l"><span>${label}</span><span><b>${fmtG(val)}</b> / ${fmt(tgt)} g</span></div><div class="bar"><i class="${pct>1.05?'over':''}" style="width:${Math.min(100,pct*100)}%"></i></div></div>`;
+}
+function todayHtml(){
+  const p=prof(),day=VIEW.day,T=calcTargets(p,day),list=dayEntries(day,p.id),tot=sumN(list);
+  let h='';
+  if(S.sync.on&&S.sync.err)h+=`<div class="nudge err"><span>Sync paused. ${esc(S.sync.err)}</span><button class="btn small" data-act="settings">Settings</button></div>`;
+  else if(!S.sync.on&&S.entries.length>40&&Date.now()-(S.settings.lastBackup||0)>10*864e5)h+=`<div class="nudge"><span>${S.settings.lastBackup?'Last backup over 10 days ago.':'No backup yet.'} iPhone can clear web-app data, so keep a copy.</span><button class="btn small" data-act="backup">Back up</button></div>`;
+  h+=`<div class="datebar"><button class="nav" data-act="day" data-d="-1" aria-label="Previous day">${I.left}</button>
+    <button class="dl" data-act="day-today">${esc(dayLabel(day))}<small>${day===today()?esc(fullDate(day)):'Tap for today'}</small></button>
+    <button class="nav" data-act="day" data-d="1" aria-label="Next day" ${day>=today()?'disabled':''}>${I.right}</button></div>`;
+  h+=`<div class="card"><div class="sum">${ringSvg(tot[0],T.k)}<div class="sumtx">
+    ${macBar('Protein',tot[1],T.p,'--pro')}${macBar('Carbs',tot[2],T.c,'--carb')}${macBar('Fat',tot[3],T.f,'--fat')}${macBar('Fibre',tot[4],T.fi,'--fib')}
+  </div></div><div class="kline"><div><b>${fmt(tot[0])}</b>eaten</div><div><b>${fmt(T.k)}</b>target</div><div><b>${tot[0]?Math.round(tot[1]*4/tot[0]*100):0}%</b>kcal from protein</div></div></div>`;
+  const yday=addDay(day,-1),yl=dayEntries(yday,p.id);
+  for(const [m,mn] of MEALS){
+    const items=list.filter(e=>e.type==='food'&&e.meal===m).sort((a,b)=>a.ts-b.ts);
+    const kc=sumN(items)[0];
+    h+=`<div class="card meal"><div class="meal-h"><span class="mi">${MEALICON[m]}</span><div><b>${mn}</b>${items.length?`<span> · ${items.length} item${items.length>1?'s':''}</span>`:''}</div>
+      <span class="t">${items.length?fmt(kc)+' kcal':''}</span><button class="plus" data-act="add" data-meal="${m}" aria-label="Add to ${mn}">${I.plus}</button></div>`;
+    if(items.length){
+      h+=`<ul class="ent">${items.map(e=>`<li><button class="row" data-act="edit-entry" data-id="${e.id}"><span class="nm"><b>${esc(e.name)}</b><small>${esc(entryLabel(e))}${e.by&&e.by!==S.settings.device&&liveProfiles().length>1?'':''}</small></span><span class="kc">${fmt(entN(e)[0])}</span></button></li>`).join('')}</ul>`;
+    }else{
+      const ym=yl.filter(e=>e.type==='food'&&e.meal===m);
+      h+=`<div class="ghost">${ym.length?`<button class="chip" data-act="copy-meal" data-meal="${m}" data-from="${yday}">${I.copy.replace('<svg','<svg style="width:14px;height:14px;vertical-align:-2px;margin-right:4px"')}Same as ${day===today()?'yesterday':shortDate(yday)} · ${fmt(sumN(ym)[0])} kcal</button>`:''}<button class="chip k" data-act="add" data-meal="${m}">Add ${mn.toLowerCase()}</button></div>`;
+    }
+    h+=`</div>`;
+  }
+  const ml=list.filter(e=>e.type==='water').reduce((a,e)=>a+(e.ml||0),0),gl=p.glass||250,n=Math.min(12,Math.max(4,Math.ceil(T.w/gl))),full=Math.floor(ml/gl);
+  h+=`<div class="card" style="--c:var(--water)"><h3>Water<span class="r">${fmt(ml)} / ${fmt(T.w)} ml</span></h3><div class="water" style="margin-top:10px">
+    <button class="rbtn" data-act="water" data-ml="-1" aria-label="Remove last glass" ${ml?'':'disabled'}>−</button>
+    <div class="glasses">${Array.from({length:Math.max(n,full)},(_,i)=>`<i class="glass ${i<full?'full':''}"></i>`).join('')}</div>
+    <button class="rbtn" data-act="water" data-ml="${gl}" aria-label="Add a glass">${I.plus}</button></div></div>`;
+  const wl=latestWeightEntry(p,day);
+  h+=`<div class="card" style="--c:var(--wt)"><div class="wrow"><span class="rbtn">${I.scale}</span><div class="v">${wl?`<b>${String(wl.kg).replace('.',',')} kg</b><small>${wl.day===day?'Logged '+(day===today()?'today':'this day'):'Last logged '+esc(dayLabel(wl.day).toLowerCase())}</small>`:'<b>Weight</b><small>Not logged yet</small>'}</div>
+    <button class="btn small" data-act="weight">${wl&&wl.day===day?'Edit':'Log weight'}</button></div></div>`;
+  return h;
+}
+function latestWeightEntry(p,upto){let best=null;for(const e of S.entries){if(e.deleted||e.type!=='weight'||e.pid!==p.id||e.day>upto)continue;if(!best||e.day>best.day||(e.day===best.day&&e.ts>best.ts))best=e;}return best;}
+
+/* ---------- foods tab ---------- */
+function foodRow(f,act='open-food'){
+  const [pl,pg]=defPortion(f);const s=SRC[f.src]||SRC.u;
+  const vt=/n/.test(f.tags||'')?'n':/e/.test(f.tags||'')?'e':'';
+  return `<li><button class="it" data-act="${act}" data-id="${esc(f.id)}"><span class="nm"><b>${esc(f.name)}</b><small><span class="src ${s[1]}">${s[0]}</span>${vt?`<span class="vdot ${vt}"></span>`:''}${f.brand?esc(f.brand)+' · ':''}${esc(pl)}${pl!=='100 g'?` (${fmtG(pg)} g)`:''}</small></span>
+  <span class="kc">${fmt(kcalFor(f,pg))}<small>kcal</small></span></button></li>`;
+}
+function foodsHtml(){
+  const seg=S.settings.foodsSeg||'mine',p=prof();
+  let h=`<div class="seg">${[['mine','Favourites'],['custom','My foods'],['recipes','Recipes'],['db','Database']].map(([k,l])=>`<button class="${seg===k?'on':''}" data-act="foods-seg" data-s="${k}">${l}</button>`).join('')}</div>`;
+  if(seg==='mine'){
+    const favs=((p&&p.favs)||[]).map(getFood).filter(Boolean);
+    h+=favs.length?`<ul class="res foodlist">${favs.map(f=>foodRow(f)).join('')}</ul>`:`<div class="empty">No favourites yet.<br>Tap the ☆ on any food to keep it here for quick logging.</div>`;
+    const use=p?usageStats(p.id):new Map();
+    const top=[...use.entries()].sort((a,b)=>b[1].n-a[1].n).slice(0,12).map(([id])=>getFood(id)).filter(f=>f&&!(p.favs||[]).includes(f.id));
+    if(top.length)h+=`<div class="sec">Most logged (90 days)</div><ul class="res foodlist">${top.map(f=>foodRow(f)).join('')}</ul>`;
+  }else if(seg==='custom'){
+    h+=`<div class="row-btns" style="margin-bottom:12px"><button class="btn primary" data-act="food-new">${'+ New food'}</button><button class="btn" data-act="scan">Scan barcode</button></div>`;
+    const list=[...PF.values()].filter(f=>f.src==='c'||f.src==='o'||f.src==='f').sort((a,b)=>a.name.localeCompare(b.name));
+    h+=list.length?`<ul class="res foodlist">${list.map(f=>foodRow(f)).join('')}</ul>`:`<div class="empty">Foods you create, scan or find online appear here, on both phones when sync is on.</div>`;
+  }else if(seg==='recipes'){
+    h+=`<button class="btn primary" style="width:100%;margin-bottom:12px" data-act="recipe-new">+ New recipe</button>`;
+    const list=[...PF.values()].filter(f=>f.src==='r').sort((a,b)=>a.name.localeCompare(b.name));
+    h+=list.length?`<ul class="res foodlist">${list.map(f=>foodRow(f)).join('')}</ul>`:`<div class="empty">Build your own dishes, like your dal tadka for two, from ingredients. Thali works out kcal and macros per portion.</div>`;
+  }else{
+    const c=dbInfo.counts||{};
+    h+=`<div class="search"><div class="in">${I.search}<input id="dbq" type="search" placeholder="Search ${fmt((c.thali||0)+(c.indb||0)+(c.usda||0))} foods" autocomplete="off" value="${esc(VIEW.dbq||'')}"></div></div><div id="dbres"></div>
+    <div class="card" style="margin-top:6px"><h3>Built-in database</h3><p class="muted" style="margin:6px 0 10px">Works offline. Version ${esc(dbInfo.version||'–')}.</p>
+    <ul class="top8" style="list-style:none">
+      <li><span><span class="src th">THALI</span>Curated everyday Indian & German foods, home portions</span><b>${fmt(c.thali)}</b></li>
+      <li><span><span class="src">INDB</span>Indian Nutrient Databank recipes</span><b>${fmt(c.indb)}</b></li>
+      <li><span><span class="src">USDA</span>USDA SR Legacy foods & ingredients</span><b>${fmt(c.usda)}</b></li>
+      <li><span><span class="src off">OFF</span>Packaged products saved from scans</span><b>${fmt([...PF.values()].filter(f=>f.src==='o').length)}</b></li></ul>
+    <button class="btn small" style="margin-top:10px" data-act="db-update">Check for database update</button>
+    <p class="muted small" style="margin-top:10px">Online: barcode scans and product search use Open Food Facts; extra generic foods can be searched at USDA FoodData Central. Values in the Thali list are estimates for typical home recipes. Packaged-food labels are the most exact.</p></div>`;
+  }
+  return h;
+}
+function renderDbResults(){
+  const box=$('#dbres');if(!box)return;const q=VIEW.dbq||'';
+  if(!q.trim()){box.innerHTML='';return;}
+  const res=searchFoods(q,80);
+  box.innerHTML=res.length?`<ul class="res foodlist">${res.map(f=>foodRow(f)).join('')}</ul>`:`<div class="empty">Nothing found offline. Try the Add screen to search online.</div>`;
+}
+
+/* ---------- trends ---------- */
+function rangeDays(n){const out=[],t=VIEW.day>today()?today():today();for(let i=n-1;i>=0;i--)out.push(addDay(t,-i));return out;}
+function barChart(vals,labels,tgt,color,unit){
+  const W=340,H=150,pl=30,pb=18,pt=8,n=vals.length,max=Math.max(tgt||0,...vals,1)*1.1;
+  const bw=(W-pl)/n,y=v=>pt+(H-pt-pb)*(1-v/max);
+  let s=`<svg class="chart" viewBox="0 0 ${W} ${H}" role="img">`;
+  const step=max>2500?1000:max>1200?500:max>300?100:max>120?50:max>50?20:10;
+  for(let v=0;v<=max;v+=step)s+=`<line class="gl" x1="${pl}" x2="${W}" y1="${y(v)}" y2="${y(v)}"/><text x="${pl-4}" y="${y(v)+3}" text-anchor="end">${v>=1000?(v/1000)+'k':v}</text>`;
+  vals.forEach((v,i)=>{if(!v)return;const x=pl+i*bw+bw*0.15,w=Math.max(2,bw*0.7);s+=`<rect x="${x}" y="${y(v)}" width="${w}" height="${Math.max(0,H-pb-y(v))}" rx="${Math.min(3,w/2)}" fill="var(${color})" ${tgt&&v>tgt*1.08?'opacity=".75"':''}><title>${labels[i]}: ${fmt(v)} ${unit}</title></rect>`;});
+  if(tgt)s+=`<line class="tl" x1="${pl}" x2="${W}" y1="${y(tgt)}" y2="${y(tgt)}"/>`;
+  const every=Math.ceil(n/7);
+  labels.forEach((l,i)=>{if(i%every===0||i===n-1&&n<=10)s+=`<text x="${pl+i*bw+bw/2}" y="${H-4}" text-anchor="middle">${l}</text>`;});
+  return s+'</svg>';
+}
+function weightChart(pts){
+  if(pts.length<2)return `<p class="muted">Log your weight on at least two days to see the trend.</p>`;
+  const W=340,H=150,pl=34,pb=18,pt=8;const xs=pts.map(p=>dayTs(p.day)),ys=pts.map(p=>p.kg);
+  const x0=Math.min(...xs),x1=Math.max(...xs),lo=Math.floor(Math.min(...ys)-0.5),hi=Math.ceil(Math.max(...ys)+0.5);
+  const X=t=>pl+(W-pl-6)*((t-x0)/Math.max(1,x1-x0)),Y=v=>pt+(H-pt-pb)*(1-(v-lo)/Math.max(0.1,hi-lo));
+  let s=`<svg class="chart" viewBox="0 0 ${W} ${H}">`;const step=hi-lo>8?2:hi-lo>4?1:0.5;
+  for(let v=lo;v<=hi+1e-9;v+=step)s+=`<line class="gl" x1="${pl}" x2="${W}" y1="${Y(v)}" y2="${Y(v)}"/><text x="${pl-4}" y="${Y(v)+3}" text-anchor="end">${String(r1(v)).replace('.',',')}</text>`;
+  // 7-day moving average line
+  const avg=pts.map((p,i)=>{const t=xs[i];const win=pts.filter((q,j)=>xs[j]<=t&&xs[j]>t-7*864e5);return win.reduce((a,q)=>a+q.kg,0)/win.length;});
+  s+=`<polyline fill="none" stroke="var(--wt)" stroke-width="2.5" stroke-linejoin="round" points="${pts.map((p,i)=>X(xs[i])+','+Y(avg[i])).join(' ')}"/>`;
+  s+=pts.map((p,i)=>`<circle cx="${X(xs[i])}" cy="${Y(p.kg)}" r="3" fill="var(--surface)" stroke="var(--wt)" stroke-width="1.5"><title>${shortDate(p.day)}: ${p.kg} kg</title></circle>`).join('');
+  s+=`<text x="${pl}" y="${H-4}">${shortDate(pts[0].day)}</text><text x="${W-6}" y="${H-4}" text-anchor="end">${shortDate(pts[pts.length-1].day)}</text>`;
+  return s+'</svg>';
+}
+function trendsHtml(){
+  const p=prof(),n=S.settings.trendRange||7,days=rangeDays(n);
+  const per=days.map(d=>{const l=dayEntries(d,p.id);const t=sumN(l);return {d,t,logged:l.some(e=>e.type==='food'),ml:l.filter(e=>e.type==='water').reduce((a,e)=>a+(e.ml||0),0)};});
+  const T=calcTargets(p,today());
+  const done=per.filter(x=>x.logged&&x.d!==today()),use=done.length?done:per.filter(x=>x.logged);
+  const avg=i=>use.length?use.reduce((a,x)=>a+x.t[i],0)/use.length:0;
+  const aK=avg(0),aP=avg(1),aC=avg(2),aF=avg(3),aFi=avg(4);
+  const lab=days.map(d=>n<=7?new Date(dayTs(d)).toLocaleDateString('en-GB',{weekday:'narrow'}):String(+d.slice(8)));
+  let h=`<div class="chips" style="margin:2px 0 12px">${[7,14,30,90].map(k=>`<button class="chip ${n===k?'on':''}" data-act="range" data-n="${k}">${k} days</button>`).join('')}</div>`;
+  h+=`<div class="stat" style="margin-bottom:12px"><div><span>Average per day</span><b>${fmt(aK)}</b><small>kcal</small></div><div><span>vs target</span><b>${aK?(aK>T.k?'+':'−')+fmt(Math.abs(aK-T.k)):'–'}</b><small>kcal/day</small></div>
+    <div><span>Protein average</span><b>${fmtG(aP)}</b><small>/ ${T.p} g</small></div><div><span>Days logged</span><b>${per.filter(x=>x.logged).length}</b><small>of ${n}</small></div></div>`;
+  if(use.length<per.filter(x=>x.logged).length)h+=`<p class="muted small" style="margin:-4px 2px 10px">Averages leave out today because it is still in progress.</p>`;
+  h+=`<div class="card"><h3>Calories<span class="r">dashed line = target</span></h3>${barChart(per.map(x=>x.t[0]),lab,T.k,'--kcal','kcal')}</div>`;
+  h+=`<div class="card"><h3>Protein</h3>${barChart(per.map(x=>x.t[1]),lab,T.p,'--pro','g')}</div>`;
+  const kc=aP*4+aC*4+aF*9||1;
+  h+=`<div class="card"><h3>Where calories come from<span class="r">average</span></h3>
+    <div class="split"><i style="width:${aP*4/kc*100}%;background:var(--pro)"></i><i style="width:${aC*4/kc*100}%;background:var(--carb)"></i><i style="width:${aF*9/kc*100}%;background:var(--fat)"></i></div>
+    <div class="legend"><span><i style="background:var(--pro)"></i>Protein ${Math.round(aP*4/kc*100)}% · ${fmtG(aP)} g</span><span><i style="background:var(--carb)"></i>Carbs ${Math.round(aC*4/kc*100)}% · ${fmtG(aC)} g</span><span><i style="background:var(--fat)"></i>Fat ${Math.round(aF*9/kc*100)}% · ${fmtG(aF)} g</span><span><i style="background:var(--fib)"></i>Fibre ${fmtG(aFi)} g / ${T.fi} g</span></div></div>`;
+  const wDays=rangeDays(Math.max(n,30));
+  const wp=S.entries.filter(e=>!e.deleted&&e.type==='weight'&&e.pid===p.id&&e.day>=wDays[0]).sort((a,b)=>a.day<b.day?-1:a.day>b.day?1:a.ts-b.ts);
+  const byDay=new Map();wp.forEach(e=>byDay.set(e.day,e));const pts=[...byDay.values()];
+  let trend='';
+  if(pts.length>=3){const xs=pts.map(q=>dayTs(q.day)/864e5),ys=pts.map(q=>q.kg),mx=xs.reduce((a,b)=>a+b)/xs.length,my=ys.reduce((a,b)=>a+b)/ys.length;
+    const sl=xs.reduce((a,x,i)=>a+(x-mx)*(ys[i]-my),0)/Math.max(1e-9,xs.reduce((a,x)=>a+(x-mx)**2,0));trend=`${sl*7>=0?'+':'−'}${String(Math.abs(r1(sl*7*10)/10)).replace('.',',')} kg/week`;}
+  h+=`<div class="card"><h3>Weight<span class="r">${pts.length>=3?trend:`last ${wDays.length} days`}</span></h3>${weightChart(pts)}${pts.length>=2?`<p class="muted small">Line = 7-day average, dots = weigh-ins. Daily weight swings of 0.5–1 kg are normal (water, salt).</p>`:''}</div>`;
+  const wAvg=per.filter(x=>x.ml).length?per.reduce((a,x)=>a+x.ml,0)/per.filter(x=>x.ml).length:0;
+  if(wAvg)h+=`<div class="card"><h3>Water<span class="r">${fmt(wAvg)} ml/day on days logged</span></h3>${barChart(per.map(x=>x.ml),lab,T.w,'--water','ml')}</div>`;
+  const tf=new Map();for(const x of days)for(const e of dayEntries(x,p.id)){if(e.type!=='food')continue;const k=e.name;tf.set(k,(tf.get(k)||0)+entN(e)[0]);}
+  const top=[...tf.entries()].sort((a,b)=>b[1]-a[1]).slice(0,8),tot=per.reduce((a,x)=>a+x.t[0],0)||1;
+  if(top.length)h+=`<div class="card"><h3>Biggest calorie sources</h3><ul class="top8" style="list-style:none;margin:6px -12px 0">${top.map(([k,v])=>`<li><span>${esc(k)}</span><b>${fmt(v)} kcal · ${Math.round(v/tot*100)}%</b></li>`).join('')}</ul></div>`;
+  if(!per.some(x=>x.logged))h=`<div class="chips" style="margin:2px 0 12px">${[7,14,30,90].map(k=>`<button class="chip ${n===k?'on':''}" data-act="range" data-n="${k}">${k} days</button>`).join('')}</div><div class="empty">Nothing logged in the last ${n} days yet.</div>`;
+  return h;
+}
+/* ---------- bottom sheet with a stack of views ---------- */
+let STACK=[];
+const sheetOpen=()=>$('#sheet').classList.contains('on');
+function showView(v){
+  const sh=$('#sheet');sh.className='sheet on'+(v.full?' full':'');
+  sh.innerHTML=`<div class="grab"></div>`+v.html();$('#scrim').classList.add('on');
+  if(v.mount)v.mount();
+}
+function pushView(v){STACK.push(v);showView(v);}
+function replaceView(v){if(STACK.length)STACK[STACK.length-1]=v;else STACK.push(v);showView(v);}
+function refreshView(){if(STACK.length){const b=$('.sh-body');const st=b?b.scrollTop:0;showView(STACK[STACK.length-1]);const nb=$('.sh-body');if(nb)nb.scrollTop=st;}}
+function backView(){STACK.pop();if(STACK.length)showView(STACK[STACK.length-1]);else closeSheet();}
+function closeSheet(){
+  STACK=[];stopCamera();ADD=null;
+  const sh=$('#sheet');sh.classList.remove('on');$('#scrim').classList.remove('on');render();
+  clearTimeout(closeSheet._t);closeSheet._t=setTimeout(()=>{if(!sh.classList.contains('on'))sh.innerHTML='';},320);
+}
+function head(title,{back=false,right=''}={}){
+  return `<div class="sh-head">${back?`<button class="icon-btn" data-act="back" aria-label="Back">${I.left}</button>`:''}<h2>${esc(title)}</h2>${right}<button class="icon-btn" data-act="close" aria-label="Close">${I.x}</button></div>`;
+}
+const mealChips=(sel,act='set-meal')=>`<div class="chips scroll">${MEALS.map(([k,l])=>`<button class="chip ${sel===k?'on':''}" data-act="${act}" data-meal="${k}">${l}</button>`).join('')}</div>`;
+
+/* ---------- add food: search ---------- */
+let ADD=null;
+function openAdd(meal,mode='log'){
+  if(!prof()){pushView(profileView());return;}
+  if(mode==='log')ADD={meal:meal||defaultMeal(),day:VIEW.day,added:[],mode:'log',q:'',online:null};
+  else ADD={...(ADD||{}),mode,q:'',online:null,prevMode:ADD?ADD.mode:null};
+  pushView(searchView());
+}
+function searchView(){
+  return {full:true,html:()=>{
+    const recipe=ADD.mode==='recipe';
+    return `${head(recipe?'Add ingredient':'Add food',{back:STACK.length>1})}
+    <div class="sh-body" id="sbody">${recipe?'':`<div style="margin:0 0 10px">${mealChips(ADD.meal)}</div>`}
+    <div class="search"><div class="in">${I.search}<input id="q" type="search" placeholder="Search e.g. dal, roti, Skyr, paneer" autocomplete="off" autocorrect="off" enterkeyhint="search" value="${esc(ADD.q)}"><button class="clr" data-act="q-clear" aria-label="Clear" ${ADD.q?'':'hidden'}>${I.x}</button></div>
+      <button class="icon-btn" data-act="scan" aria-label="Scan barcode">${I.scan}</button></div>
+    <div id="sres"></div></div>
+    ${!recipe&&ADD.added.length?addedBar():''}`;},
+  mount:()=>{const q=$('#q');let t;
+    q.addEventListener('input',()=>{ADD.q=q.value;$('.clr').hidden=!q.value;clearTimeout(t);t=setTimeout(renderSearchRes,110);});
+    q.addEventListener('keydown',e=>{if(e.key==='Enter'){q.blur();}});
+    renderSearchRes();if(!ADD.q&&!('ontouchstart' in window))q.focus();}};
+}
+function addedBar(){
+  const es=ADD.added.map(id=>S.entries.find(e=>e.id===id)).filter(e=>e&&!e.deleted);const k=sumN(es)[0];
+  return `<div class="sh-foot"><div class="addedbar"><span><b>${es.length} added</b> to ${esc(MEALNAME[ADD.meal].toLowerCase())} · ${fmt(k)} kcal</span><button class="btn primary small" data-act="close">Done</button></div></div>`;
+}
+function refreshSearch(){if($('#sres'))renderSearchRes();}
+function recentFor(pid,meal){
+  const cut=addDay(today(),-60),m=new Map();
+  for(const e of S.entries){if(e.deleted||e.type!=='food'||e.pid!==pid||e.day<cut||e.u==='quick')continue;if(meal&&e.meal!==meal)continue;
+    const k=e.fid||('n:'+e.name);const cur=m.get(k);if(!cur||e.ts>cur.ts)m.set(k,e);}
+  return [...m.values()].sort((a,b)=>b.ts-a.ts);
+}
+function renderSearchRes(){
+  const box=$('#sres');if(!box)return;const q=ADD.q.trim(),p=prof();
+  if(!q){
+    let h='';
+    if(ADD.mode==='log')h+=`<ul class="res"><li><button class="it" data-act="quick"><span class="nm"><b>Quick add calories</b><small>Just a number, e.g. a restaurant meal</small></span><span class="kc">${I.plus.replace('<svg','<svg style="width:20px;height:20px"')}</span></button></li>
+      <li><button class="it" data-act="food-new"><span class="nm"><b>Create a food</b><small>From a label or your own values</small></span></button></li></ul>`;
+    const favs=((p&&p.favs)||[]).map(getFood).filter(Boolean);
+    if(favs.length)h+=`<div class="sec">Favourites</div><ul class="res">${favs.slice(0,12).map(f=>foodRow(f,'pick')).join('')}</ul>`;
+    const rec=recentFor(p.id,ADD.mode==='log'?ADD.meal:null).slice(0,15);
+    const recAll=ADD.mode==='log'&&rec.length<6?recentFor(p.id,null).filter(e=>!rec.some(r=>(r.fid||r.name)===(e.fid||e.name))).slice(0,10):[];
+    const recRow=e=>`<li><button class="it" data-act="pick-recent" data-id="${e.id}"><span class="nm"><b>${esc(e.name)}</b><small>${esc(entryLabel(e))} · ${esc(dayLabel(e.day).toLowerCase())}</small></span><span class="kc">${fmt(entN(e)[0])}<small>kcal</small></span></button></li>`;
+    if(rec.length)h+=`<div class="sec">Recent${ADD.mode==='log'?' for '+MEALNAME[ADD.meal].toLowerCase():''}</div><ul class="res">${rec.map(recRow).join('')}</ul>`;
+    if(recAll.length)h+=`<div class="sec">Recent</div><ul class="res">${recAll.map(recRow).join('')}</ul>`;
+    if(!rec.length&&!favs.length)h+=`<p class="muted" style="text-align:center;margin:18px 6px">Type a dish or ingredient in English, Hindi, Gujarati or German words (aloo, dahi, Käse…), or scan a barcode.</p>`;
+    box.innerHTML=h;return;
+  }
+  const res=searchFoods(q,50,ADD.mode);
+  let h=res.length?`<ul class="res">${res.map(f=>foodRow(f,'pick')).join('')}</ul>`:`<div class="empty" style="padding:14px">Nothing in the offline database${dbReady.u?'':' yet (still loading)'}.</div>`;
+  const on=ADD.online&&ADD.online.q===q?ADD.online:null;
+  h+=`<div class="sec">Online${!navigator.onLine?' · offline now':''}</div>`;
+  if(on&&on.off)h+=on.off.length?`<ul class="res">${on.off.map((f,i)=>foodRow(f,'pick-online').replace(`data-id="${esc(f.id)}"`,`data-id="${esc(f.id)}" data-src="off" data-i="${i}"`)).join('')}</ul>`:`<p class="muted" style="margin:0 2px 10px">Open Food Facts: nothing found.</p>`;
+  if(on&&on.usda)h+=on.usda.length?`<ul class="res">${on.usda.map((f,i)=>foodRow(f,'pick-online').replace(`data-id="${esc(f.id)}"`,`data-id="${esc(f.id)}" data-src="usda" data-i="${i}"`)).join('')}</ul>`:`<p class="muted" style="margin:0 2px 10px">USDA: nothing found.</p>`;
+  if(on&&on.err)h+=`<p class="muted" style="margin:0 2px 10px;color:var(--danger)">${esc(on.err)}</p>`;
+  h+=`<div class="stack" style="margin-bottom:12px">${S.settings.off&&!(on&&on.off)?`<button class="btn small" data-act="online" data-w="off" ${on&&on.busy==='off'?'disabled':''}>${on&&on.busy==='off'?'<span class="spin"></span>Searching…':'Search packaged products'}</button>`:''}
+    ${!(on&&on.usda)?`<button class="btn small" data-act="online" data-w="usda" ${on&&on.busy==='usda'?'disabled':''}>${on&&on.busy==='usda'?'<span class="spin"></span>Searching…':'Search USDA online'}</button>`:''}
+    <button class="btn small" data-act="food-new" data-name="${esc(q)}">Create “${esc(q.slice(0,24))}”</button></div>`;
+  box.innerHTML=h;
+}
+async function searchOnline(which){
+  const q=ADD.q.trim();if(!q)return;
+  if(!navigator.onLine)return toast('You are offline. Try again when online.');
+  if(!ADD.online||ADD.online.q!==q)ADD.online={q};
+  ADD.online.busy=which;ADD.online.err='';renderSearchRes();
+  try{
+    if(which==='off')ADD.online.off=(await offSearch(q)).filter(visible);
+    else ADD.online.usda=(await usdaSearch(q)).filter(visible);
+  }catch(e){ADD.online.err=which==='off'?'Open Food Facts did not answer. Try again in a minute.':(String(e.message)==='limit'?'USDA limit reached for now. Add your own free API key in Settings → Online sources.':'USDA did not answer. Try again later.');}
+  if(ADD&&ADD.online&&ADD.online.q===q){ADD.online.busy='';renderSearchRes();}
+}
+
+/* ---------- portion picker ---------- */
+let PORT=null;
+function portionsOf(f){const ps=(f.ps||[]).slice();if(!ps.some(p=>p[1]===100&&/^100 ?(g|ml)/.test(p[0])))ps.push(['100 g',100]);return ps;}
+function openPortion(f,preset={},mode){
+  mode=mode||(ADD&&ADD.mode==='recipe'?'recipe':'log');
+  const ps=portionsOf(f);let u=preset.u,q=preset.q,g=preset.g;
+  if(!u){const d=ps[0];u=d[0];q=1;g=d[1];}
+  if(u!=='g'&&!ps.some(p=>p[0]===u))ps.unshift([u,(g||100)/(q||1)]);
+  PORT={f,ps,u,q:q||1,g:g||100,meal:preset.meal||(ADD?ADD.meal:defaultMeal()),day:preset.day||(ADD?ADD.day:VIEW.day),editId:preset.editId||null,mode,n:preset.n||f.n};
+  pushView(portionView());
+}
+function portionGrams(){if(PORT.u==='g')return PORT.g;const p=PORT.ps.find(x=>x[0]===PORT.u);return (p?p[1]:100)*PORT.q;}
+function portionView(){
+  return {full:true,html:()=>{
+    const f=PORT.f,s=SRC[f.src]||SRC.u,p=prof(),fav=p&&(p.favs||[]).includes(f.id),n=PORT.n;
+    const vt=/n/.test(f.tags||'')?'n':/e/.test(f.tags||'')?'e':'';
+    const personal=PF.has(f.id)&&(f.src==='c'||f.src==='r'||f.src==='o');
+    const g=portionGrams(),k=n[0]*g/100;
+    return `${head(PORT.editId?'Edit entry':PORT.mode==='recipe'?'Ingredient':'Add food',{back:!PORT.editId||STACK.length>1,right:PORT.mode==='log'||PORT.editId?`<button class="star ${fav?'on':''}" data-act="fav" aria-label="Favourite">${fav?I.starF:I.star}</button>`:''})}
+    <div class="sh-body">
+      <h2 style="font-size:21px;line-height:1.25">${esc(f.name)}</h2>
+      <p class="muted" style="margin:3px 0 4px"><span class="src ${s[1]}">${s[0]}</span>${vt?`<span class="vdot ${vt}"></span>`:''}${f.brand?esc(f.brand)+' · ':''}per 100 g: ${fmt(n[0])} kcal · P ${fmtG(n[1])} · C ${fmtG(n[2])} · F ${fmtG(n[3])} g</p>
+      <div class="chips scroll" style="margin:12px 0 2px">${PORT.ps.map(p=>`<button class="chip ${PORT.u===p[0]?'on':''}" data-act="unit" data-u="${esc(p[0])}">${esc(p[0])}${p[0]!=='100 g'?` · ${fmtG(p[1])} g`:''}</button>`).join('')}<button class="chip ${PORT.u==='g'?'on':''}" data-act="unit" data-u="g">grams</button></div>
+      <div class="qty"><button data-act="qty" data-d="-1" aria-label="Less">−</button><div><input id="qv" inputmode="decimal" value="${PORT.u==='g'?fmtG(PORT.g):fmtG(PORT.q)}" aria-label="Amount"><small>${PORT.u==='g'?'grams':esc(PORT.u.replace(/^1 /,''))+(PORT.u==='g'?'':` · <span id="gv">${fmtG(g)}</span> g`)}</small></div><button data-act="qty" data-d="1" aria-label="More">+</button></div>
+      <div class="big-k"><b id="kv">${fmt(k)}</b><span>kcal</span></div>
+      <div class="m4" id="mv">${m4(n,g)}</div>
+      ${PORT.mode==='recipe'?'':`<div class="sec">Meal</div>${mealChips(PORT.meal,'port-meal')}`}
+      ${PORT.editId?`<label class="fld" style="margin-top:12px"><span>Day</span><input type="date" id="pday" value="${PORT.day}" max="${today()}"></label>`:''}
+      <div class="stack" style="margin-top:14px">${personal?`<button class="btn small" data-act="food-edit" data-id="${esc(f.id)}">${I.edit.replace('<svg','<svg style="width:15px;height:15px;vertical-align:-2px;margin-right:4px"')}Edit food</button>`:
+        (f.src!=='o'&&f.src!=='f'?`<button class="btn small" data-act="food-copy" data-id="${esc(f.id)}">Copy to my foods & adjust</button>`:'')}</div>
+      ${f.src==='i'?`<p class="muted small" style="margin-top:10px">INDB values come from standard textbook recipes. Home cooking with more oil or ghee will be higher.</p>`:''}
+      ${f.src==='t'?`<p class="muted small" style="margin-top:10px">Estimate for a typical home recipe.</p>`:''}
+    </div>
+    <div class="sh-foot"><div class="row-btns">${PORT.editId?`<button class="btn danger" data-act="port-del">Delete</button><button class="btn primary" data-act="port-save">Save</button>`:
+      `<button class="btn primary" data-act="port-add">${PORT.mode==='recipe'?'Add to recipe':`Add to ${esc(MEALNAME[PORT.meal].toLowerCase())}`}</button>`}</div></div>`;},
+  mount:()=>{const qv=$('#qv');
+    qv.addEventListener('input',()=>{const v=num(qv.value);if(isNaN(v))return;if(PORT.u==='g')PORT.g=Math.max(0,v);else PORT.q=Math.max(0,v);updPortion();});
+    qv.addEventListener('focus',()=>qv.select());
+    const pd=$('#pday');if(pd)pd.addEventListener('change',()=>{if(pd.value)PORT.day=pd.value;});}};
+}
+function m4(n,g){const v=i=>n[i]*g/100;return [['Protein',1,'--pro'],['Carbs',2,'--carb'],['Fat',3,'--fat'],['Fibre',4,'--fib']].map(([l,i,c])=>`<div style="--c:var(${c})"><b>${fmtG(v(i))}</b><span>${l} g</span></div>`).join('');}
+function updPortion(){const g=portionGrams();$('#kv').textContent=fmt(PORT.n[0]*g/100);$('#mv').innerHTML=m4(PORT.n,g);const gv=$('#gv');if(gv)gv.textContent=fmtG(g);}
+function portionAdd(){
+  let f=PORT.f;const g=portionGrams();if(!(g>0))return toast('Enter an amount first.');
+  if((f.src==='o'||f.src==='f')&&!PF.has(f.id))f=savePersonalFood({...f});
+  if(PORT.mode==='recipe'){
+    RC.ings.push({fid:f.id,name:f.name,g:r1(g),n:PORT.n.slice(),tags:f.tags||''});
+    STACK.pop();STACK.pop();ADD.mode=ADD.prevMode||'log';showView(STACK[STACK.length-1]);return;
+  }
+  const p=prof();
+  const e={id:uid(),pid:p.id,type:'food',day:PORT.day,meal:PORT.meal,ts:Date.now(),name:f.name+(f.brand&&!f.name.toLowerCase().includes(f.brand.toLowerCase())?` (${f.brand})`:''),fid:f.id,src:f.src,g:r1(g),q:PORT.u==='g'?null:PORT.q,u:PORT.u,n:PORT.n.slice()};
+  putEntry(e);vib();
+  if(ADD){ADD.added.push(e.id);ADD.meal=PORT.meal;}
+  toast(`Added ${f.name.slice(0,30)} · ${fmt(entN(e)[0])} kcal`);
+  STACK.pop();
+  if(STACK.length){showView(STACK[STACK.length-1]);}else closeSheet();
+}
+function editEntry(id){
+  const e=S.entries.find(x=>x.id===id);if(!e)return;
+  if(e.type==='weight')return pushView(weightView(e.day));
+  if(e.u==='quick')return pushView(quickView(e));
+  const cur=e.fid&&getFood(e.fid);
+  const f=cur?{...cur}:indexFood({id:e.fid||'x:'+e.id,name:e.name,n:e.n,ps:[],src:e.src||'c',tags:''});
+  if(!cur&&e.u&&e.u!=='g'&&e.q)f.ps=[[e.u,e.g/e.q]];
+  ADD=null;
+  openPortion(f,{u:e.u||'g',q:e.q||1,g:e.g,meal:e.meal,day:e.day,editId:e.id,n:e.n},'edit');
+}
+function portionSave(){
+  const e=S.entries.find(x=>x.id===PORT.editId);if(!e)return closeSheet();
+  const g=portionGrams();if(!(g>0))return toast('Enter an amount first.');
+  putEntry({...e,g:r1(g),q:PORT.u==='g'?null:PORT.q,u:PORT.u,meal:PORT.meal,day:PORT.day});
+  toast('Saved');closeSheet();
+}
+
+/* ---------- quick add ---------- */
+function quickView(e){
+  const v=e?{name:e.name==='Quick add'?'':e.name,k:e.n[0],p:e.n[1],c:e.n[2],f:e.n[3],meal:e.meal}:{name:'',k:'',p:'',c:'',f:'',meal:ADD?ADD.meal:defaultMeal()};
+  window._qmeal=v.meal;
+  return {html:()=>`${head(e?'Edit quick add':'Quick add',{back:!e})}<div class="sh-body">
+    <label class="fld"><span>Calories (kcal)</span><input id="qk" inputmode="decimal" value="${v.k}" placeholder="e.g. 650"></label>
+    <div class="g3"><label class="fld"><span>Protein g</span><input id="qp" inputmode="decimal" value="${v.p||''}" placeholder="optional"></label>
+    <label class="fld"><span>Carbs g</span><input id="qc" inputmode="decimal" value="${v.c||''}" placeholder="optional"></label>
+    <label class="fld"><span>Fat g</span><input id="qf" inputmode="decimal" value="${v.f||''}" placeholder="optional"></label></div>
+    <label class="fld"><span>Description</span><input id="qn" value="${esc(v.name)}" placeholder="e.g. Restaurant thali"></label>
+    <div class="sec">Meal</div>${mealChips(v.meal,'q-meal')}</div>
+    <div class="sh-foot"><div class="row-btns">${e?`<button class="btn danger" data-act="del-entry" data-id="${e.id}">Delete</button>`:''}<button class="btn primary" data-act="quick-save" data-id="${e?e.id:''}">${e?'Save':'Add'}</button></div></div>`,
+    mount:()=>{if(!e&&!('ontouchstart' in window))$('#qk').focus();}};
+}
+function quickSave(id){
+  const k=num($('#qk').value);if(!(k>=0))return toast('Enter calories.');
+  const p=num($('#qp').value),c=num($('#qc').value),f=num($('#qf').value);
+  const base=id?S.entries.find(x=>x.id===id):{id:uid(),pid:prof().id,type:'food',day:ADD?ADD.day:VIEW.day,ts:Date.now(),fid:'',src:'c'};
+  const e={...base,meal:window._qmeal,name:$('#qn').value.trim()||'Quick add',u:'quick',g:100,q:null,n:[k,isNaN(p)?0:p,isNaN(c)?0:c,isNaN(f)?0:f,0]};
+  putEntry(e);if(ADD&&!id){ADD.added.push(e.id);ADD.meal=e.meal;}
+  toast(id?'Saved':`Added ${fmt(k)} kcal`);
+  if(id)return closeSheet();
+  STACK.pop();if(STACK.length)showView(STACK[STACK.length-1]);else closeSheet();
+}
+function copyMeal(meal,from){
+  const p=prof(),src=dayEntries(from,p.id).filter(e=>e.type==='food'&&e.meal===meal);const ids=[];
+  for(const e of src){const n={...e,id:uid(),day:VIEW.day,ts:Date.now()+ids.length};delete n.deleted;putEntry(n);ids.push(n.id);}
+  render();toast(`Copied ${ids.length} item${ids.length>1?'s':''}`,()=>{ids.forEach(id=>delEntry(id,true));render();});
+}
+/* ---------- my food (create / edit) ---------- */
+let FF=null;
+function openFoodForm(src,opts={}){
+  if(src&&PF.has(src.id)&&(src.src==='c'||src.src==='o'))FF={id:src.id,kind:src.kind||'custom',name:src.name,brand:src.brand||'',code:src.code||'',basis:'100',servG:'',
+    k:src.n[0],p:src.n[1],c:src.n[2],f:src.n[3],fi:src.n[4],ps:(src.ps||[]).filter(p=>p[0]!=='100 g').map(p=>[p[0],p[1]]),veg:/n/.test(src.tags)?'n':/e/.test(src.tags)?'e':'v'};
+  else if(src)FF={id:null,kind:'custom',name:src.name+' (mine)',brand:src.brand||'',code:'',basis:'100',servG:'',k:src.n[0],p:src.n[1],c:src.n[2],f:src.n[3],fi:src.n[4],
+    ps:(src.ps||[]).filter(p=>p[0]!=='100 g').map(p=>[p[0],p[1]]),veg:/n/.test(src.tags)?'n':/e/.test(src.tags)?'e':'v'};
+  else FF={id:null,kind:'custom',name:opts.name||'',brand:'',code:opts.code||'',basis:'100',servG:'',k:'',p:'',c:'',f:'',fi:'',ps:[],veg:'v'};
+  FF.thenLog=!FF.id&&(!!opts.thenLog||!!(ADD&&ADD.mode));FF.copyOf=!!(src&&!FF.id);
+  pushView(foodFormView());
+}
+function readFF(){
+  const v=id=>{const el=$('#'+id);return el?el.value:'';};
+  Object.assign(FF,{name:v('ff-name'),brand:v('ff-brand'),code:v('ff-code'),k:v('ff-k'),p:v('ff-p'),c:v('ff-c'),f:v('ff-f'),fi:v('ff-fi'),servG:v('ff-sg')});
+  FF.ps=$$('.ff-ps').map(r=>[r.querySelector('.pl').value.trim(),num(r.querySelector('.pg').value)]);
+}
+function foodFormView(){
+  return {full:true,html:()=>`${head(FF.id?'Edit food':'New food',{back:STACK.length>1})}<div class="sh-body">
+    <label class="fld"><span>Name</span><input id="ff-name" value="${esc(FF.name)}" placeholder="e.g. Mom's thepla"></label>
+    <div class="g2"><label class="fld"><span>Brand (optional)</span><input id="ff-brand" value="${esc(FF.brand)}"></label>
+    <label class="fld"><span>Barcode (optional)</span><input id="ff-code" inputmode="numeric" value="${esc(FF.code)}"></label></div>
+    <div class="seg"><button class="${FF.basis==='100'?'on':''}" data-act="ff-basis" data-b="100">Values per 100 g</button><button class="${FF.basis==='serv'?'on':''}" data-act="ff-basis" data-b="serv">Values per serving</button></div>
+    ${FF.basis==='serv'?`<label class="fld"><span>Serving size (g)</span><input id="ff-sg" inputmode="decimal" value="${esc(FF.servG)}" placeholder="e.g. 40"></label>`:''}
+    <div class="g2"><label class="fld"><span>Calories (kcal)</span><input id="ff-k" inputmode="decimal" value="${esc(FF.k)}"></label><label class="fld"><span>Protein (g)</span><input id="ff-p" inputmode="decimal" value="${esc(FF.p)}"></label>
+    <label class="fld"><span>Carbohydrates (g)</span><input id="ff-c" inputmode="decimal" value="${esc(FF.c)}"></label><label class="fld"><span>Fat (g)</span><input id="ff-f" inputmode="decimal" value="${esc(FF.f)}"></label>
+    <label class="fld"><span>Fibre (g)</span><input id="ff-fi" inputmode="decimal" value="${esc(FF.fi)}"></label></div>
+    <p class="hint">German labels: “Brennwert … kcal”, “Eiweiß”, “Kohlenhydrate”, “Fett”, “Ballaststoffe”.</p>
+    <div class="sec">Portions</div>
+    <div id="ff-pl">${FF.ps.map((p,i)=>psRow(p,i)).join('')}</div>
+    <button class="btn small" data-act="ff-addps">+ Add portion (e.g. 1 piece = 30 g)</button>
+    <div class="sec">Type</div>
+    <div class="chips">${[['v','Vegetarian'],['e','Contains egg'],['n','Meat / fish']].map(([k,l])=>`<button class="chip ${FF.veg===k?'on':''}" data-act="ff-veg" data-v="${k}">${l}</button>`).join('')}</div>
+    ${FF.id?`<button class="link" data-act="ff-del" style="color:var(--danger)">Delete this food</button>`:''}
+    </div><div class="sh-foot"><button class="btn primary" style="width:100%" data-act="ff-save">${FF.thenLog?'Save & continue':'Save'}</button></div>`};
+}
+const psRow=(p,i)=>`<div class="ff-ps g2" style="grid-template-columns:1fr 90px 36px;align-items:center;margin-bottom:8px"><input class="pl" value="${esc(p[0])}" placeholder="1 piece" style="padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--surface)"><input class="pg" inputmode="decimal" value="${isNaN(p[1])?'':p[1]}" placeholder="grams" style="padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--surface)"><button class="icon-btn" style="width:36px;height:36px" data-act="ff-rmps" data-i="${i}" aria-label="Remove">${I.x}</button></div>`;
+function ffSave(){
+  readFF();
+  const name=FF.name.trim();if(!name)return toast('Give the food a name.');
+  let k=num(FF.k),p=num(FF.p)||0,c=num(FF.c)||0,f=num(FF.f)||0,fi=num(FF.fi)||0;
+  if(isNaN(k)){if(p||c||f)k=p*4+c*4+f*9;else return toast('Enter the calories.');}
+  const ps=FF.ps.filter(x=>x[0]&&x[1]>0);
+  if(FF.basis==='serv'){const sg=num(FF.servG);if(!(sg>0))return toast('Enter the serving size in grams.');const m=100/sg;k*=m;p*=m;c*=m;f*=m;fi*=m;if(!ps.some(x=>x[1]===sg))ps.unshift(['1 serving',sg]);}
+  const code=FF.code.replace(/\D/g,'');
+  const id=FF.id||(code&&FF.kind!=='custom'?'o:'+code:'c:'+uid());
+  const food=savePersonalFood({id,kind:FF.kind==='off'?'off':'custom',name,brand:FF.brand.trim(),code,n:[r1(k),r1(p),r1(c),r1(f),r1(fi)],ps:ps.map(x=>[x[0],r1(x[1])]),tags:FF.veg==='v'?'':FF.veg});
+  const thenLog=FF.thenLog,copyOf=FF.copyOf;FF=null;STACK.pop();
+  toast('Food saved');
+  if(copyOf&&STACK.length&&PORT)STACK.pop();
+  if(thenLog&&ADD){if(STACK.length)showView(STACK[STACK.length-1]);openPortion(food);return;}
+  if(!STACK.length)return closeSheet();
+  if(PORT&&PORT.f&&PORT.f.id===food.id){PORT.f=food;PORT.n=food.n;PORT.ps=portionsOf(food);}
+  showView(STACK[STACK.length-1]);
+}
+function ffDelete(){
+  const i=S.foods.findIndex(x=>x.id===FF.id);if(i<0)return;
+  if(!confirm('Delete this food? Entries you already logged keep their values.'))return;
+  S.foods[i].deleted=true;touch(S.foods[i]);rebuildPersonal();markDirty('foods');save();
+  const p=prof();if(p&&p.favs&&p.favs.includes(FF.id)){p.favs=p.favs.filter(x=>x!==FF.id);touch(p);markDirty('profiles');save();}
+  toast('Food deleted');closeSheet();
+}
+
+/* ---------- recipes ---------- */
+let RC=null;
+function openRecipe(src){
+  if(src&&src.src==='r'){const raw=S.foods.find(x=>x.id===src.id);RC={id:src.id,name:src.name,ings:(raw.ing||[]).map(x=>({...x})),yieldG:raw.yieldG||'',servings:raw.servings||2};}
+  else RC={id:null,name:'',ings:[],yieldG:'',servings:2};
+  pushView(recipeView());
+}
+function recipeTotals(){
+  const t=[0,0,0,0,0];let raw=0;for(const x of RC.ings){raw+=x.g||0;for(let i=0;i<5;i++)t[i]+=(x.n[i]||0)*(x.g||0)/100;}
+  const y=num(RC.yieldG)>0?num(RC.yieldG):raw,sv=Math.max(1,num(RC.servings)||1);
+  return {t,raw,y,sv,per100:t.map(v=>y?v/y*100:0),portion:y/sv};
+}
+function recipeView(){
+  return {full:true,html:()=>{const R=recipeTotals();
+    return `${head(RC.id?'Edit recipe':'New recipe',{back:STACK.length>1})}<div class="sh-body">
+    <label class="fld"><span>Recipe name</span><input id="rc-name" value="${esc(RC.name)}" placeholder="e.g. Dal tadka (our version)"></label>
+    <div class="sec">Ingredients (raw weight)<span class="r">${fmt(R.raw)} g</span></div>
+    ${RC.ings.length?`<ul class="list">${RC.ings.map((x,i)=>`<li class="ing"><span class="nm"><b>${esc(x.name)}</b><small>${fmt((x.n[0]||0)*x.g/100)} kcal</small></span><input class="rc-g" data-i="${i}" inputmode="decimal" value="${fmtG(x.g)}" aria-label="grams"><span class="muted">g</span><button class="x" data-act="rc-rm" data-i="${i}" aria-label="Remove">${I.x}</button></li>`).join('')}</ul>`:'<p class="muted">Add each ingredient with its raw amount: dal, oil, onion, ghee…</p>'}
+    <button class="btn small" style="margin-top:10px" data-act="rc-add">+ Add ingredient</button>
+    <div class="g2" style="margin-top:16px"><label class="fld"><span>Cooked weight (g)</span><input id="rc-y" inputmode="decimal" value="${esc(RC.yieldG)}" placeholder="${fmt(R.raw)} (raw)"></label>
+    <label class="fld"><span>Portions</span><input id="rc-s" inputmode="decimal" value="${esc(RC.servings)}"></label></div>
+    <p class="hint">Weigh the pot after cooking (minus the pot) for accurate per-gram values. Dal and rice gain water, sabzi loses some.</p>
+    <div class="calc" id="rc-calc">${recipeCalc(R)}</div>
+    ${RC.id?`<button class="link" data-act="rc-del" style="color:var(--danger)">Delete recipe</button>`:''}
+    </div><div class="sh-foot"><button class="btn primary" style="width:100%" data-act="rc-save">Save recipe</button></div>`;},
+  mount:()=>{
+    $('#rc-name').addEventListener('input',e=>RC.name=e.target.value);
+    const upd=()=>{$('#rc-calc').innerHTML=recipeCalc(recipeTotals());};
+    $('#rc-y').addEventListener('input',e=>{RC.yieldG=e.target.value;upd();});
+    $('#rc-s').addEventListener('input',e=>{RC.servings=e.target.value;upd();});
+    $$('.rc-g').forEach(el=>el.addEventListener('input',()=>{const v=num(el.value);if(!isNaN(v)){RC.ings[+el.dataset.i].g=v;upd();}}));
+  }};
+}
+function recipeCalc(R){
+  const pp=R.t.map(v=>v/R.sv);
+  return `Whole recipe: <b>${fmt(R.t[0])} kcal</b>, P ${fmtG(R.t[1])} g<br>Per portion (${fmt(R.portion)} g): <b>${fmt(pp[0])} kcal</b> · P ${fmtG(pp[1])} · C ${fmtG(pp[2])} · F ${fmtG(pp[3])} g<br>Per 100 g: ${fmt(R.per100[0])} kcal`;
+}
+function rcSave(){
+  RC.name=($('#rc-name').value||'').trim();if(!RC.name)return toast('Give the recipe a name.');
+  if(!RC.ings.length)return toast('Add at least one ingredient.');
+  const R=recipeTotals();
+  const tags=RC.ings.some(x=>/n/.test(x.tags||''))?'n':RC.ings.some(x=>/e/.test(x.tags||''))?'e':'';
+  savePersonalFood({id:RC.id||'r:'+uid(),kind:'recipe',name:RC.name,brand:'',n:R.per100.map(r1),ps:[['1 portion',Math.round(R.portion)],['1 katori',150]],
+    ing:RC.ings.map(x=>({fid:x.fid,name:x.name,g:x.g,n:x.n,tags:x.tags||''})),yieldG:num(RC.yieldG)>0?num(RC.yieldG):'',servings:R.sv,tags});
+  toast('Recipe saved');RC=null;STACK.pop();if(STACK.length)showView(STACK[STACK.length-1]);else closeSheet();
+}
+function rcDelete(){
+  if(!confirm('Delete this recipe? Entries you already logged keep their values.'))return;
+  const i=S.foods.findIndex(x=>x.id===RC.id);if(i>=0){S.foods[i].deleted=true;touch(S.foods[i]);rebuildPersonal();markDirty('foods');save();}
+  toast('Recipe deleted');closeSheet();
+}
+
+/* ---------- weight ---------- */
+function weightView(day){
+  day=day||VIEW.day;const p=prof();
+  const ex=S.entries.filter(e=>!e.deleted&&e.type==='weight'&&e.pid===p.id&&e.day===day).sort((a,b)=>b.ts-a.ts)[0];
+  const last=latestWeight(p,day);
+  return {html:()=>`${head('Weight')}<div class="sh-body">
+    <div class="qty"><button data-act="w-step" data-d="-0.1" aria-label="Less">−</button><div><input id="wkg" inputmode="decimal" value="${ex?String(ex.kg).replace('.',','):last?String(last).replace('.',','):''}" placeholder="kg"><small>kg</small></div><button data-act="w-step" data-d="0.1" aria-label="More">+</button></div>
+    <label class="fld"><span>Day</span><input type="date" id="wday" value="${day}" max="${today()}"></label>
+    <p class="hint">Weigh at the same time of day, ideally in the morning before breakfast.</p></div>
+    <div class="sh-foot"><div class="row-btns">${ex?`<button class="btn danger" data-act="del-entry" data-id="${ex.id}">Delete</button>`:''}<button class="btn primary" data-act="w-save" data-id="${ex?ex.id:''}">Save</button></div></div>`};
+}
+function weightSave(id){
+  const kg=num($('#wkg').value),day=$('#wday').value||VIEW.day;
+  if(!(kg>20&&kg<350))return toast('Enter your weight in kg.');
+  const p=prof();
+  let e=id?S.entries.find(x=>x.id===id):S.entries.find(x=>!x.deleted&&x.type==='weight'&&x.pid===p.id&&x.day===day);
+  e=e?{...e,kg:r1(kg),day}:{id:uid(),pid:p.id,type:'weight',day,ts:Date.now(),kg:r1(kg)};
+  putEntry(e);toast('Weight saved');closeSheet();
+}
+
+/* ---------- profiles ---------- */
+let PFD=null;
+function profileView(src){
+  const y=new Date().getFullYear();
+  PFD=src?JSON.parse(JSON.stringify(src)):{id:null,name:'',sex:'m',birthYear:'',height:'',weight:'',activity:1.375,goal:0,proteinPerKg:1.6,fatPct:30,extraKcal:0,fibre:30,water:2000,glass:250,manual:{on:false,k:'',p:'',c:'',f:''},favs:[]};
+  PFD.manual=PFD.manual||{on:false};
+  if(src)PFD.weight=latestWeight(src,today())||src.weight||'';
+  return {full:true,html:()=>`${head(PFD.id?'Profile & targets':'New profile',{back:STACK.length>1})}<div class="sh-body">
+    <label class="fld"><span>Name</span><input id="pf-name" value="${esc(PFD.name)}" placeholder="e.g. Me"></label>
+    <div class="seg">${[['m','Male'],['f','Female']].map(([k,l])=>`<button class="${PFD.sex===k?'on':''}" data-act="pf-sex" data-v="${k}">${l}</button>`).join('')}</div>
+    <div class="g3"><label class="fld"><span>Birth year</span><input id="pf-by" inputmode="numeric" value="${esc(PFD.birthYear)}" placeholder="${y-30}"></label>
+    <label class="fld"><span>Height cm</span><input id="pf-h" inputmode="decimal" value="${esc(PFD.height)}" placeholder="170"></label>
+    <label class="fld"><span>Weight kg</span><input id="pf-w" inputmode="decimal" value="${esc(String(PFD.weight).replace('.',','))}" placeholder="70"></label></div>
+    <label class="fld"><span>Activity</span><select id="pf-act">${ACTIVITY.map(([v,l,d])=>`<option value="${v}" ${+PFD.activity===v?'selected':''}>${l} – ${d}</option>`).join('')}</select></label>
+    <label class="fld"><span>Goal</span><select id="pf-goal">${GOALS.map(([v,l])=>`<option value="${v}" ${+PFD.goal===v?'selected':''}>${l}</option>`).join('')}</select></label>
+    <div class="g2"><label class="fld"><span>Protein per kg body weight</span><select id="pf-pk">${[1.0,1.2,1.4,1.6,1.8,2.0,2.2].map(v=>`<option value="${v}" ${+PFD.proteinPerKg===v?'selected':''}>${String(v.toFixed(1)).replace('.',',')} g/kg</option>`).join('')}</select></label>
+    <label class="fld"><span>Fat share of kcal</span><select id="pf-fat">${[20,25,30,35,40].map(v=>`<option value="${v}" ${+PFD.fatPct===v?'selected':''}>${v}%</option>`).join('')}</select></label>
+    <label class="fld"><span>Extra kcal per day</span><input id="pf-x" inputmode="numeric" value="${esc(PFD.extraKcal||'')}" placeholder="0"></label>
+    <label class="fld"><span>Fibre target g</span><input id="pf-fi" inputmode="numeric" value="${esc(PFD.fibre)}"></label>
+    <label class="fld"><span>Water target ml</span><input id="pf-wa" inputmode="numeric" value="${esc(PFD.water)}"></label>
+    <label class="fld"><span>Glass size ml</span><input id="pf-gl" inputmode="numeric" value="${esc(PFD.glass||250)}"></label></div>
+    <p class="hint">Extra kcal is for anything the formula doesn't know about, e.g. breastfeeding (often +330–400 kcal) or a sport you don't count as activity.</p>
+    <div class="calc" id="pf-calc"></div>
+    <div class="tog"><span>Set my own targets<small>Overrides the calculation, e.g. a plan from a dietitian</small></span><button class="sw ${PFD.manual.on?'on':''}" data-act="pf-man" aria-label="Own targets"></button></div>
+    <div id="pf-mf" ${PFD.manual.on?'':'hidden'} style="margin-top:12px"><div class="g2">
+      <label class="fld"><span>Calories kcal</span><input id="pm-k" inputmode="numeric" value="${esc(PFD.manual.k||'')}"></label><label class="fld"><span>Protein g</span><input id="pm-p" inputmode="numeric" value="${esc(PFD.manual.p||'')}"></label>
+      <label class="fld"><span>Fat g</span><input id="pm-f" inputmode="numeric" value="${esc(PFD.manual.f||'')}"></label><label class="fld"><span>Carbs g (blank = rest)</span><input id="pm-c" inputmode="numeric" value="${esc(PFD.manual.c||'')}"></label></div></div>
+    ${PFD.id&&liveProfiles().length>1?`<button class="link" data-act="pf-del" style="color:var(--danger)">Delete this profile</button>`:''}
+    </div><div class="sh-foot"><button class="btn primary" style="width:100%" data-act="pf-save">Save</button></div>`,
+  mount:()=>{$$('.sh-body input,.sh-body select').forEach(el=>el.addEventListener('input',pfCalc));pfCalc();}};
+}
+function readPF(){
+  const v=id=>{const el=$('#'+id);return el?el.value:'';};
+  Object.assign(PFD,{name:v('pf-name').trim(),birthYear:parseInt(v('pf-by'))||'',height:num(v('pf-h'))||'',weight:num(v('pf-w'))||'',activity:+v('pf-act'),goal:+v('pf-goal'),
+    proteinPerKg:+v('pf-pk'),fatPct:+v('pf-fat'),extraKcal:parseInt(v('pf-x'))||0,fibre:parseInt(v('pf-fi'))||30,water:parseInt(v('pf-wa'))||2000,glass:parseInt(v('pf-gl'))||250});
+  PFD.manual={on:PFD.manual.on,k:parseInt(v('pm-k'))||'',p:parseInt(v('pm-p'))||'',f:parseInt(v('pm-f'))||'',c:parseInt(v('pm-c'))||''};
+}
+function pfCalc(){
+  readPF();const box=$('#pf-calc');if(!box)return;
+  if(!PFD.birthYear||!PFD.height||!PFD.weight){box.innerHTML='Fill in birth year, height and weight to calculate your targets.';return;}
+  const T=calcTargets({...PFD,id:'__'},today());
+  const tmp={...PFD,manual:{on:false}};const A=calcTargets({...tmp,id:'__'},today());
+  let h=`Basal metabolic rate <b>${fmt(A.bmr)}</b> kcal (Mifflin–St Jeor) × activity ${String(PFD.activity).replace('.',',')} = <b>${fmt(A.tdee)}</b> kcal to maintain.`;
+  if(A.adj)h+=` Goal ${A.adj>0?'+':'−'}${fmt(Math.abs(A.adj))} kcal.`;if(PFD.extraKcal)h+=` Extra +${fmt(PFD.extraKcal)} kcal.`;
+  h+=`<br>Daily target: <b>${fmt(T.k)} kcal</b> · protein <b>${T.p} g</b> · carbs ${T.c} g · fat ${T.f} g`;
+  if(T.k<A.bmr)h+=`<br><span style="color:var(--danger)">This is below your basal rate. Eating this little for long is hard to sustain; consider a slower goal.</span>`;
+  h+=`<br><span class="small">The formula is an estimate, typically within ±10%. Adjust after 2–3 weeks based on your weight trend.</span>`;
+  box.innerHTML=h;
+}
+function pfSave(){
+  readPF();
+  if(!PFD.name)return toast('Enter a name.');
+  if(!PFD.birthYear||!PFD.height||!PFD.weight)return toast('Birth year, height and weight are needed for targets.');
+  const isNew=!PFD.id;if(isNew)PFD.id='p:'+uid();
+  const old=S.profiles.find(x=>x.id===PFD.id);
+  const pr={...PFD};touch(pr);
+  if(old)Object.assign(old,pr);else S.profiles.push(pr);
+  const lw=old?latestWeight(old,today()):0;
+  if(isNew||Math.abs((lw||0)-PFD.weight)>=0.05){
+    const ex=S.entries.find(x=>!x.deleted&&x.type==='weight'&&x.pid===pr.id&&x.day===today());
+    putEntry(ex?{...ex,kg:r1(PFD.weight)}:{id:uid(),pid:pr.id,type:'weight',day:today(),ts:Date.now(),kg:r1(PFD.weight)});
+  }
+  if(isNew&&(!S.settings.pid||!prof()||liveProfiles().length===1))S.settings.pid=pr.id;
+  markDirty('profiles');save();toast(isNew?`Profile for ${pr.name} created`:'Saved');
+  STACK.pop();if(STACK.length)showView(STACK[STACK.length-1]);else closeSheet();
+}
+function pfDelete(){
+  if(!confirm(`Delete ${PFD.name}'s profile? Their logged entries stay in backups but no longer show.`))return;
+  const p=S.profiles.find(x=>x.id===PFD.id);if(p){p.deleted=true;touch(p);}
+  if(S.settings.pid===PFD.id)S.settings.pid=(liveProfiles()[0]||{}).id||'';
+  markDirty('profiles');save();closeSheet();
+}
+function profilesView(){
+  return {html:()=>`${head('Profiles')}<div class="sh-body"><p class="muted" style="margin-bottom:10px">Choose whose log this phone shows. Foods and recipes are shared between profiles.</p>
+    <ul class="list">${liveProfiles().map(p=>{const T=calcTargets(p,today());return `<li><button class="it" data-act="pick-profile" data-id="${p.id}"><span class="nm"><b>${esc(p.name)}</b><small>${fmt(T.k)} kcal · ${T.p} g protein</small></span>${p.id===(prof()||{}).id?'<span class="chip on">On this phone</span>':''}</button></li>`;}).join('')}</ul>
+    <div class="stack" style="margin-top:12px">${prof()?`<button class="btn small" data-act="profile-edit">Edit ${esc(prof().name)}</button>`:''}<button class="btn small" data-act="profile-new">+ Add profile</button></div></div>`};
+}
+/* ---------- settings ---------- */
+const tog=(act,on,label,sub)=>`<div class="tog"><span>${label}${sub?`<small>${sub}</small>`:''}</span><button class="sw ${on?'on':''}" data-act="${act}" aria-label="${esc(label)}"></button></div>`;
+function settingsView(){
+  return {full:true,html:()=>{const st=S.settings,sy=S.sync,p=prof();
+    let f=`${head('Settings')}<div class="sh-body">`;
+    f+=`<div class="set-sec">Profile</div><ul class="list"><li><button class="it" data-act="profiles"><span class="nm"><b>${esc(p?p.name:'No profile')}</b><small>${p?`On this phone · ${fmt(calcTargets(p,today()).k)} kcal target`:'Set up a profile'}</small></span>${I.right.replace('<svg','<svg style="width:18px;height:18px;color:var(--muted)"')}</button></li>
+      ${p?`<li><button class="it" data-act="profile-edit"><span class="nm"><b>Targets & body data</b><small>Calories, protein, activity, goal</small></span>${I.right.replace('<svg','<svg style="width:18px;height:18px;color:var(--muted)"')}</button></li>`:''}</ul>`;
+    f+=`<div class="set-sec">Foods shown</div>${tog('t-nv',st.hideNV,'Hide meat & fish','In search and the database')}${tog('t-egg',st.hideEgg,'Hide egg dishes')}`;
+    f+=`<div class="set-sec">Online sources</div>${tog('t-off',st.off,'Open Food Facts','Barcode scans and packaged-product search')}${tog('t-offde',st.offDE,'Prefer products sold in Germany')}
+      <label class="fld" style="margin-top:12px"><span>USDA FoodData Central API key (optional)</span><input id="s-usda" value="${esc(st.usdaKey)}" placeholder="DEMO_KEY is used if empty" autocapitalize="off" autocorrect="off" spellcheck="false"></label>
+      <p class="hint">A free key from api.data.gov/signup lifts the low shared limit of DEMO_KEY.</p>
+      <button class="btn small" data-act="db-update">Check for database update</button> <span class="muted small">Built-in: ${esc(dbInfo.version||'–')}</span>`;
+    f+=`<div class="set-sec">Automatic sync</div>`;
+    if(sy.on){f+=`<div class="nudge ${sy.err?'err':''}"><span id="syncStatus">${esc(syncStatus())}</span><button class="btn small" data-act="sync-now">Sync now</button></div>
+      <p class="muted" style="margin-bottom:10px">Repository ${esc(sy.repo)}, folder <b>${SYNC_DIR}/</b>, token ending …${esc(sy.token.slice(-4))}. Syncs when the app opens, ~15 s after each change and every minute while open.</p>
+      <button class="btn small" data-act="sync-off">Turn off or change token</button>`;}
+    else f+=`<p class="muted" style="margin-bottom:10px">Keeps both phones in step through your private GitHub repository. You can reuse the Yupu repository and tokens: Thali writes to its own <b>${SYNC_DIR}/</b> folder. Logging still works offline.</p>
+      <label class="fld"><span>Private repository</span><input id="s-repo" value="${esc(sy.repo)}" placeholder="username/my-app-data" autocapitalize="off" autocorrect="off" spellcheck="false"></label>
+      <label class="fld"><span>Access token for this phone</span><input id="s-token" type="password" placeholder="github_pat_…" autocomplete="off" autocapitalize="off" spellcheck="false"></label>
+      <button class="btn primary" style="width:100%" data-act="sync-on">Test and turn on</button>`;
+    f+=`<label class="fld" style="margin-top:12px"><span>This phone's name (shown in sync history)</span><input id="s-dev" value="${esc(st.device)}" placeholder="e.g. My iPhone"></label>`;
+    f+=`<div class="set-sec">Backup</div><p class="muted" style="margin-bottom:10px">${st.lastBackup?`Last backup ${esc(dayLabel(dayKey(st.lastBackup)).toLowerCase())}.`:'No backup yet.'} A backup holds all profiles, entries, foods and recipes.</p>
+      <div class="stack"><button class="btn small" data-act="backup">Back up to Files</button><button class="btn small" data-act="import">Import backup</button><button class="btn small" data-act="csv">Export CSV</button></div>`;
+    f+=`<div class="set-sec">Appearance</div><div class="seg">${[['auto','Automatic'],['light','Light'],['dark','Dark']].map(([k,l])=>`<button class="${st.theme===k?'on':''}" data-act="theme" data-v="${k}">${l}</button>`).join('')}</div>`;
+    f+=`<div class="set-sec">Storage</div><p class="muted">${storeMode==='idb'?'Saved in IndexedDB on this phone.':'Saved in local storage on this phone.'} ${fmt(liveEntries().length)} entries, ${fmt(S.foods.filter(x=>!x.deleted).length)} own foods & recipes.</p>`;
+    f+=`<div class="set-sec">About</div><p class="muted small" style="line-height:1.55">Thali ${APP_VERSION} (${APP_DATE}). Food data: Thali curated list (estimates for home recipes); Indian Nutrient Databank, Jaacks et al., Current Developments in Nutrition 2024 (rows with implausible values removed); USDA FoodData Central SR Legacy (public domain); Open Food Facts (ODbL, openfoodfacts.org). Barcode reading: zxing-wasm (MIT). Calorie targets use the Mifflin–St Jeor equation; they are estimates, not medical advice.</p>`;
+    return f+`</div>`;},
+  mount:()=>{const save1=(id,k)=>{const el=$('#'+id);if(el)el.addEventListener('change',()=>{S.settings[k]=el.value.trim();save();});};save1('s-usda','usdaKey');save1('s-dev','device');}};
+}
+
+/* ---------- backup / import / CSV ---------- */
+const stamp=()=>{const d=new Date();return `${dayKey(d)}_${pad(d.getHours())}${pad(d.getMinutes())}`;};
+async function shareFile(name,text,mime){
+  const file=new File([text],name,{type:mime});
+  try{if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:name});return true;}}catch(e){if(e&&e.name==='AbortError')return false;}
+  const a=document.createElement('a');a.href=URL.createObjectURL(file);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);return true;
+}
+async function doBackup(){
+  const body={app:'thali',kind:'backup',version:APP_VERSION,exportedAt:Date.now(),device:S.settings.device,profiles:S.profiles,entries:S.entries,foods:S.foods};
+  const dev=(S.settings.device||'').replace(/[^\w-]+/g,'');
+  if(await shareFile(`thali-backup-${stamp()}${dev?'-'+dev:''}.json`,JSON.stringify(body),'application/json')){S.settings.lastBackup=Date.now();save();toast('Backup ready');}
+}
+function mergeList(target,incoming,onChange){
+  const idx=new Map(target.map((x,i)=>[x.id,i]));let n=0;
+  for(const r of incoming||[]){if(!r||!r.id)continue;const i=idx.get(r.id);
+    if(i==null){target.push(r);idx.set(r.id,target.length-1);n++;onChange&&onChange(null,r);}
+    else if((r.updatedAt||0)>(target[i].updatedAt||0)){const old=target[i];target[i]=r;n++;onChange&&onChange(old,r);}}
+  return n;
+}
+async function importFile(file){
+  let d;try{d=JSON.parse(await file.text());}catch(e){return toast('That file is not a Thali backup.');}
+  if(!d||d.app!=='thali')return toast('That file is not a Thali backup.');
+  const a=mergeList(S.profiles,d.profiles),b=mergeList(S.entries,d.entries,(o,r)=>{markDirty(monthOf(r.day));if(o&&monthOf(o.day)!==monthOf(r.day))markDirty(monthOf(o.day));}),c=mergeList(S.foods,d.foods);
+  if(a)markDirty('profiles');if(c)markDirty('foods');
+  if(!prof()&&liveProfiles().length)S.settings.pid=liveProfiles()[0].id;
+  rebuildPersonal();save();closeSheet();toast(`Imported: ${a} profiles, ${b} entries, ${c} foods updated`);
+}
+function exportCsv(){
+  const q=v=>{v=String(v??'');return /[",\n;]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;};
+  const pn=Object.fromEntries(S.profiles.map(p=>[p.id,p.name]));
+  const rows=[['date','profile','meal','item','amount','grams','kcal','protein_g','carbs_g','fat_g','fibre_g','water_ml','weight_kg']];
+  for(const e of liveEntries().sort((a,b)=>a.day<b.day?-1:a.day>b.day?1:a.ts-b.ts)){
+    if(e.type==='food'){const n=entN(e);rows.push([e.day,pn[e.pid]||'',MEALNAME[e.meal]||'',e.name,entryLabel(e),e.u==='quick'?'':r1(e.g),r0(n[0]),r1(n[1]),r1(n[2]),r1(n[3]),r1(n[4]),'','']);}
+    else if(e.type==='water')rows.push([e.day,pn[e.pid]||'','','Water','','','','','','','',e.ml,'']);
+    else if(e.type==='weight')rows.push([e.day,pn[e.pid]||'','','Weight','','','','','','','','',e.kg]);
+  }
+  shareFile(`thali-export-${stamp()}.csv`,'﻿'+rows.map(r=>r.map(q).join(',')).join('\n'),'text/csv');
+}
+
+/* ---------- database update ---------- */
+async function dbUpdate(){
+  if(!navigator.onLine)return toast('You are offline.');
+  toast('Checking for an update…');
+  const before=dbInfo.version;
+  try{await loadDb(true);}catch(e){return toast('Could not reach the app server.');}
+  toast(dbInfo.version&&dbInfo.version!==before?`Database updated to ${dbInfo.version}`:`Database is up to date (${dbInfo.version||'–'})`);
+  if(sheetOpen())refreshView();else render();
+}
+
+/* ---------- automatic sync via a private GitHub repository ----------
+   thali/YYYY-MM.json  entries of that month (all profiles)
+   thali/profiles.json profiles and their targets/favourites
+   thali/foods.json    own foods, recipes and saved products
+   Pull: list folder, fetch only changed files, merge by id + updatedAt (deletions travel as flags).
+   Push: rewrite only files changed on this phone, using the file's version as a lock; on a clash re-pull and retry. */
+let syncing=false,syncTimer=null,syncAgain=false;
+function markDirty(...keys){if(!S.sync)return;S.sync.dirty=S.sync.dirty||{};keys.forEach(k=>{if(k)S.sync.dirty[k]=1;});scheduleSync();}
+function scheduleSync(ms=15000){if(!S.sync||!S.sync.on)return;clearTimeout(syncTimer);syncTimer=setTimeout(()=>autoSync(),ms);}
+function normRepo(v){return String(v||'').trim().replace(/^https?:\/\/github\.com\//i,'').replace(/\.git$/,'').replace(/^\/+|\/+$/g,'');}
+async function gh(path,{method='GET',body,accept,repo,token}={}){
+  const s=S.sync;
+  return fetch('https://api.github.com/repos/'+(repo||s.repo)+path,{method,cache:'no-store',body,
+    headers:{'Authorization':'Bearer '+(token||s.token),'Accept':accept||'application/vnd.github+json',...(body?{'Content-Type':'application/json'}:{})}});
+}
+function b64enc(str){const b=new TextEncoder().encode(str);let s='';for(let i=0;i<b.length;i+=0x8000)s+=String.fromCharCode.apply(null,b.subarray(i,i+0x8000));return btoa(s);}
+function syncErrText(st){
+  if(st===401)return 'GitHub rejected the token. It may have expired: turn sync off and on with a new token.';
+  if(st===403)return 'The token is missing write access (Contents: Read and write), or GitHub is limiting requests.';
+  if(st===404)return 'Repository not found, or this token has no access to it.';
+  if(st==='conflict')return 'Both phones were syncing at once. Will retry shortly.';
+  if(st==='net')return 'Could not reach GitHub. Will retry when online.';
+  return 'GitHub error '+st+'. Will retry.';
+}
+function agoText(ts){const m=Math.round((Date.now()-ts)/6e4);return m<1?'just now':m<60?`${m} min ago`:m<1440?`${Math.round(m/60)} h ago`:`${Math.round(m/1440)} days ago`;}
+function syncStatus(){const s=S.sync;if(!s.on)return 'Off';if(syncing)return 'Syncing…';if(s.err)return s.err;if(!navigator.onLine)return 'Offline. Will sync when online.';return s.last?`Synced ${agoText(s.last)}`:'Waiting for first sync';}
+function setSyncUI(){const el=$('#syncStatus');if(el){el.textContent=syncStatus();el.closest('.nudge')?.classList.toggle('err',!!S.sync.err);}$('#gearBtn').classList.toggle('alert',!!(S.sync.on&&S.sync.err));}
+function fileFor(k){
+  if(k==='profiles')return JSON.stringify({app:'thali',kind:'profiles',profiles:S.profiles});
+  if(k==='foods')return JSON.stringify({app:'thali',kind:'foods',foods:S.foods});
+  return JSON.stringify({app:'thali',kind:'month',month:k,entries:S.entries.filter(e=>monthOf(e.day)===k).sort((a,b)=>a.day<b.day?-1:a.day>b.day?1:a.ts-b.ts)});
+}
+function mergeRemote(obj){
+  if(!obj||obj.app!=='thali')return false;
+  if(obj.kind==='profiles'){const n=mergeList(S.profiles,obj.profiles);if(n&&!prof()&&liveProfiles().length)S.settings.pid=liveProfiles()[0].id;return n>0;}
+  if(obj.kind==='foods'){const n=mergeList(S.foods,obj.foods);if(n)rebuildPersonal();return n>0;}
+  if(obj.kind==='month')return mergeList(S.entries,(obj.entries||[]).filter(e=>e&&e.id&&e.type&&e.day),(o,r)=>{if(o&&monthOf(o.day)!==monthOf(r.day))S.sync.dirty[monthOf(o.day)]=1;})>0;
+  return false;
+}
+async function autoSync(){
+  const s=S.sync;if(!s.on||!s.repo||!s.token)return;
+  if(syncing){syncAgain=true;return;}
+  if(!navigator.onLine){setSyncUI();return;}
+  syncing=true;setSyncUI();let changed=false;
+  try{
+    for(let attempt=0;;attempt++){
+      const lr=await gh('/contents/'+SYNC_DIR);let list=[];
+      if(lr.status===404){const rr=await gh('');if(!rr.ok)throw rr.status;}
+      else if(!lr.ok)throw lr.status;
+      else list=(await lr.json()).filter(f=>f.type==='file'&&/\.json$/.test(f.name));
+      const remote={};list.forEach(f=>remote[f.name]=f.sha);
+      for(const f of list){
+        if(s.shas[f.name]===f.sha)continue;
+        const fr=await gh('/contents/'+SYNC_DIR+'/'+f.name,{accept:'application/vnd.github.raw+json'});
+        if(!fr.ok)throw fr.status;
+        try{if(mergeRemote(JSON.parse(await fr.text())))changed=true;}catch(e){}
+        s.shas[f.name]=f.sha;
+      }
+      save();
+      let clash=false;
+      for(const k of Object.keys(s.dirty||{})){
+        const name=k+'.json';
+        if(k!=='profiles'&&k!=='foods'&&!remote[name]&&!S.entries.some(e=>monthOf(e.day)===k)){delete s.dirty[k];continue;}
+        const pr=await gh('/contents/'+SYNC_DIR+'/'+name,{method:'PUT',body:JSON.stringify({message:`${S.settings.device||'Thali'}: ${k}`,content:b64enc(fileFor(k)),...(remote[name]?{sha:remote[name]}:{})})});
+        if(pr.status===409||pr.status===422){clash=true;break;}
+        if(!pr.ok)throw pr.status;
+        const j=await pr.json();s.shas[name]=remote[name]=j.content.sha;delete s.dirty[k];save();
+      }
+      if(!clash)break;
+      if(attempt>=3)throw 'conflict';
+      await new Promise(r=>setTimeout(r,800+Math.random()*1200));
+    }
+    s.last=Date.now();s.err='';
+  }catch(e){s.err=syncErrText(e instanceof TypeError?'net':e);}
+  finally{
+    syncing=false;save();
+    if(changed&&!sheetOpen())render();else if(changed)renderHeader();
+    setSyncUI();
+    if(syncAgain){syncAgain=false;scheduleSync(2000);}
+  }
+}
+async function syncTurnOn(){
+  const repo=normRepo($('#s-repo').value),token=$('#s-token').value.trim();
+  if(!/^[\w.-]+\/[\w.-]+$/.test(repo))return toast('Enter the repository as username/repository-name.');
+  if(!token)return toast('Paste the access token.');
+  toast('Checking connection…');
+  let r;try{r=await gh('',{repo,token});}catch(e){return toast('Could not reach GitHub. Check the internet connection.');}
+  if(r.status===401)return toast('GitHub rejected this token. Check it was copied completely.');
+  if(!r.ok)return toast('Repository not found, or the token has no access to it.');
+  const info=await r.json();
+  if(!info.private)return toast('That repository is public. Use a private one for your food log.');
+  Object.assign(S.sync,{repo,token,on:true,err:'',shas:{},dirty:{}});
+  new Set(S.entries.map(e=>monthOf(e.day))).forEach(k=>S.sync.dirty[k]=1);
+  if(S.profiles.length)S.sync.dirty.profiles=1;if(S.foods.length)S.sync.dirty.foods=1;
+  save();refreshView();toast('Sync is on. First sync running…');autoSync();
+}
+function syncTurnOff(){
+  if(!confirm('Turn off automatic sync on this phone? Your entries stay on the phone, and the token is removed from it.'))return;
+  Object.assign(S.sync,{on:false,token:'',err:'',shas:{},dirty:{}});save();setSyncUI();refreshView();toast('Sync turned off');
+}
+/* ---------- barcode scanning ----------
+   Uses the phone's built-in BarcodeDetector where available (Chrome/Android), otherwise
+   zxing-wasm (bundled in lib/, works offline on iPhone). Photo fallback for cameras the
+   browser can't stream. Products are looked up at Open Food Facts and kept on the phone. */
+let CAM=null,zxReady=null;
+function loadZx(){
+  if(zxReady)return zxReady;
+  zxReady=new Promise((res,rej)=>{const s=document.createElement('script');s.src='lib/zxing-reader.js';
+    s.onload=()=>{try{ZXingWASM.prepareZXingModule({overrides:{locateFile:(p,pre)=>p.endsWith('.wasm')?new URL('lib/zxing_reader.wasm',location.href).href:pre+p}});res(ZXingWASM);}catch(e){rej(e);}};
+    s.onerror=()=>{zxReady=null;rej(new Error('load'));};document.head.appendChild(s);});
+  return zxReady;
+}
+async function nativeDetector(){
+  try{if(!('BarcodeDetector' in window))return null;const f=await BarcodeDetector.getSupportedFormats();if(!f.includes('ean_13'))return null;
+    return new BarcodeDetector({formats:['ean_13','ean_8','upc_a','upc_e'].filter(x=>f.includes(x))});}catch(e){return null;}
+}
+async function decodeSource(src){
+  if(CAM&&CAM.det){const r=await CAM.det.detect(src);return r[0]?r[0].rawValue:null;}
+  const zx=await loadZx();
+  let input=src;
+  if(src instanceof HTMLVideoElement){const c=CAM.canvas,w=src.videoWidth,h=src.videoHeight;if(!w)return null;
+    const sw=Math.min(w,1280),sh=Math.round(h*sw/w);c.width=sw;c.height=sh;const x=c.getContext('2d',{willReadFrequently:true});x.drawImage(src,0,0,sw,sh);input=x.getImageData(0,0,sw,sh);}
+  const r=await zx.readBarcodes(input,{formats:['EANUPC'],tryHarder:true,maxNumberOfSymbols:1});
+  return r&&r[0]&&r[0].isValid?r[0].text:null;
+}
+function scanView(){
+  return {html:()=>`${head('Scan barcode',{back:STACK.length>1})}<div class="sh-body">
+    <div class="cam"><video id="vid" playsinline muted autoplay></video><div class="frame"></div><div class="line"></div></div>
+    <p class="muted" id="scanMsg" style="text-align:center;margin-bottom:12px">Starting camera…</p>
+    <div class="row-btns"><button class="btn" data-act="scan-photo">${I.camera.replace('<svg','<svg style="width:18px;height:18px;vertical-align:-3px;margin-right:6px"')}Take a photo</button><button class="btn" data-act="scan-type">Type the number</button></div>
+    <div id="scanType" hidden style="margin-top:12px"><div class="search"><div class="in" style="flex:1"><input id="ean" inputmode="numeric" placeholder="e.g. 4056489123456" style="padding-left:12px"></div><button class="btn primary small" data-act="scan-go">Look up</button></div></div>
+    </div>`,mount:startCamera};
+}
+async function startCamera(){
+  stopCamera();
+  CAM={stream:null,timer:null,busy:false,canvas:document.createElement('canvas'),det:await nativeDetector()};
+  const msg=t=>{const m=$('#scanMsg');if(m)m.textContent=t;};
+  if(!CAM.det)loadZx().catch(()=>msg('The barcode reader could not load. Open the app once while online.'));
+  try{
+    CAM.stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}},audio:false});
+    const v=$('#vid');if(!v||!CAM)return stopCamera();v.srcObject=CAM.stream;await v.play().catch(()=>{});
+    msg('Hold the barcode inside the frame');
+    const tick=async()=>{
+      if(!CAM||!$('#vid'))return;
+      if(!CAM.busy&&v.readyState>=2){CAM.busy=true;try{const code=await decodeSource(v);if(code){vib();stopCamera();return lookupCode(code);}}catch(e){}CAM.busy=false;}
+      CAM.timer=setTimeout(tick,180);
+    };tick();
+  }catch(e){msg('Camera not available here. Use “Take a photo” or type the number.');}
+}
+function stopCamera(){if(!CAM)return;clearTimeout(CAM.timer);if(CAM.stream)CAM.stream.getTracks().forEach(t=>t.stop());CAM=null;}
+async function scanPhoto(file){
+  const m=$('#scanMsg');if(m)m.textContent='Reading the photo…';
+  try{let code=null;const det=await nativeDetector();
+    if(det){const bmp=await createImageBitmap(file);const r=await det.detect(bmp);code=r[0]&&r[0].rawValue;}
+    else{const zx=await loadZx();const r=await zx.readBarcodes(file,{formats:['EANUPC'],tryHarder:true,maxNumberOfSymbols:1});code=r&&r[0]&&r[0].isValid?r[0].text:null;}
+    if(code){stopCamera();return lookupCode(code);}
+    if(m)m.textContent='No barcode found in that photo. Try closer, sharper, with good light.';
+  }catch(e){if(m)m.textContent='Could not read that photo.';}
+}
+async function lookupCode(code){
+  code=String(code).replace(/\D/g,'');if(code.length<6)return toast('That does not look like a barcode.');
+  const local=[...PF.values()].find(f=>f.code===code);
+  const toPortion=f=>{STACK.pop();if(ADD&&ADD.mode){openPortion(f);}else{ADD=null;openPortion(f,{},'log');}};
+  if(local)return toPortion(local);
+  if(!navigator.onLine){STACK.pop();toast('Offline: create the product now, or scan again when online.');return openFoodForm(null,{code});}
+  replaceView({html:()=>`${head('Looking up…')}<div class="sh-body"><p class="muted" style="text-align:center;margin:30px 0"><span class="spin"></span>Asking Open Food Facts about ${esc(code)}</p></div>`});
+  try{
+    const r=await offProduct(code);
+    if(r.food){const f=savePersonalFood(r.food);toast('Product saved for offline use');return toPortion(f);}
+    STACK.pop();toast(r.name?'Product has no nutrition values yet. Enter them from the label.':'Product not in Open Food Facts yet. Enter it from the label.');
+    openFoodForm(null,{code,name:r.name||''});
+  }catch(e){STACK.pop();toast('Open Food Facts did not answer. Enter it from the label or try later.');openFoodForm(null,{code});}
+}
+/* ---------- actions ---------- */
+const A={
+  tab:b=>{VIEW.tab=b.dataset.t;window.scrollTo(0,0);render();},
+  add:b=>openAdd(b.dataset.meal),
+  day:b=>{const n=addDay(VIEW.day,+b.dataset.d);if(n>today())return;VIEW.day=n;render();},
+  'day-today':()=>{VIEW.day=today();render();},
+  close:()=>closeSheet(),back:()=>backView(),
+  undo:()=>{const u=window._undo;window._undo=null;$('#toast').classList.remove('on');if(u)u();},
+  'set-meal':b=>{ADD.meal=b.dataset.meal;$$('[data-act="set-meal"]').forEach(x=>x.classList.toggle('on',x===b));if(!ADD.q)renderSearchRes();},
+  'q-clear':()=>{ADD.q='';const q=$('#q');q.value='';q.focus();$('.clr').hidden=true;renderSearchRes();},
+  pick:b=>{const f=getFood(b.dataset.id);if(f)openPortion(f);},
+  'pick-recent':b=>{const e=S.entries.find(x=>x.id===b.dataset.id);if(!e)return;
+    const f=(e.fid&&getFood(e.fid))||indexFood({id:e.fid||'x:'+e.id,name:e.name,n:e.n,ps:e.u&&e.u!=='g'&&e.q?[[e.u,e.g/e.q]]:[],src:e.src||'c',tags:''});
+    openPortion(f,{u:e.u||'g',q:e.q||1,g:e.g});},
+  'pick-online':b=>{const list=ADD.online&&ADD.online[b.dataset.src];const f=list&&list[+b.dataset.i];if(f)openPortion(f);},
+  online:b=>searchOnline(b.dataset.w),
+  quick:()=>pushView(quickView()),
+  'q-meal':b=>{window._qmeal=b.dataset.meal;$$('[data-act="q-meal"]').forEach(x=>x.classList.toggle('on',x===b));},
+  'quick-save':b=>quickSave(b.dataset.id),
+  unit:b=>{const u=b.dataset.u,g=portionGrams();if(u==='g')PORT.g=r1(g);else if(PORT.u==='g')PORT.q=1;PORT.u=u;refreshView();},
+  qty:b=>{const d=+b.dataset.d;if(PORT.u==='g'){const step=PORT.g>=100?10:5;PORT.g=Math.max(0,Math.round((PORT.g+d*step)/step)*step);$('#qv').value=fmtG(PORT.g);}
+    else{const step=PORT.q<1||(d<0&&PORT.q<=1)?0.25:0.5;PORT.q=Math.max(0.25,Math.round((PORT.q+d*step)*4)/4);$('#qv').value=fmtG(PORT.q);}updPortion();},
+  'port-meal':b=>{PORT.meal=b.dataset.meal;$$('[data-act="port-meal"]').forEach(x=>x.classList.toggle('on',x===b));const pa=$('[data-act="port-add"]');if(pa)pa.textContent=`Add to ${MEALNAME[PORT.meal].toLowerCase()}`;},
+  'port-add':()=>portionAdd(),'port-save':()=>portionSave(),
+  'port-del':()=>{delEntry(PORT.editId);closeSheet();},
+  'del-entry':b=>{delEntry(b.dataset.id);closeSheet();},
+  'edit-entry':b=>editEntry(b.dataset.id),
+  fav:b=>{const p=prof();if(!p)return;p.favs=p.favs||[];let f=PORT.f;
+    if((f.src==='o'||f.src==='f')&&!PF.has(f.id))f=PORT.f=savePersonalFood({...f});
+    const i=p.favs.indexOf(f.id);if(i>=0)p.favs.splice(i,1);else p.favs.unshift(f.id);touch(p);markDirty('profiles');save();
+    b.classList.toggle('on',i<0);b.innerHTML=i<0?I.starF:I.star;toast(i<0?'Added to favourites':'Removed from favourites');},
+  'copy-meal':b=>copyMeal(b.dataset.meal,b.dataset.from),
+  water:b=>{const p=prof(),ml=+b.dataset.ml;
+    if(ml<0){const l=dayEntries(VIEW.day,p.id).filter(e=>e.type==='water').sort((a,b)=>b.ts-a.ts)[0];if(l){delEntry(l.id,true);}}
+    else putEntry({id:uid(),pid:p.id,type:'water',day:VIEW.day,ts:Date.now(),ml});vib();render();},
+  weight:()=>pushView(weightView(VIEW.day)),
+  'w-step':b=>{const el=$('#wkg');const v=num(el.value)||latestWeight(prof(),today())||70;el.value=String(r1(v+(+b.dataset.d))).replace('.',',');},
+  'w-save':b=>weightSave(b.dataset.id),
+  scan:()=>{if(!S.settings.off)toast('Open Food Facts is off in Settings: scans only find foods you saved.');pushView(scanView());},
+  'scan-photo':()=>$('#photoIn').click(),
+  'scan-type':()=>{const t=$('#scanType');t.hidden=false;$('#ean').focus();},
+  'scan-go':()=>{const v=$('#ean').value;stopCamera();lookupCode(v);},
+  'food-new':b=>openFoodForm(null,{name:b.dataset.name||''}),
+  'food-edit':b=>{const f=getFood(b.dataset.id);if(!f)return;if(f.src==='r')openRecipe(f);else openFoodForm(f);},
+  'food-copy':b=>{const f=getFood(b.dataset.id);if(f)openFoodForm(f);},
+  'open-food':b=>{const f=getFood(b.dataset.id);if(!f)return;ADD=null;openPortion(f,{},'log');},
+  'ff-basis':b=>{readFF();FF.basis=b.dataset.b;refreshView();},
+  'ff-addps':()=>{readFF();FF.ps.push(['',NaN]);refreshView();},
+  'ff-rmps':b=>{readFF();FF.ps.splice(+b.dataset.i,1);refreshView();},
+  'ff-veg':b=>{readFF();FF.veg=b.dataset.v;refreshView();},
+  'ff-save':()=>ffSave(),'ff-del':()=>ffDelete(),
+  'recipe-new':()=>openRecipe(null),
+  'rc-add':()=>{RC.name=$('#rc-name').value;ADD=ADD||{meal:defaultMeal(),day:VIEW.day,added:[],mode:'log',q:''};openAdd(null,'recipe');},
+  'rc-rm':b=>{RC.ings.splice(+b.dataset.i,1);refreshView();},
+  'rc-save':()=>rcSave(),'rc-del':()=>rcDelete(),
+  'foods-seg':b=>{S.settings.foodsSeg=b.dataset.s;save();render();if(b.dataset.s==='db'){renderDbResults();}},
+  range:b=>{S.settings.trendRange=+b.dataset.n;save();render();},
+  profiles:()=>{if(!prof())return pushView(profileView());pushView(profilesView());},
+  'pick-profile':b=>{S.settings.pid=b.dataset.id;save();closeSheet();toast(`Showing ${prof().name}`);},
+  'profile-new':()=>pushView(profileView()),
+  'profile-edit':()=>{const p=prof();if(p)pushView(profileView(p));},
+  'pf-sex':b=>{readPF();PFD.sex=b.dataset.v;$$('[data-act="pf-sex"]').forEach(x=>x.classList.toggle('on',x===b));pfCalc();},
+  'pf-man':b=>{readPF();PFD.manual.on=!PFD.manual.on;b.classList.toggle('on',PFD.manual.on);$('#pf-mf').hidden=!PFD.manual.on;pfCalc();},
+  'pf-save':()=>pfSave(),'pf-del':()=>pfDelete(),
+  settings:()=>pushView(settingsView()),
+  't-nv':b=>{S.settings.hideNV=!S.settings.hideNV;b.classList.toggle('on',S.settings.hideNV);save();},
+  't-egg':b=>{S.settings.hideEgg=!S.settings.hideEgg;b.classList.toggle('on',S.settings.hideEgg);save();},
+  't-off':b=>{S.settings.off=!S.settings.off;b.classList.toggle('on',S.settings.off);save();},
+  't-offde':b=>{S.settings.offDE=!S.settings.offDE;b.classList.toggle('on',S.settings.offDE);save();},
+  theme:b=>{S.settings.theme=b.dataset.v;save();document.documentElement.dataset.theme=S.settings.theme==='auto'?'':S.settings.theme;refreshView();},
+  backup:()=>doBackup(),import:()=>$('#fileIn').click(),csv:()=>exportCsv(),
+  'db-update':()=>dbUpdate(),
+  'sync-on':()=>syncTurnOn(),'sync-off':()=>syncTurnOff(),'sync-now':()=>{autoSync();setSyncUI();},
+};
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]');if(!b||b.disabled)return;
+  const f=A[b.dataset.act];if(f){e.preventDefault();f(b);}
+});
+$('#scrim').addEventListener('click',()=>closeSheet());
+$('#fileIn').addEventListener('change',e=>{const f=e.target.files[0];e.target.value='';if(f)importFile(f);});
+$('#photoIn').addEventListener('change',e=>{const f=e.target.files[0];e.target.value='';if(f)scanPhoto(f);});
+document.addEventListener('input',e=>{if(e.target.id==='dbq'){VIEW.dbq=e.target.value;clearTimeout(window._dbt);window._dbt=setTimeout(renderDbResults,120);}});
+// swipe down on the sheet's top area to close
+(()=>{let y0=null;const sh=$('#sheet');
+  sh.addEventListener('touchstart',e=>{const t=e.target;if(t.closest('.grab')||t.closest('.sh-head')&&!t.closest('button'))y0=e.touches[0].clientY;else y0=null;},{passive:true});
+  sh.addEventListener('touchmove',e=>{if(y0==null)return;const dy=e.touches[0].clientY-y0;if(dy>0)sh.style.transform=`translateY(${dy}px)`;},{passive:true});
+  sh.addEventListener('touchend',e=>{if(y0==null)return;const dy=(e.changedTouches[0].clientY-y0);sh.style.transform='';y0=null;if(dy>90)closeSheet();});
+})();
+
+/* ---------- start ---------- */
+(async()=>{
+  S=await loadState();
+  if(!S.settings.pid&&liveProfiles().length)S.settings.pid=liveProfiles()[0].id;
+  rebuildPersonal();render();
+  await loadDb(false);
+  if(VIEW.tab==='foods')render();
+  if(S.sync.on){autoSync();setInterval(()=>{if(document.visibilityState==='visible')autoSync();},60000);}
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){
+    if(VIEW.day!==today()&&!sheetOpen()&&VIEW._lastToday&&VIEW.day===VIEW._lastToday){VIEW.day=today();render();}
+    VIEW._lastToday=today();if(S.sync.on)autoSync();}});
+  VIEW._lastToday=today();
+  window.addEventListener('online',()=>{if(S.sync.on)autoSync();});
+  if('serviceWorker' in navigator&&location.protocol!=='file:')navigator.serviceWorker.register('sw.js').catch(()=>{});
+  if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().catch(()=>{});
+})();
+</script>
+</body>
+</html>

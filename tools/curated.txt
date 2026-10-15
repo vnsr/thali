@@ -1,0 +1,455 @@
+# Thali curated foods. Values per 100 g as eaten (home-style estimates from IFCT/USDA/BLS reference values).
+# name | kcal protein carbs fat fibre | portions (label=grams;...) | tags (e=egg, n=meat/fish, x=brand approx) | aliases
+
+# Indian breads
+Roti / chapati (plain) | 280 9 52 3.5 7 | 1 roti=40;2 roti=80;3 roti=120 | | rotli,phulka,fulka,chapati,chapatti
+Roti with ghee | 330 8.5 49 10.5 6.5 | 1 roti=45;2 roti=90 | | rotli ghee,chapati ghee
+Phulka (small, no oil) | 280 9 52 3.5 7 | 1 phulka=30;3 phulka=90 | | fulka,rotli
+Bhakri (wheat) | 380 9 55 13 6 | 1 bhakri=60 | | bhakhri
+Bajra rotla | 330 9 55 8 9 | 1 rotla=70 | | bajra roti,millet roti,rotlo
+Jowar roti | 300 8.5 58 3.5 7 | 1 roti=55 | | jowar bhakri,sorghum roti
+Methi thepla | 330 9 45 13 6 | 1 thepla=40;3 thepla=120 | | thepla,theplu
+Plain paratha | 320 7.5 45 12.5 5 | 1 paratha=80 | | parantha,paratha plain
+Aloo paratha | 260 6 38 9.5 4 | 1 paratha=120 | | aloo parantha,potato paratha
+Gobi paratha | 240 6 35 8.5 4.5 | 1 paratha=120 | | gobhi paratha,cauliflower paratha
+Paneer paratha | 290 11 33 12.5 4 | 1 paratha=120 | | paneer parantha
+Paneer cheese paratha | 310 12.5 31 15 3.5 | 1 paratha=130 | | cheese paratha
+Methi paratha | 300 8 42 11 6 | 1 paratha=70 | | methi parantha
+Makki ki roti | 320 6.5 48 11 6 | 1 roti=60 | | makai roti,corn roti
+Missi roti | 300 11 45 8 7 | 1 roti=50 | | besan roti
+Tandoori roti | 270 9 52 2.5 6 | 1 roti=60 | | tandoori
+Naan (plain) | 290 9 50 5.5 2.2 | 1 naan=90 | | nan
+Butter naan | 320 8.5 48 10 2 | 1 naan=100 | | butter nan
+Garlic naan | 310 8.5 49 9 2 | 1 naan=100 | | garlic nan
+Kulcha | 300 8 50 7 2 | 1 kulcha=80 | | amritsari kulcha
+Bhatura | 330 7.5 42 14.5 2 | 1 bhatura=80 | | bhature
+Poori | 340 7 42 16 4 | 1 poori=25;4 poori=100 | | puri
+Puran poli | 310 7 52 8 4 | 1 poli=80 | | puranpoli,vedmi
+Pav (bread roll) | 270 8.5 50 3.5 2.5 | 1 pav=40;2 pav=80 | | pao,ladi pav
+Pav with butter (toasted) | 330 7.5 46 13 2.2 | 1 pav=45;2 pav=90 | | buttered pav
+Wheat tortilla wrap | 310 8.5 51 7.5 3 | 1 wrap=62 | | wrap,tortilla,weizentortilla
+High-protein wrap (Lidl-type, approx.) | 290 14 38 7 8 | 1 wrap=64 | x | protein wrap,lidl wrap
+Khakhra (plain/methi) | 400 12 62 11 9 | 1 khakhra=20;2 khakhra=40 | | khakra
+
+# Rice & khichdi
+Steamed rice (white, cooked) | 130 2.7 28 0.3 0.4 | 1 katori=150;1 plate=250;1 cup=160 | | bhaat,chawal,rice,reis,basmati
+Jeera rice | 160 2.8 28 4 0.6 | 1 katori=150;1 plate=250 | | cumin rice
+Brown rice (cooked) | 123 2.7 25.6 1 1.6 | 1 katori=150;1 plate=250 | | naturreis,vollkornreis
+Veg pulao | 150 3 25 4.2 1.3 | 1 katori=150;1 plate=250 | | pulav,pilaf
+Veg biryani | 165 3.5 24 6 1.6 | 1 plate=300;1 katori=150 | | biriyani
+Khichdi (moong dal & rice) | 130 4.5 20 3.5 1.8 | 1 katori=200;1 plate=300 | | khichri,khichadi
+Masala khichdi | 140 4.5 20 4.5 2.2 | 1 katori=200;1 plate=300 | | vaghareli khichdi
+Curd rice | 140 3.6 20 5 0.3 | 1 katori=200 | | dahi bhaat,thayir sadam
+Lemon rice | 175 3 28 5.8 1 | 1 plate=250 | | chitranna
+Veg fried rice (Indo-Chinese) | 175 3.8 27 5.6 1.2 | 1 plate=250 | | fried rice
+Rajma chawal (plate) | 128 4.6 22.5 2.4 2.8 | 1 plate=400 | | rajma rice
+Chole chawal (plate) | 140 4.6 23 3 2.8 | 1 plate=400 | | chole rice,chana rice
+Dal chawal (plate) | 122 4.2 21 2.2 1.6 | 1 plate=400 | | dal rice,dal bhaat
+Dal tadka + jeera rice (plate) | 140 4.4 21.5 4 1.8 | 1 plate=400 | | dal rice
+
+# Dals & legume curries
+Dal tadka (toor) | 115 6 14 4 3 | 1 katori=150;1 bowl=250 | | toor dal,tuvar dal,arhar,dal fry
+Gujarati dal (khatti-meethi) | 85 4 12 2.5 2 | 1 katori=150;1 bowl=250 | | gujarati daal,tuvar dal
+Moong dal (yellow) | 105 6.5 13 3 2.5 | 1 katori=150;1 bowl=250 | | mung dal,dhuli moong
+Punjabi whole moong (sabut moong) | 115 7 15 3 4.5 | 1 katori=150;1 bowl=250 | | mung,moong masala,green moong
+Urad dal (dhuli) | 120 7 14 4 3 | 1 katori=150 | | urad
+Dal makhani | 160 6.5 15 8.5 4.5 | 1 katori=150 | | kali dal,maa ki dal
+Chana dal | 125 7 16 4 4 | 1 katori=150 | | chana daal
+Masoor dal | 110 7 14 3 3.5 | 1 katori=150 | | red lentil dal,linsen dal
+Mixed dal | 110 6.5 14 3.2 3.2 | 1 katori=150 | | panchmel dal
+Sambar | 70 3 9.5 2.3 2.5 | 1 katori=200 | | sambhar
+Rasam | 35 1 5 1.2 0.6 | 1 katori=200 | | saaru
+Gujarati kadhi | 70 2.5 7 3.5 0.5 | 1 katori=200 | | kadhi
+Punjabi kadhi pakora | 110 3.5 9 6.8 1 | 1 katori=200 | | kadhi pakoda
+Chole (chana masala) | 150 6.5 18 5.8 5.5 | 1 katori=150;1 bowl=250 | | chole chana,chana masala,chickpea curry,kabuli chana
+Rajma curry | 125 6 16 4 5 | 1 katori=150;1 bowl=250 | | rajma,kidney bean curry
+Black chana curry | 140 7 17 5 6 | 1 katori=150 | | kala chana
+Lobia curry | 120 6.5 15 4 4.5 | 1 katori=150 | | chawli,black eyed beans
+Usal (matki/vatana) | 110 6 14 3.5 4 | 1 bowl=250;1 katori=150 | | usal,matki usal
+Sev usal | 165 6.5 17 8 4 | 1 bowl=250 | | sev usal vadodara
+Misal (with farsan) | 170 6.5 17 8.5 4 | 1 bowl=250 | | misal pav
+Ragda (white peas) | 110 6 16 2.5 4.5 | 1 katori=150 | | ragda
+Soya chunks curry | 140 12 9 6 3 | 1 katori=150 | | soya curry,meal maker
+Sprouts salad (moong) | 70 5 10 1.5 3 | 1 katori=120 | | sprouted moong,fangavela mag
+
+# Sabzi & curries
+Paneer butter masala | 230 8.5 8 18.5 1.2 | 1 katori=150 | | paneer makhani
+Cheese butter masala | 240 8 8 19.5 1 | 1 katori=150 | | cheese masala
+Kadai paneer | 200 9 7 15 1.8 | 1 katori=150 | | karahi paneer
+Palak paneer | 165 8 5.5 12.5 2 | 1 katori=150 | | saag paneer
+Matar paneer | 170 7.5 9 11.5 2.5 | 1 katori=150 | | mutter paneer
+Paneer bhurji | 230 13 5 17.5 1 | 1 katori=120 | | paneer scramble
+Paneer sabzi (home-style) | 190 9.5 6 14 1.5 | 1 katori=150 | | paneer sabji,paneer curry
+Shahi paneer | 240 8 8 20 1 | 1 katori=150 | | paneer korma
+Chilli paneer | 240 10 12 17 1.5 | 1 plate=200 | | paneer chilli
+Malai kofta | 230 5.5 13 17.5 2 | 1 katori=150 | | kofta curry
+Dum aloo | 145 2 15 8.5 2 | 1 katori=150 | | dum alu
+Aloo gobi | 100 2.3 10 6 2.5 | 1 katori=150 | | aloo gobhi,alu gobi
+Aloo matar | 110 3 13 5 3 | 1 katori=150 | | alu mutter
+Jeera aloo | 135 2 17 6.5 2 | 1 katori=150 | | jeera alu
+Bataka nu shaak | 120 2 16 5.5 2 | 1 katori=150 | | potato sabzi,batata bhaji,aloo sabzi
+Sev tameta nu shaak | 145 3.5 12 9.5 2 | 1 katori=150 | | sev tamatar
+Undhiyu | 160 4.5 14 10 4 | 1 katori=150 | | undhiyun
+Bhindi masala | 110 2.2 9 7.3 3.5 | 1 katori=120 | | okra,bhinda nu shaak
+Baingan bharta | 95 2 8 6.3 3 | 1 katori=150 | | ringan no olo,brinjal bharta
+Mix veg sabzi | 95 2.5 9 5.5 3 | 1 katori=150 | | mixed vegetable,mix veg
+Lauki sabzi | 60 1.2 6 3.5 1.5 | 1 katori=150 | | dudhi,bottle gourd
+Cabbage sabzi | 75 1.8 7 4.5 2.5 | 1 katori=150 | | kobi nu shaak,patta gobhi
+Tindora sabzi | 80 1.6 6 5.5 2.5 | 1 katori=150 | | tindla,ivy gourd
+Methi aloo | 120 2.5 13 6.5 3 | 1 katori=150 | | aloo methi
+Sarson ka saag | 90 3 6 6 3 | 1 katori=150 | | saag
+Mushroom masala | 95 3 6 6.8 1.5 | 1 katori=150 | | mushroom curry,pilze
+Tofu bhurji | 150 11 4 10 1 | 1 katori=120 | | tofu scramble
+Veg kofta / manchurian gravy | 145 3 14 8.5 2 | 1 katori=150 | | manchurian
+Gobi manchurian (dry) | 230 4 25 12.5 2.5 | 1 plate=150 | | gobhi manchurian
+Thai green curry (veg, coconut) | 120 2.5 7 9 2 | 1 bowl=250 | | green curry
+Egg curry | 150 8 5 11 1 | 1 katori=150;1 egg + gravy=120 | e | anda curry
+Egg bhurji | 200 12 3 15.5 0.8 | 1 katori=120 | e | anda bhurji
+Chicken curry | 165 14 4 10 0.8 | 1 katori=150 | n | murgh
+Butter chicken | 200 13 6 14 0.8 | 1 katori=150 | n | murgh makhani
+Chicken tikka | 160 25 3 5.5 0.5 | 1 piece=30;1 plate=200 | n | tikka
+Chicken biryani | 180 9 21 6.5 1 | 1 plate=300 | n | biriyani chicken
+Fish curry | 130 13 4 7 0.5 | 1 katori=150 | n | machli
+Mutton curry | 200 15 4 14 0.5 | 1 katori=150 | n | gosht
+
+# Gujarati farsan & street food
+Khaman dhokla | 160 6.5 23 4.5 2 | 1 piece=30;4 pieces=120 | | khaman,besan dhokla,dhokla
+White dhokla (khatta) | 140 4.5 24 3 1.5 | 1 piece=30;4 pieces=120 | | idada,khatta dhokla
+Rava dhokla (Hartweizengrieß) | 150 4.5 25 3.5 1.5 | 1 piece=30;4 pieces=120 | | sooji dhokla,semolina dhokla,suji dhokla
+Sev khamni | 210 7.5 22 10.5 3 | 1 katori=120;1 plate=200 | | amiri khaman
+Handvo | 200 6.5 26 8 3 | 1 piece=100 | | handva
+Khandvi | 160 6.5 14 9 2 | 1 piece=20;5 pieces=100 | | patuli
+Patra | 210 5 25 10 4 | 1 piece=25;4 pieces=100 | | patrode,alu vadi
+Muthia (steamed) | 190 5.5 28 6.5 4 | 1 piece=30;4 pieces=120 | | muthiya,dudhi muthia
+Fafda | 520 13 50 30 6 | 1 serving=50 | | fafda jalebi
+Jalebi | 410 2.5 65 16 0.5 | 1 piece=25;100 g=100 | | jilebi
+Gathiya | 540 14 45 34 6 | 1 handful=30 | | ganthiya,bhavnagari gathiya
+Sev (namkeen) | 550 15 42 36 6 | 1 tbsp=8;1 handful=30 | | nylon sev,aloo sev
+Chevdo / chivda | 480 9 52 26 4 | 1 handful=30;1 katori=60 | | chivda,chiwda,namkeen
+Chakri / chakli | 510 9 55 28 4 | 1 piece=15 | | chakli,murukku
+Bhakarwadi | 500 9 55 27 4 | 1 piece=10 | | bakarwadi
+Dabeli | 210 5 32 7 3 | 1 dabeli=130 | | kutchi dabeli
+Khasta kachori | 420 8 45 23 4 | 1 kachori=50 | | kachori
+Samosa (aloo) | 300 5 32 17 3 | 1 samosa=80 | | samosa
+Veg pakora | 290 7 25 18 4 | 1 piece=20;5 pieces=100 | | bhajiya,bhajia,pakoda
+Batata vada | 250 5 30 12.5 3 | 1 vada=70 | | aloo bonda,bonda
+Vada pav | 280 6.5 38 11.5 3 | 1 vada pav=150 | | wada pav
+Pav bhaji (bhaji only) | 110 2.5 12 6 3 | 1 katori=200;1 bowl=250 | | bhaji
+Pav bhaji (plate, 2 buttered pav) | 170 4.2 23 7.5 2.6 | 1 plate=340 | | pav bhaji plate
+Bhel puri | 180 4.5 30 5 3 | 1 plate=150;1 bowl=200 | | bhel,bhelpuri,mamra bhel
+Sev puri | 260 5 32 12 3 | 1 plate (6)=150 | | sevpuri
+Pani puri | 160 3.5 26 4.5 2.5 | 1 piece=20;6 pieces=120 | | golgappa,puchka,pakodi
+Dahi puri | 190 4.5 26 7.5 2 | 1 piece=25;6 pieces=150 | | dahi batata puri
+Aloo chaat | 160 2.5 22 7 2.5 | 1 plate=150 | | alu chaat
+Ragda pattice | 170 5 24 6 4 | 1 plate=250 | | ragda patties
+Aloo tikki | 210 3.5 28 9.5 3 | 1 tikki=60 | | alu tikki,potato patty
+Frankie (veg patty roll) | 220 6 30 8.5 3 | 1 frankie=200 | | kathi roll,veg roll,frankie roll
+Paneer kathi roll | 230 9.5 26 10 2.5 | 1 roll=220 | | paneer roll,paneer frankie
+Veg momos (steamed) | 160 4.5 26 4 2 | 1 piece=25;8 pieces=200 | | momo,dumplings
+Veg hakka noodles | 165 4 24 6 2 | 1 plate=250 | | hakka noodles,chow mein
+Tofu chilli noodles (schezwan) | 165 7 21 6 2 | 1 plate=300 | | schezwan noodles,tofu noodles
+Chinese noodles with spaghetti | 160 5 24 5 2 | 1 plate=300 | | desi chinese spaghetti
+Maggi masala noodles (prepared) | 160 3.2 21.5 6.8 1 | 1 packet=200 | | maggi,instant noodles
+Zucchini chilla (besan & yoghurt) | 150 7.5 15 6.5 3.5 | 1 chilla=80;2 chilla=160 | | zucchini cheela,besan chilla
+Besan chilla (plain) | 210 10 22 9 5 | 1 chilla=70;2 chilla=140 | | cheela,pudla,pudla besan
+Moong dal chilla | 170 9 20 6 4 | 1 chilla=80 | | moong chilla,pesarattu
+
+# South Indian & breakfast
+Idli | 130 4 27 0.4 1.5 | 1 idli=40;3 idli=120 | | idly
+Plain dosa | 170 4 27 5 1.2 | 1 dosa=80 | | dosai
+Masala dosa | 180 3.8 26 7 2 | 1 dosa=200 | | dosa masala
+Rava dosa | 190 3.5 26 8 1.2 | 1 dosa=100 | | rava dosai,sooji dosa
+Uttapam | 155 4.2 25 4.5 1.8 | 1 uttapam=150 | | uthappam
+Medu vada | 290 9 27 16 4 | 1 vada=50 | | medu wada,vada
+Upma (rava) | 150 3.5 22 5.5 1.5 | 1 katori=180;1 plate=250 | | upma,sooji upma
+Bataka poha | 150 3 25 4.5 1.3 | 1 plate=180;1 katori=120 | | poha,kanda poha,aloo poha
+Pongal | 140 4 20 5 1.2 | 1 katori=200 | | ven pongal
+Coconut chutney | 230 3 9 20.5 5 | 1 tbsp=15;1 katori=60 | | nariyal chutney
+Green chutney | 50 2 7 1.5 3 | 1 tbsp=15 | | hari chutney,mint chutney,dhaniya chutney
+Tamarind chutney (sweet) | 210 1 52 0.2 2 | 1 tbsp=20 | | imli chutney,khajur chutney
+Cucumber raita | 60 3 4.5 3.2 0.5 | 1 katori=100 | | raita,kheera raita
+Boondi raita | 95 3.2 7 6 0.5 | 1 katori=100 | | raita boondi
+Papad (roasted) | 370 25 60 3.3 10 | 1 papad=12 | | papadum,papar
+Papad (fried) | 480 20 50 22 9 | 1 papad=15 | | papad fried
+Pickle (mango, oil) | 180 1 8 16 2 | 1 tsp=10 | | achar,athanu,keri achar
+Kachumber salad | 25 1 4.5 0.2 1.5 | 1 katori=100 | | salad,cachumber
+
+# Sweets
+Gulab jamun | 320 4 50 12 0.5 | 1 piece=40 | | gulabjamun
+Rasgulla | 186 4 38 2 0 | 1 piece=40 | | rosogolla
+Rasmalai | 230 7 28 10 0 | 1 piece=60 | | ras malai
+Kheer (rice) | 140 4 20 5 0.2 | 1 katori=150 | | payasam,doodh pak
+Shrikhand | 270 7 38 10 0 | 1 katori=100 | | amrakhand
+Basundi | 220 6.5 28 9.5 0 | 1 katori=100 | | rabdi,rabri
+Kaju katli | 450 10 55 22 1.5 | 1 piece=15 | | kaju barfi
+Besan ladoo | 500 9 52 29 3 | 1 ladoo=35 | | besan laddu
+Motichoor ladoo | 430 5 60 19 1 | 1 ladoo=40 | | boondi ladoo
+Milk barfi | 400 9 55 17 0 | 1 piece=30 | | burfi,mawa barfi
+Mohanthal | 480 8 50 28 2 | 1 piece=40 | | mohan thal
+Sukhdi (gol papdi) | 480 6 58 25 2 | 1 piece=40 | | gol papdi
+Gajar halwa | 230 4.5 30 10 2 | 1 katori=120 | | gajar ka halwa,carrot halwa
+Sheera (sooji halwa) | 330 4 45 15 1 | 1 katori=120 | | sheera,suji halwa,shira
+Peanut chikki | 500 13 55 25 4 | 1 piece=25 | | chikki
+Kulfi | 230 6 25 12 0 | 1 kulfi=70 | | kulfi
+Ice cream (vanilla) | 207 3.5 24 11 0.5 | 1 scoop=65 | | eis,vanilleeis
+
+# Drinks
+Masala chai (milk & sugar) | 60 1.6 9 1.8 0 | 1 cup=150;1 mug=250 | | chai,tea,cha,masala tea
+Chai (milk, no sugar) | 32 1.6 2.6 1.7 0 | 1 cup=150;1 mug=250 | | chai no sugar
+Filter coffee (milk & sugar) | 65 1.8 9 2.2 0 | 1 cup=150 | | south indian coffee
+Coffee (black) | 2 0.1 0 0 0 | 1 cup=200;1 espresso=30 | | kaffee,espresso,americano,filterkaffee
+Coffee with milk (1.5%, no sugar) | 20 1.4 1.9 0.6 0 | 1 cup=200;1 mug=300 | | milchkaffee,kaffee mit milch
+Cappuccino (whole milk) | 40 2.2 3.2 2 0 | 1 cup=200 | | cappucino
+Latte macchiato (whole milk) | 55 3 4.3 2.9 0 | 1 glass=300 | | latte,caffe latte
+Sweet lassi | 100 3 16 2.5 0 | 1 glass=250 | | lassi
+Mango lassi | 105 2.8 18 2.4 0.4 | 1 glass=250 | | mango lassi
+Chaas (buttermilk, salted) | 20 1.2 1.8 0.8 0 | 1 glass=250 | | chhaas,chaach,buttermilk,mattha
+Nimbu pani (with sugar) | 40 0 10 0 0 | 1 glass=250 | | lemonade,shikanji
+Haldi doodh (turmeric milk) | 75 3.3 7.5 3.5 0 | 1 glass=200 | | turmeric latte,golden milk
+Hot chocolate (milk) | 85 3.4 11 3 0.8 | 1 mug=250 | | kakao,kakao
+Cola | 42 0 10.6 0 0 | 1 can=330;1 bottle=500 | | coke,pepsi,coca cola
+Cola zero / diet soda | 0.3 0 0 0 0 | 1 can=330;1 bottle=500 | | coke zero,diet coke,cola light
+Apfelschorle | 24 0 5.5 0 0 | 1 glass=300;1 bottle=500 | | apple spritzer,saftschorle
+Orange juice | 45 0.7 10.4 0.2 0.2 | 1 glass=250 | | orangensaft,oj
+Apple juice | 46 0.1 11.3 0.1 0.2 | 1 glass=250 | | apfelsaft
+Beer (Pils) | 42 0.5 3.1 0 0 | 0.33 l=330;0.5 l=500 | | bier,pils,lager
+Weißbier | 44 0.5 3.5 0 0 | 0.5 l=500 | | weissbier,hefeweizen,wheat beer
+Alcohol-free beer | 26 0.4 5.3 0 0 | 0.33 l=330;0.5 l=500 | | alkoholfrei,alkoholfreies bier
+Red wine | 85 0.1 2.6 0 0 | 1 glass=150 | | rotwein,wine
+White wine | 82 0.1 2.6 0 0 | 1 glass=150 | | weisswein,weißwein,wine
+Prosecco / sparkling wine | 75 0.1 1.5 0 0 | 1 glass=100 | | sekt,champagne
+Whisky / vodka (40%) | 231 0 0 0 0 | 1 shot=40 | | whiskey,rum,gin,vodka,spirits
+Oat drink (barista) | 59 1 6.6 3 0.8 | 1 glass=250;in coffee=100 | | hafermilch,oatly,oat milk
+Oat drink (regular) | 46 1 6.5 1.5 0.8 | 1 glass=250 | | haferdrink,oat milk
+Soy drink (unsweetened) | 33 3.3 0.2 1.8 0.5 | 1 glass=250 | | sojamilch,soya milk
+Almond drink (unsweetened) | 13 0.4 0.3 1.1 0.3 | 1 glass=250 | | mandelmilch,almond milk
+Coconut water | 19 0.7 3.7 0.2 1.1 | 1 glass=250 | | nariyal pani,kokoswasser
+
+# Dairy & eggs
+Milk 3.5% | 64 3.3 4.8 3.5 0 | 1 glass=250;100 ml=100;1 tbsp=15 | | vollmilch,whole milk,doodh,dudh,milch
+Milk 1.5% | 47 3.4 4.9 1.5 0 | 1 glass=250;100 ml=100 | | fettarme milch,low fat milk,milch
+Skimmed milk 0.1% | 34 3.4 4.9 0.1 0 | 1 glass=250 | | magermilch
+Dahi / curd (whole milk) | 65 3.4 4.7 3.6 0 | 1 katori=150;1 tbsp=20 | | dahi,curd,yogurt,yoghurt
+Yoghurt 1.5% | 50 4 5.5 1.5 0 | 1 katori=150;1 pot=500 | | joghurt,fettarmer joghurt
+Yoghurt 3.5% | 66 3.6 4.6 3.6 0 | 1 katori=150 | | joghurt natur
+Greek yoghurt 10% | 125 4.3 3.8 10 0 | 1 katori=150 | | griechischer joghurt
+Skyr (natural) | 63 11 4 0.2 0 | 1 katori=150;1 pot=450;1 tbsp=20 | | skyr natur,milbona skyr
+Magerquark | 67 12 4 0.2 0 | 1 katori=150;1 pack=250;1 tbsp=20 | | quark,low fat quark
+Quark 20% | 109 12.5 3.5 5 0 | 1 katori=150 | | speisequark
+Hüttenkäse / cottage cheese | 98 12 2.6 4.3 0 | 1 katori=100;1 pot=200 | | cottage cheese,koernig
+Paneer | 290 19 3 22.5 0 | 50 g=50;100 g=100;1 cube=10 | | panir,cottage cheese indian
+Tofu (natural) | 125 13.5 1.5 7 1 | 100 g=100;1 block=200 | | tofu natur,soy paneer
+Gouda | 356 25 0 27.4 0 | 1 slice=20;30 g=30 | | kaese,käse,cheese
+Cheddar | 403 25 1.3 33 0 | 1 slice=20 | | cheese slice
+Mozzarella | 250 18 1 19.5 0 | 1 ball=125;30 g=30 | | mozarella
+Feta | 265 17 0.5 21 0 | 30 g=30;1 pack=200 | | schafskaese,hirtenkäse
+Halloumi | 320 22 2 25 0 | 1 slice=40;1 pack=225 | | grillkäse
+Parmesan | 392 35 0 28 0 | 1 tbsp=5;20 g=20 | | parmigiano,grana padano
+Cream cheese | 250 5.5 3.5 24 0 | 1 tbsp=20 | | frischkäse,philadelphia
+Cream cheese (light) | 140 7.5 4.5 10 0 | 1 tbsp=20 | | frischkäse light
+Butter | 741 0.7 0.6 82 0 | 1 tsp=5;1 tbsp=12;for 1 slice=8 | | makhan,makkhan
+Ghee | 900 0 0 99.8 0 | 1 tsp=5;1 tbsp=13 | | butterschmalz,clarified butter
+Cream 30% (Sahne) | 290 2.4 3.2 30 0 | 1 tbsp=15;100 ml=100 | | sahne,schlagsahne,malai,cream
+Cooking cream 15% | 160 3 4 15 0 | 1 tbsp=15;1 pack=200 | | kochsahne,cuisine
+Sour cream 20% (Schmand) | 200 3 3.8 20 0 | 1 tbsp=20 | | schmand,saure sahne
+Egg (boiled or raw) | 143 12.6 0.7 9.5 0 | 1 egg=55;2 eggs=110 | e | ei,eier,anda,egg
+Fried egg | 196 13.6 0.8 15 0 | 1 egg=50;2 eggs=100 | e | spiegelei,bullseye
+Masala omelette (2 eggs) | 170 10.5 3 13 0.7 | 1 omelette=130 | e | omelet,omelett,anda omelette
+Scrambled eggs | 165 11 1.6 12.5 0 | 2 eggs=120 | e | ruehrei,rührei
+Egg white | 52 11 0.7 0.2 0 | 1 white=33 | e | eiweiß
+
+# Breakfast, bread & spreads
+Rolled oats (dry) | 372 13.5 58.7 7 10 | 40 g=40;1 tbsp=10;1 cup=80 | | haferflocken,oats,oatmeal
+Oats with milk (40 g oats + 200 ml 1.5%) | 101 5.1 13.9 2.4 1.7 | 1 bowl=240 | | porridge,haferbrei,oatmeal
+Kellogg's Chocos | 378 8.8 74 3.4 7.4 | 1 bowl=30;1 big bowl=45 | x | chocos,choco cereal
+Cornflakes | 378 7 84 0.9 3 | 1 bowl=30 | | corn flakes
+Müsli (no added sugar) | 360 10 60 6.5 9 | 1 bowl=50 | | muesli,musli,muesli
+Crunchy granola | 450 9 62 17 7 | 1 bowl=45 | | knuspermüsli,granola
+Wheat roll (Brötchen) | 270 9 52 1.8 3 | 1 Brötchen=55 | | broetchen,semmel,schrippe
+Wholegrain roll | 240 9.5 42 3 7 | 1 Brötchen=60 | | vollkornbrötchen,körnerbrötchen
+Laugenbrezel | 270 8.5 54 2 2.5 | 1 Brezel=80 | | pretzel,brezel,breze
+Croissant (butter) | 406 8 46 21 2.5 | 1 croissant=60 | | buttercroissant
+Wholegrain rye bread | 200 6 38 1.2 8 | 1 slice=50 | | vollkornbrot,roggenbrot,pumpernickel
+Mixed bread (Mischbrot) | 230 7 45 1.3 5 | 1 slice=45 | | mischbrot,bread,brot
+Toast bread (white) | 265 8.5 48 3.8 3 | 1 slice=25;2 slices=50 | | toastbrot,toast,white bread
+Wholemeal toast | 250 10 42 4 6 | 1 slice=28 | | vollkorntoast,brown bread
+Fladenbrot (Turkish bread) | 270 8.5 52 2 2.5 | 1 piece=100;whole=400 | | turkish bread,pide
+Peanut butter | 600 25 14 49 7 | 1 tbsp=16;1 tsp=6 | | erdnussbutter,pb
+Jam | 250 0.4 60 0.1 1 | 1 tbsp=20;1 tsp=7 | | marmelade,konfitüre,jelly
+Nutella / chocolate spread | 539 6.3 57.5 30.9 3.4 | 1 tbsp=15;1 tsp=5 | | nuss nougat creme,nutella
+Honey | 305 0.3 76 0 0 | 1 tsp=7;1 tbsp=21 | | honig,shahad
+PB&J sandwich | 324 9.6 44.4 11.3 3 | 1 sandwich=86 | | peanut butter jelly sandwich
+Cheese sandwich (toast, butter) | 300 12.5 30 14.5 2 | 1 sandwich=95 | | käsebrot,cheese toast
+Veg sandwich (Bombay) | 190 5 25 8 2.5 | 1 sandwich=150 | | bombay sandwich
+Pancakes | 230 6 30 9.5 1 | 1 pancake=50 | | pfannkuchen
+Whey protein powder | 380 75 8 6 0 | 1 scoop=30 | | protein powder,whey,proteinpulver
+Protein bar | 360 32 30 12 6 | 1 bar=45;1 big bar=60 | | proteinriegel
+
+# Fruit
+Apple | 52 0.3 13.8 0.2 2.4 | 1 medium=180;1 small=130 | | apfel,seb,safarjan
+Banana | 89 1.1 22.8 0.3 2.6 | 1 medium=120;1 large=140 | | banane,kela
+Orange | 47 0.9 11.8 0.1 2.4 | 1 medium=140 | | orange,santra,narangi,mandarine
+Mandarin | 53 0.8 13.3 0.3 1.8 | 1 mandarin=75 | | clementine,mandarine,kinnow
+Mango | 60 0.8 15 0.4 1.6 | 1 mango=200;1 katori=150 | | aam,keri
+Grapes | 69 0.7 18 0.2 0.9 | 1 katori=100;1 handful=50 | | trauben,angoor,draksh
+Blueberries | 57 0.7 14.5 0.3 2.4 | 1 handful=50;1 pack=125 | | heidelbeeren,blaubeeren
+Strawberries | 32 0.7 7.7 0.3 2 | 1 katori=150;1 piece=12 | | erdbeeren
+Raspberries | 52 1.2 12 0.7 6.5 | 1 handful=50;1 pack=125 | | himbeeren
+Pear | 57 0.4 15 0.1 3.1 | 1 medium=170 | | birne,nashpati
+Kiwi | 61 1.1 14.7 0.5 3 | 1 kiwi=75 | | kiwi
+Pomegranate seeds | 83 1.7 18.7 1.2 4 | 1 katori=100 | | granatapfel,anar,dadam
+Papaya | 43 0.5 11 0.3 1.7 | 1 katori=150 | | papita
+Watermelon | 30 0.6 7.6 0.2 0.4 | 1 slice=280;1 katori=150 | | wassermelone,tarbuj
+Pineapple | 50 0.5 13 0.1 1.4 | 1 katori=150 | | ananas
+Guava | 68 2.6 14.3 1 5.4 | 1 guava=100 | | amrood,jamfal
+Chikoo (sapota) | 83 0.4 20 1.1 5.3 | 1 chikoo=80 | | sapodilla,chiku
+Peach / nectarine | 39 0.9 9.5 0.3 1.5 | 1 piece=150 | | pfirsich,nektarine
+Plums | 46 0.7 11.4 0.3 1.4 | 1 plum=60 | | pflaumen,zwetschgen
+Cherries | 63 1.1 16 0.2 2.1 | 1 handful=80 | | kirschen
+Avocado | 160 2 8.5 14.7 6.7 | half=70;1 avocado=140 | | avocado
+Dates (dried) | 282 2.5 75 0.4 8 | 1 date=8;5 dates=40 | | datteln,khajur
+Medjool date | 277 1.8 75 0.2 6.7 | 1 date=24 | | medjool
+Raisins | 299 3.1 79 0.5 3.7 | 1 tbsp=10 | | rosinen,kishmish
+Dried apricots | 241 3.4 63 0.5 7.3 | 1 piece=8 | | getrocknete aprikosen
+Dried figs | 249 3.3 64 0.9 9.8 | 1 fig=20 | | feigen,anjeer
+
+# Vegetables
+Cucumber | 15 0.7 3.6 0.1 0.5 | 1 cucumber=300;1 katori=100 | | gurke,kheera,kakdi
+Tomato | 18 0.9 3.9 0.2 1.2 | 1 tomato=120 | | tomate,tamatar,tameta
+Onion | 40 1.1 9.3 0.1 1.7 | 1 onion=110 | | zwiebel,pyaz,kanda,dungli
+Carrot | 41 0.9 9.6 0.2 2.8 | 1 carrot=70 | | karotte,möhre,gajar
+Potato (boiled) | 87 1.9 20 0.1 1.8 | 1 potato=150 | | kartoffel,aloo,bataka,batata
+Sweet potato (baked) | 90 2 20.7 0.2 3.3 | 1 piece=150 | | süßkartoffel,shakarkand
+Broccoli | 34 2.8 6.6 0.4 2.6 | 1 katori=100 | | brokkoli
+Cauliflower | 25 1.9 5 0.3 2 | 1 katori=100 | | blumenkohl,gobi,phool gobhi
+Spinach (raw) | 23 2.9 3.6 0.4 2.2 | 1 handful=30 | | spinat,palak
+Bell pepper | 26 1 6 0.3 2 | 1 pepper=150 | | paprika,capsicum,shimla mirch
+Green peas | 81 5.4 14.5 0.4 5.1 | 1 katori=100 | | erbsen,matar,vatana
+Sweet corn | 86 3.3 19 1.4 2 | 1 katori=100;1 cob=100 | | mais,makai,bhutta
+Mushrooms | 22 3.1 3.3 0.3 1 | 1 katori=100 | | pilze,champignons
+Zucchini | 17 1.2 3.1 0.3 1 | 1 zucchini=200 | | courgette,zucchini
+Eggplant | 25 1 5.9 0.2 3 | 1 eggplant=300 | | aubergine,baingan,ringan
+Okra | 33 1.9 7.5 0.2 3.2 | 1 katori=100 | | bhindi,bhinda
+Cabbage | 25 1.3 5.8 0.1 2.5 | 1 katori=100 | | kohl,weißkohl,patta gobhi
+Lettuce / salad leaves | 15 1.4 2.9 0.2 1.3 | 1 bowl=80 | | salat,lettuce,eisbergsalat
+Beetroot | 43 1.6 9.6 0.2 2.8 | 1 beet=80 | | rote bete,chukandar
+Green beans | 31 1.8 7 0.2 2.7 | 1 katori=100 | | bohnen,grüne bohnen,fansi
+Moong sprouts (raw) | 30 3 6 0.2 1.8 | 1 katori=100 | | sprouts,mung sprouts
+Edamame | 121 11.9 8.9 5.2 5.2 | 1 katori=100 | | edamame
+Mixed salad with dressing | 60 1.2 4.5 4.2 1.8 | 1 bowl=150 | | gemischter salat,salad
+
+# Legumes, grains, flours (for recipes)
+Chickpeas (cooked/canned) | 164 8.9 27.4 2.6 7.6 | 1 katori=150;1 can drained=240 | | kichererbsen,kabuli chana,chole
+Kidney beans (cooked/canned) | 127 8.7 22.8 0.5 6.4 | 1 katori=150;1 can drained=250 | | kidneybohnen,rajma
+Lentils (cooked) | 116 9 20 0.4 7.9 | 1 katori=150 | | linsen,masoor
+Mung beans (cooked) | 105 7 19 0.4 7.6 | 1 katori=150 | | moong,mung
+Black beans (cooked/canned) | 132 8.9 23.7 0.5 8.7 | 1 katori=150 | | schwarze bohnen
+Soya chunks (dry) | 345 52 33 0.5 13 | 1 katori=40 | | soja schnetzel,meal maker,nutrela
+Toor dal (raw) | 343 22 63 1.5 15 | 1 katori raw=70 | | tuvar,arhar,toor
+Moong dal (raw) | 347 24 63 1.2 16 | 1 katori raw=70 | | mung dal
+Masoor dal (raw) | 352 25 60 1.1 11 | 1 katori raw=70 | | red lentils,rote linsen
+Urad dal (raw) | 341 25 59 1.6 18 | 1 katori raw=70 | | urad
+Chana dal (raw) | 360 20 60 5 17 | 1 katori raw=70 | | chana dal
+Rajma (dry) | 333 24 60 0.8 25 | 1 katori raw=70 | | kidney beans dry
+Kabuli chana (dry) | 364 19 61 6 17 | 1 katori raw=70 | | chickpeas dry
+Whole moong (dry) | 347 24 63 1.2 16 | 1 katori raw=70 | | green gram
+Basmati rice (raw) | 360 7.5 79 0.8 1.3 | 1 katori raw=70;1 cup=180 | | rice raw,reis roh
+Poha (raw) | 346 6.6 77 1.2 2 | 1 katori=40 | | flattened rice,chiwda raw
+Wheat flour (atta) | 340 13 72 2.5 10.7 | 1 katori=100;1 tbsp=8 | | atta,weizenvollkornmehl,whole wheat flour
+Maida (white flour) | 364 10 76 1 2.7 | 1 katori=100;1 tbsp=8 | | weizenmehl type 405,all purpose flour,mehl
+Besan (gram flour) | 387 22 58 6.7 11 | 1 katori=90;1 tbsp=8 | | gram flour,kichererbsenmehl
+Rava / Hartweizengrieß | 360 12 72 1 3.9 | 1 katori=120;1 tbsp=12 | | sooji,suji,semolina,griess
+Pasta (dry) | 371 13 75 1.5 3.2 | 80 g=80;100 g=100 | | nudeln,spaghetti,penne
+Pasta (cooked) | 158 5.8 31 0.9 1.8 | 1 plate=250;1 katori=150 | | nudeln gekocht,spaghetti cooked
+Wholewheat pasta (cooked) | 149 6 30 1.7 3.9 | 1 plate=250 | | vollkornnudeln
+Quinoa (cooked) | 120 4.4 21.3 1.9 2.8 | 1 katori=150 | | quinoa
+Couscous (cooked) | 112 3.8 23 0.2 1.4 | 1 katori=150 | | couscous
+Bulgur (cooked) | 83 3.1 18.6 0.2 4.5 | 1 katori=150 | | bulgur,dalia,daliya
+Makhana (fox nuts) | 350 9.7 77 0.1 14.5 | 1 katori=15;1 handful=10 | | phool makhana,lotus seeds
+Roasted chana | 369 20 58 5.5 17 | 1 handful=30 | | bhuna chana,dalia chana
+Murmura (puffed rice) | 400 6.5 90 0.5 1.7 | 1 katori=15;1 bowl=30 | | mamra,kurmura,puffed rice
+Sugar | 400 0 100 0 0 | 1 tsp=4;1 tbsp=12 | | zucker,chini,khand
+Jaggery | 383 0.4 95 0.1 0 | 1 piece=10;1 tbsp=15 | | gur,gol,gud
+
+# Nuts & seeds
+Almonds | 579 21 21.6 50 12.5 | 10 almonds=12;1 handful=30 | | mandeln,badam
+Cashews | 553 18 30 44 3.3 | 10 cashews=15;1 handful=30 | | cashewkerne,kaju
+Walnuts | 654 15 14 65 6.7 | 1 handful=30;1 half=2.5 | | walnüsse,akhrot
+Peanuts (roasted) | 585 24 21.5 49.7 8 | 1 handful=30;1 tbsp=10 | | erdnüsse,mungfali,shing,singdana
+Pistachios | 560 20 27.5 45 10.6 | 1 handful=30 | | pistazien,pista
+Mixed nuts | 607 20 21 54 7 | 1 handful=30 | | studentenfutter,nussmischung,dry fruits
+Chia seeds | 486 17 42 31 34 | 1 tbsp=12 | | chiasamen
+Flaxseed | 534 18 29 42 27 | 1 tbsp=10 | | leinsamen,alsi
+Pumpkin seeds | 559 30 10.7 49 6 | 1 tbsp=10 | | kürbiskerne
+Sunflower seeds | 584 21 20 51.5 8.6 | 1 tbsp=10 | | sonnenblumenkerne
+Sesame seeds | 573 17.7 23.5 49.7 11.8 | 1 tbsp=9 | | sesam,til
+Desiccated coconut | 660 6.9 24 64.5 16 | 1 tbsp=6 | | kokosraspel,khopra
+
+# Oils, sauces & condiments
+Cooking oil | 884 0 0 100 0 | 1 tsp=4.5;1 tbsp=13.5 | | öl,oil,tel,sunflower oil,rapeseed oil,rapsöl
+Olive oil | 884 0 0 100 0 | 1 tsp=4.5;1 tbsp=13.5 | | olivenöl
+Mayonnaise | 680 1 1.5 75 0 | 1 tbsp=15 | | mayo
+Ketchup | 112 1.2 26 0.2 0.3 | 1 tbsp=17 | | tomato ketchup
+Pesto (jar, Genovese) | 470 5 6 47 2 | 1 tbsp=15;1 portion=50 | | pesto genovese
+Soy sauce | 53 8 5 0.6 0.8 | 1 tbsp=16 | | sojasauce
+Schezwan sauce | 180 2 15 12 2 | 1 tbsp=15 | | schezwan chutney,chilli garlic
+Hummus | 250 7.5 12 18 6 | 1 tbsp=15;1 pot=200 | | humus
+Salsa (tomato) | 36 1.5 7 0.2 1.8 | 1 tbsp=15 | | salsa dip
+Guacamole | 155 2 8.5 13.5 6 | 1 tbsp=15 | | guacamole
+Tomato pasta sauce (jar) | 50 1.5 8 1.2 1.5 | 1 portion=125;1 jar=400 | | tomatensauce,arrabbiata,basilico
+Cream sauce (Rahmsauce) | 150 2 5 13.5 0.2 | 1 portion=100 | | rahmsauce,sahnesauce,cream sauce
+Salad dressing (vinaigrette) | 280 0.3 8 27 0 | 1 tbsp=15 | | dressing
+
+# International dishes
+Pizza Margherita | 250 10.5 32 9 2 | 1 slice=100;1 whole pizza=350 | | pizza
+Pizza vegetable | 225 9 29 8 2.4 | 1 slice=100;1 whole pizza=380 | | gemüsepizza,veg pizza
+Pizza on Turkish bread (home) | 240 10 32 8 2.5 | 1 piece=150 | | fladenbrot pizza
+Vegetable lasagna | 135 6 13 6.5 1.8 | 1 portion=300 | | lasagne,gemüselasagne
+Pasta with mushroom cream sauce | 175 5.5 21 7.5 1.5 | 1 plate=350 | | pasta rahm pilze,mushroom pasta
+Pesto spaghetti | 220 6.5 28 9 1.8 | 1 plate=300 | | spaghetti pesto,pesto pasta
+Spaghetti with tomato sauce | 125 4.4 23 1.8 2 | 1 plate=350 | | spaghetti napoli,pasta tomato
+Penne arrabbiata | 130 4.5 23.5 2.2 2 | 1 plate=350 | | arrabiata
+Mac and cheese | 165 6.5 19 7 0.8 | 1 plate=300 | | käsenudeln
+Käsespätzle | 250 10 23 13 1 | 1 plate=300 | | kasespatzle,spaetzle
+Mexican bowl (nachos, beans, veg) | 190 6.5 20 9.5 4 | 1 bowl=350 | | burrito bowl,nacho bowl
+Nachos with cheese | 340 9 36 18 3.5 | 1 plate=150 | | nachos
+Tortilla chips | 495 7 63 24 4.8 | 1 handful=30;1 bag=200 | | nacho chips
+Bean & cheese burrito | 190 7.5 25 6.5 3.5 | 1 burrito=250 | | burrito
+Falafel | 333 13.3 31.8 17.8 4.9 | 1 piece=17;5 pieces=85 | | falafel
+Falafel wrap (Dürüm) | 210 6.5 26 8.8 3.5 | 1 wrap=350 | | falafel dürüm,falafel sandwich
+Veggie döner (halloumi/veg) | 220 9 25 9.5 2.5 | 1 döner=380 | | gemüsedöner,halloumi döner
+Veg burger (bun, patty, sauce) | 240 7 33 9 3 | 1 burger=200 | | burger,gemüse burger,veggie burger
+Gemüse patty (veg patty, pan-fried) | 200 4.5 23 9.5 3.5 | 1 patty=80 | | veg patty,gemüsebratling,bratling
+Chilli cheese balls (frozen, baked) | 280 7 25 16.5 1.5 | 1 piece=20;5 pieces=100 | | cheese balls,chili cheese nuggets
+Potato croquettes (Kroketten, oven) | 190 3 25 8.5 2 | 1 piece=25;6 pieces=150 | | kroketten,croquettes
+French fries (fried) | 312 3.4 41 15 3.8 | 1 portion=150;small=80 | | pommes,fries,chips (uk)
+Oven fries | 200 3 30 7.5 2.8 | 1 portion=150 | | backofen pommes
+Bratkartoffeln | 140 2.5 18 6.5 2 | 1 portion=200 | | fried potatoes
+Potato salad (mayo) | 160 2 14 10.5 1.5 | 1 portion=200 | | kartoffelsalat
+Potato salad (vinegar & oil) | 100 1.8 15 3.5 1.6 | 1 portion=200 | | kartoffelsalat schwäbisch
+Mashed potatoes | 100 2 14 4 1.3 | 1 portion=200 | | kartoffelpüree,kartoffelbrei
+Greek salad | 110 3.5 4 9 1.4 | 1 bowl=250 | | griechischer salat
+Tomato soup | 45 1 7 1.5 1 | 1 bowl=300 | | tomatensuppe
+Lentil soup | 90 5 12 2.5 3 | 1 bowl=300 | | linsensuppe,dal soup
+Veg sushi (maki) | 150 3.5 30 1.5 1.2 | 1 piece=25;8 pieces=200 | | sushi,maki
+Pad thai (tofu) | 170 6 24 6 1.5 | 1 plate=350 | | pad thai
+Cheeseburger (fast food) | 254 13 27 10 1.2 | 1 burger=118 | n | cheeseburger
+Schnitzel (breaded) | 260 18 12 16 0.5 | 1 schnitzel=150 | n | wiener schnitzel
+Bratwurst | 300 13 1 27 0 | 1 sausage=100 | n | wurst
+Currywurst with sauce | 230 9 9 18 0.5 | 1 portion=200 | n | currywurst
+
+# Cakes, sweets & snacks
+Cake (pound / Rührkuchen) | 390 6 50 18 1 | 1 slice=70 | | rührkuchen,marmorkuchen,cake
+German cheesecake (Käsekuchen) | 240 8 25 12 0.3 | 1 slice=120 | | käsekuchen
+Apple strudel | 240 3 35 10 1.8 | 1 piece=120 | | apfelstrudel
+Berliner / doughnut | 360 6 47 16 1.5 | 1 piece=70 | | krapfen,pfannkuchen (berlin),donut
+Chocolate muffin | 420 6 52 21 2 | 1 muffin=90 | | muffin
+Chocolate chip cookie | 480 5.5 64 23 2 | 1 cookie=15 | | keks,cookie
+Butter biscuit | 435 7.5 72 12 2.5 | 1 biscuit=8 | | butterkeks,leibniz,parle g,biscuit
+Dark chocolate 70% | 600 7.8 46 43 11 | 1 piece=10;1 bar=100 | | zartbitterschokolade,dark chocolate
+Milk chocolate | 535 7.5 59 30 2 | 1 piece=10;1 bar=100 | | vollmilchschokolade,chocolate,dairy milk
+Gummy bears | 343 6.9 77 0.5 0 | 1 handful=25 | | gummibärchen,haribo
+Potato chips | 536 6.5 53 34 4.4 | 1 handful=30;1 bag=175 | | chips,crisps,kartoffelchips
+Popcorn (salted) | 480 8 58 23 10 | 1 bowl=30 | | popcorn
+Pretzel sticks (Salzstangen) | 380 10 77 3 3 | 1 handful=25 | | salzstangen
+Rice cakes | 387 8 81 2.8 3 | 1 cake=8 | | reiswaffeln

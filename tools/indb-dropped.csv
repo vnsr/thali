@@ -1,0 +1,157 @@
+code,name,kcal,fat,reason
+ASC079,Clear tomato soup (Tamatar ka soup),80,12,energy mismatch
+ASC081,Chicken consomme (Clear chicken soup),48,12,energy mismatch
+ASC082,Cream of tomato soup,98,13,energy mismatch
+ASC083,Cream of green peas soup,128,15,energy mismatch
+ASC084,Cream of spinach soup,101,13,energy mismatch
+ASC085,Cream of mixed vegetable soup,60,9,energy mismatch
+ASC086,Cream of mushroom soup,117,16,energy mismatch
+ASC088,Minestrone soup,43,11,energy mismatch
+ASC090,Chinese cabbage and meat ball soup,484,57,frying oil overcounted
+ASC091,French onion soup,56,14,energy mismatch
+ASC095,Cold summer garden soup,49,14,energy mismatch
+ASC107,Poori,738,78,frying oil overcounted
+ASC108,Spinach poori (Palak poori),684,72,frying oil overcounted
+ASC109,Methi poori,710,75,frying oil overcounted
+ASC110,Dal stuffed poori,785,82,frying oil overcounted
+ASC111,Potato stuffed poori (Aloo ki poori),777,81,frying oil overcounted
+ASC118,Paneer pulao,582,60,frying oil overcounted
+ASC137,Spaghetti and cheese balls in tomato sauce,508,52,frying oil overcounted
+ASC143,Bhatura,793,83,frying oil overcounted
+ASC148,Onion tomato uttapam,462,45,frying oil overcounted
+ASC168,Besan kadhi with pakodies,403,43,frying oil overcounted
+ASC198,Pea kofta curry (Matar kofta curry),596,63,frying oil overcounted
+ASC199,Spinach kofta curry (Palak kofta curry),572,61,frying oil overcounted
+ASC200,Paneer kofta curry,671,72,frying oil overcounted
+ASC201,Lotus stem kofta curry (Kamal kakdi kofta curry),634,68,frying oil overcounted
+ASC202,Raw banana kofta curry (Kela kofta curry),627,68,frying oil overcounted
+ASC203,Cauliflower kofta curry (Phoolgobhi kofta curry),641,70,frying oil overcounted
+ASC204,Cabbage kofta curry (Pattagobhi kofta curry),640,69,frying oil overcounted
+ASC205,Ghiya/Lauki Kofta Curry,639,69,frying oil overcounted
+ASC206,Spinach paneer kofta curry (Palak paneer kofta curry),606,65,frying oil overcounted
+ASC207,Vegetarian egg kofta curry,627,67,frying oil overcounted
+ASC214,Dum aloo,682,74,frying oil overcounted
+ASC216,Methi chaman,476,51,frying oil overcounted
+ASC218,Jackfruit sabzi (Kathal ki sabzi),625,68,frying oil overcounted
+ASC224,Chilli paneer,778,84,frying oil overcounted
+ASC225,Paneer makhana korma,776,83,frying oil overcounted
+ASC236,Mutton chops,664,71,frying oil overcounted
+ASC237,Shammi kebab,686,73,frying oil overcounted
+ASC238,Scotch egg,677,73,frying oil overcounted
+ASC243,Chicken kebab,729,79,frying oil overcounted
+ASC247,Fried fish (Indian style) (Tali hui machli),659,69,frying oil overcounted
+ASC248,Fried fish and Chips (English Style) (Tali hui machli aur chips),652,70,frying oil overcounted
+ASC249,Tomato fish,490,52,frying oil overcounted
+ASC277,Boondi raita,688,74,frying oil overcounted
+ASC279,Dahi vadas/Dahi bhalla,668,70,frying oil overcounted
+ASC280,Gunjia,667,70,frying oil overcounted
+ASC347,Ghujia/Lavang latika,769,79,frying oil overcounted
+ASC348,Gulab Jamun with khoya,586,53,frying oil overcounted
+ASC349,Mal pua,567,55,frying oil overcounted
+ASC351,Potato pakora/pakoda (Aloo pakoda),677,72,frying oil overcounted
+ASC352,Onion pakora/pakoda (Pyaaz ke pakode),675,72,frying oil overcounted
+ASC353,Cauliflower pakora/pakoda (Phoolgobhi ke pakode),672,72,frying oil overcounted
+ASC354,Mixed vegetable pakora/pakoda,674,72,frying oil overcounted
+ASC355,Spinach pakora/pakoda (Palak pakoda),713,76,frying oil overcounted
+ASC356,Methi pakora/pakoda (Methi ke pakode),713,76,frying oil overcounted
+ASC357,Egg pakora/pakoda (Ande ke pakode),711,76,frying oil overcounted
+ASC358,Bread pakora/pakoda,711,74,frying oil overcounted
+ASC359,Paneer pakora/pakoda,718,76,frying oil overcounted
+ASC360,Potato bonda (Aloo bonda),633,68,frying oil overcounted
+ASC361,Potato samosa (Aloo ka samosa),577,59,frying oil overcounted
+ASC362,Minced meat samosa (Keema ka samosa),621,64,frying oil overcounted
+ASC363,Paneer and pea samosa (Paneer matar ka samosa),624,64,frying oil overcounted
+ASC364,Mathri,805,83,implausible energy
+ASC365,Khasta kachori,713,72,frying oil overcounted
+ASC366,Vegetable cutlet,665,71,frying oil overcounted
+ASC367,Flattened rice cutlet (Chirwa cutlet/Chivda cutlet/Poha cutlet),702,74,implausible energy
+ASC368,Peanut cutlet (Mungfali ke cutlet),699,74,implausible energy
+ASC369,Fish cutlet (Machli ka cutlet),655,70,frying oil overcounted
+ASC370,Paneer potato cutlet (Paneer aloo cutlet),673,71,frying oil overcounted
+ASC371,Spinach chickpeas cutlet (Palak channa dal cutlet),688,74,frying oil overcounted
+ASC372,Cheese toast,785,84,frying oil overcounted
+ASC375,Vegetable burger,520,51,frying oil overcounted
+ASC377,Vegetable seekh kebab,691,74,frying oil overcounted
+ASC378,Masala vada,826,89,frying oil overcounted
+ASC379,Peanut sago vada (Sabudana mungfali vada),750,80,implausible energy
+ASC380,Vegeterian scotch egg,682,73,frying oil overcounted
+ASC383,Spring roll,624,65,frying oil overcounted
+ASC409,Cheese balls,681,73,frying oil overcounted
+ASC456,Soyabean muthias,839,90,frying oil overcounted
+ASC457,Soyabean tikki,698,74,frying oil overcounted
+ASC458,Soyabean namak paras,838,90,implausible energy
+ASC460,Spinach peanut namak paras (Palak moongfali namak paras),740,79,implausible energy
+ASC461,Gram flour and semolina chilla/cheela/savory pancake (Besan suji chilla/cheela),759,80,implausible energy
+ASC462,Rice moong dal cheela (Chawal aur moong dal ka cheela),798,82,frying oil overcounted
+ASC464,Sweet poori (Meethi poori),783,80,frying oil overcounted
+ASC473,Semolina carrot vada (Suji gajar vada),700,74,frying oil overcounted
+BFP075,Cheese soup,41,17,energy mismatch
+BFP076,Mulligatawny soup,54,13,energy mismatch
+BFP079,Cream of carrot soup,60,12,energy mismatch
+BFP080,Cream of broccoli soup,56,13,energy mismatch
+BFP082,Cream of potato soup,60,12,energy mismatch
+BFP087,Almond soup (Badam ka soup),79,14,energy mismatch
+BFP114,Bathua poori,599,59,frying oil overcounted
+BFP115,Gram flour poori (Besan poori),698,72,frying oil overcounted
+BFP116,Beetroot poori (Chukandar ki poori),528,52,frying oil overcounted
+BFP117,Peas poori (Matar ki poori),593,58,frying oil overcounted
+BFP118,Peas kachori (Matar kachori),585,58,frying oil overcounted
+BFP127,Minced meat pancake (with chicken),116,10,energy mismatch
+BFP141,Mutton pulao,131,11,energy mismatch
+BFP142,Chicken pulao,108,8,energy mismatch
+BFP155,Spaghetti bolognese,97,10,energy mismatch
+BFP157,Meat and macaroni casserole,162,10,energy mismatch
+BFP196,Shahi keema kofta curry,418,44,frying oil overcounted
+BFP203,Soya chunks sweet and sour (Nutrinugget sweet and sour),501,56,frying oil overcounted
+BFP207,Vegetable yakhni,406,44,frying oil overcounted
+BFP221,Chicken sweet and sour,445,48,frying oil overcounted
+BFP226,Fish finger,543,56,frying oil overcounted
+BFP246,Potato kofta curry (Aloo kofta curry),455,49,frying oil overcounted
+BFP270,Crispy okra/Crispy lady's fingers (Karare bhindi),658,70,frying oil overcounted
+BFP274,Jackfruit/Kathal (dry),489,52,frying oil overcounted
+BFP275,Yam fried (Zimikand/Suran fried),492,52,frying oil overcounted
+BFP291,Creamed spinach and mushroom,420,44,frying oil overcounted
+BFP310,French dressing,734,80,frying oil overcounted
+BFP386,Gulab jamun with milk powder,471,40,frying oil overcounted
+BFP415,Masala onion pakora/pakoda (Pyaaz ke pakode),552,58,frying oil overcounted
+BFP416,Masala green chilli pakora/pakoda (Hari mirch kay pakode),669,71,frying oil overcounted
+BFP420,Chicken pakora/pakoda,590,61,frying oil overcounted
+BFP421,Fish pakora/pakoda,577,60,frying oil overcounted
+BFP424,Paneer cutlet,672,69,frying oil overcounted
+BFP425,Sago cutlet/vadas (Sabudana cutlet/vadas),559,57,frying oil overcounted
+BFP427,Poshtik cutlet,496,51,frying oil overcounted
+BFP428,Egg cutlet (Anda cutlet),575,60,frying oil overcounted
+BFP430,Minced meat cutlet,532,54,frying oil overcounted
+BFP431,Vegetable samosa,443,42,frying oil overcounted
+BFP436,Plain urad dal vada (Uzunne vada/Minapa garelu/Ulundu vadai/Medu vada),745,76,frying oil overcounted
+BFP437,Masala urad dal vada,704,72,frying oil overcounted
+BFP445,Gooseberry chutney (Amla chutney),43,1,energy mismatch
+BFP539,Potato aigrettes,530,54,frying oil overcounted
+BFP564,Pearl millet mathri (Bajra mathri),785,83,implausible energy
+BFP566,Fermented bengal gram vada (Khameerikrit/Ufna hua channa dal ka vada),658,67,frying oil overcounted
+BFP568,Poshtik namak paras,613,57,implausible energy
+OSR052,Garlic pickle (Lahasun ka achar),414,40,frying oil overcounted
+OSR060,Potato pickle (Aloo ka achaar),369,36,frying oil overcounted
+OSR063,Fish orly,564,58,frying oil overcounted
+OSR065,Chicken manchurian,142,12,energy mismatch
+OSR097,Pav bhaji masala,230,11,energy mismatch
+OSR110,Banana appam,470,43,frying oil overcounted
+OSR111,Veg manchurian,586,62,frying oil overcounted
+OSR113,Rice murukku,594,48,implausible energy
+OSR114,Bhel puri,510,48,frying oil overcounted
+OSR116,Spicy corn chaat,480,47,frying oil overcounted
+OSR118,Jackfruit fritters (Ponsa mulik/Kathal ka pakora),598,54,frying oil overcounted
+OSR119,Banana chips (Kele ke chips),666,70,frying oil overcounted
+OSR136,Millet soup,56,13,energy mismatch
+OSR147,Sev (Omapodi/Karapusa),609,60,implausible energy
+OSR148,Papdi,709,72,frying oil overcounted
+OSR152,Bread roll,435,40,frying oil overcounted
+ASC078,Brown sauce,109,24,energy mismatch
+ASC266,Mayonnaise,775,85,frying oil overcounted
+ASC268,Thousand island dressing,408,43,frying oil overcounted
+BFP001,Garam masala,254,11,energy mismatch
+BFP004,Rasam powder (Rasam masala),268,12,energy mismatch
+BFP095,Tartare sauce,611,66,frying oil overcounted
+BFP167,Cumin seeds baghar (Jeera baghar/tadka),737,79,frying oil overcounted
+BFP169,Mustard seeds baghar (Mustard seed tadka),553,54,frying oil overcounted
+OSR082,Bengal 5 Spice Blend (Panch Phoran),290,22,energy mismatch
