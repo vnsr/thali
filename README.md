@@ -21,6 +21,7 @@ Your log stays on the phone. Nothing is sent anywhere unless you turn on automat
 - Search understands English, Hindi/Gujarati and German words: *aloo, bataka, dahi, rotli, chawal, Käse, Haferflocken, Brötchen…*
 - **Recent** shows what you usually have at that meal, with the portion you used last time. **☆** keeps a food in Favourites.
 - **Same as yesterday** on an empty meal copies yesterday's breakfast/lunch/etc.
+- **Not found?** Closest matches appear, Open Food Facts is searched automatically, and **Estimate from ingredients** builds it from parts (e.g. milk + matcha + sugar) and saves it for next time.
 - **Quick add** is for a number only (restaurant meal, office cake).
 - Tap any entry to change the amount, the meal or the day, or to delete it (Undo appears for 5 s).
 - Water: tap + for each glass (glass size is set in the profile). Weight: "Log weight" on Today.
@@ -49,7 +50,7 @@ Everything here works offline.
 
 | Source | What | Count |
 |---|---|---|
-| **THALI** (curated) | Everyday Indian (incl. Gujarati farsan), German and international foods with home portions (roti, katori, Brötchen…), including your usual dishes | 419 |
+| **THALI** (curated) | Everyday Indian (incl. Gujarati farsan), German and international foods with home portions (roti, katori, Brötchen…), including your usual dishes, café drinks and bubble tea | 452 |
 | **INDB** | Indian Nutrient Databank (Jaacks et al. 2024): standard recipes. 156 rows with impossible values (e.g. deep-frying oil counted fully) were removed | 858 |
 | **USDA** | USDA SR Legacy: generic ingredients and foods (public domain) | 7,233 |
 | **OFF** | Packaged products you scan or find online (Open Food Facts) | grows |
@@ -95,11 +96,18 @@ Replace the files in this repo. The phone picks up the new version on the second
 - zxing-wasm: MIT licence (lib/zxing-LICENSE.txt)
 - Calorie targets are estimates, not medical advice.
 
-## v1.0.0 (15 Oct 2026)
-First version: profiles with calculated or manual targets, meals, search across about 8,500 offline foods, Open Food Facts and USDA online search,
-barcode scanning (camera, photo or typing), own foods, recipe builder, favourites, recent foods, copying yesterday's meals, quick add, water, weight,
-trends (calories, protein, macro split, weight trend, top calorie sources), GitHub sync, backup/import, CSV export, light/dark theme, and a vegetarian filter.
+## v1.2.0 (15 Oct 2026)
+- **Not in the database? Thali now helps:**
+  - **Closest matches**: when your exact words find little, foods that match some of the words are shown (e.g. "iced matcha with honey" → matcha latte, matcha powder, honey).
+  - **Searches online automatically**: if the offline list finds fewer than 3 foods, Open Food Facts is asked straight away (when online).
+  - **Estimate from ingredients**: "Not found? → Estimate … from ingredients". Thali suggests ingredients from the words you typed (matcha powder, honey…); add or adjust the grams (1 ml ≈ 1 g for drinks), then Add. It is saved as your recipe, so the next search finds it directly and it syncs to the other phone.
+- **33 new drinks**: matcha milk tea, matcha latte (café / unsweetened / oat), matcha powder, bubble tea, milk tea, Thai iced tea, chai latte, iced latte, iced coffee, Frappuccino, Indian cold coffee, green/black/herbal tea, milkshakes, smoothie, badam milk, falooda, sugarcane juice, jaljeera, kombucha, energy drinks, Fanta/Sprite, Spezi, Club-Mate, bottled iced tea, Radler, protein shake.
 
 ## v1.1.0 (15 Oct 2026)
 New **Shop** tab: shared shopping list sorted by aisle (amount parsing, usuals, share as text, remembered aisles) and a pantry with stock states and best-before dates.
 Running low → list → bought → back in stock. "Shop for this recipe" and a Shopping list button on every food. Synced and backed up.
+
+## v1.0.0 (15 Oct 2026)
+First version: profiles with calculated or manual targets, meals, search across about 8,500 offline foods, Open Food Facts and USDA online search,
+barcode scanning (camera, photo or typing), own foods, recipe builder, favourites, recent foods, copying yesterday's meals, quick add, water, weight,
+trends (calories, protein, macro split, weight trend, top calorie sources), GitHub sync, backup/import, CSV export, light/dark theme, and a vegetarian filter.

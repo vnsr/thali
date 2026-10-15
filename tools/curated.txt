@@ -225,6 +225,41 @@ Soy drink (unsweetened) | 33 3.3 0.2 1.8 0.5 | 1 glass=250 | | sojamilch,soya mi
 Almond drink (unsweetened) | 13 0.4 0.3 1.1 0.3 | 1 glass=250 | | mandelmilch,almond milk
 Coconut water | 19 0.7 3.7 0.2 1.1 | 1 glass=250 | | nariyal pani,kokoswasser
 
+# Café drinks, bubble tea & soft drinks
+Matcha milk tea (sweetened, no pearls) | 55 1.2 9.5 1.4 0.1 | 1 regular=500;1 large=700;1 cup=250 | | matcha milk tea,matcha bubble tea,matcha boba,matcha tea latte
+Matcha latte (café, milk, sweetened) | 50 2.5 7.2 1.3 0.2 | 1 medium=350;1 large=470;1 small=250 | | matcha latte,matcha,green tea latte
+Matcha latte (unsweetened, whole milk) | 62 3.3 4.9 3.3 0.2 | 1 cup=250;1 mug=300 | | matcha latte homemade,matcha milk
+Matcha latte (oat drink, sweetened) | 55 0.9 8.5 1.9 0.6 | 1 medium=350;1 cup=250 | | matcha oat latte,matcha hafer
+Matcha powder | 324 30 38.5 5.3 38.5 | 1 tsp=2;1 tbsp=6 | | matcha,green tea powder,matchapulver
+Bubble tea (milk tea with tapioca pearls) | 80 0.8 15 1.9 0.2 | 1 regular=500;1 large=700 | | boba,bubble tea,pearl milk tea,tapioca
+Milk tea (sweetened, no pearls) | 55 1 9.5 1.4 0 | 1 regular=500;1 cup=250 | | milk tea,hong kong milk tea,assam milk tea
+Thai iced tea (condensed milk) | 75 1.2 12 2.5 0 | 1 glass=350 | | thai tea,cha yen
+Tapioca pearls (cooked, in syrup) | 140 0.1 35 0 0.5 | 1 serving=60 | | boba pearls,tapioka perlen
+Chai latte (café, sweetened) | 51 1.8 8.9 0.9 0 | 1 medium=350;1 large=470 | | chai latte
+Iced latte (milk, no sugar) | 35 2 3 1.4 0 | 1 medium=350;1 large=470 | | iced coffee latte,eiskaffee latte
+Iced coffee (milk & sugar) | 45 1.4 7 1.3 0 | 1 glass=300 | | eiskaffee,iced coffee
+Frappuccino / blended coffee (whipped cream) | 85 1.3 13 3 0 | 1 medium=400 | | frappe,frappuccino
+Indian cold coffee | 90 2.8 13 3 0 | 1 glass=300 | | cold coffee
+Green tea (plain) | 1 0.2 0 0 0 | 1 cup=250 | | grüner tee,green tea
+Black tea (plain) | 1 0.1 0.3 0 0 | 1 cup=250 | | schwarzer tee,black tea
+Herbal tea (plain) | 1 0 0.2 0 0 | 1 cup=250 | | kräutertee,herbal tea,pfefferminztee
+Milkshake (vanilla) | 112 3.4 18 3 0 | 1 glass=300 | | milchshake,shake
+Banana milkshake (home) | 80 3 14 1.3 0.6 | 1 glass=300 | | banana shake,kela shake
+Fruit smoothie | 55 0.7 12.5 0.3 1.2 | 1 bottle=250;1 glass=300 | | smoothie
+Badam milk | 105 3.5 14 4 0.5 | 1 glass=250 | | badam doodh,almond milk indian
+Falooda | 140 3 22 4.5 0.5 | 1 glass=350 | | faluda,rose falooda
+Sugarcane juice | 75 0.2 18 0.2 0 | 1 glass=300 | | ganne ka ras,sherdi no ras
+Jaljeera | 15 0.2 3.5 0 0 | 1 glass=250 | | jal jeera
+Kombucha | 15 0 3.5 0 0 | 1 bottle=330 | | kombucha
+Energy drink | 46 0 11 0 0 | 1 can=250;1 big can=355 | | red bull,energydrink,monster
+Energy drink (sugar-free) | 3 0 0.5 0 0 | 1 can=250 | | red bull sugarfree,zero energy
+Lemon-lime / orange soda | 35 0 8.5 0 0 | 1 can=330;1 bottle=500 | | fanta,sprite,limonade,7up
+Spezi / cola-orange mix | 40 0 10 0 0 | 1 bottle=500 | | spezi,mezzo mix
+Club-Mate | 20 0 5 0 0 | 1 bottle=500 | | mate,club mate
+Bottled iced tea (peach/lemon) | 25 0 6 0 0 | 1 glass=300;1 bottle=500 | | eistee,pfanner,lipton ice tea
+Radler (beer + lemonade) | 35 0.3 5.6 0 0 | 0.5 l=500;0.33 l=330 | | radler,alsterwasser,shandy
+Protein shake (whey + 300 ml milk 1.5%) | 70 9.5 4.4 1.6 0 | 1 shake=330 | | protein shake,whey shake
+
 # Dairy & eggs
 Milk 3.5% | 64 3.3 4.8 3.5 0 | 1 glass=250;100 ml=100;1 tbsp=15 | | vollmilch,whole milk,doodh,dudh,milch
 Milk 1.5% | 47 3.4 4.9 1.5 0 | 1 glass=250;100 ml=100 | | fettarme milch,low fat milk,milch

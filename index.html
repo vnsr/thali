@@ -193,7 +193,7 @@ nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:6;display:flex;justify-c
 /* Thali – private calorie & macro log. Offline-first PWA.
    All personal data lives on this phone (IndexedDB). Optional: automatic sync through the
    owner's private GitHub repository; online lookups at Open Food Facts / USDA FoodData Central. */
-const APP_VERSION='1.1.0',APP_DATE='2026-10-15',SYNC_DIR='thali';
+const APP_VERSION='1.2.0',APP_DATE='2026-10-15',SYNC_DIR='thali';
 const MEALS=[['b','Breakfast'],['l','Lunch'],['d','Dinner'],['s','Snacks']];
 const MEALNAME=Object.fromEntries(MEALS);
 
@@ -411,6 +411,20 @@ function searchFoods(q,limit=60,mode){
   const seen=new Set(),res=[];
   for(const [,f] of out){const key=f.src+'|'+f._n;if(seen.has(key))continue;seen.add(key);res.push(f);if(res.length>=limit)break;}
   return res;
+}
+/* closest matches: used when the full query finds little. Foods matching at least one meaningful word,
+   ranked by how many words they match. */
+const STOPW=new Set(['with','and','the','mit','und','von','aus','ohne','sweet','sweetened','plain','home','homemade','style','fresh','hot','cold','iced','big','small']);
+function searchPartial(q,exclude,limit=8,mode){
+  const qt=qTokens(q).filter(a=>a[0].length>=3&&!STOPW.has(a[0]));if(qt.length<1)return [];
+  const out=[];
+  const scan=f=>{if(!visible(f)||exclude.has(f.id))return;let hit=0,pen=0;
+    for(const alts of qt){const m=tokMatch(f,alts);if(m>=0){hit++;pen+=m;}}
+    if(!hit)return;
+    let sc=(qt.length-hit)*14+pen*2+(SRCW[f.src]||20)+Math.min(12,f._n.length/9);if(f._raw)sc+=mode==='recipe'?-3:8;
+    out.push([sc,f]);};
+  for(const f of PF.values())scan(f);for(const f of DB.values())scan(f);
+  out.sort((a,b)=>a[0]-b[0]);return out.slice(0,limit).map(x=>x[1]);
 }
 function defPortion(f){return (f.ps&&f.ps.length)?f.ps[0]:['100 g',100];}
 function kcalFor(f,g){return (f.n[0]||0)*g/100;}
@@ -677,7 +691,7 @@ let ADD=null;
 function openAdd(meal,mode='log'){
   if(!prof()){pushView(profileView());return;}
   if(mode==='log')ADD={meal:meal||defaultMeal(),day:VIEW.day,added:[],mode:'log',q:'',online:null};
-  else ADD={...(ADD||{}),mode,q:'',online:null,prevMode:ADD?ADD.mode:null};
+  else ADD={...(ADD||{}),mode,q:'',online:null,prevMode:ADD?ADD.mode:null,prevQ:ADD?ADD.q:'',prevOnline:ADD?ADD.online:null};
   pushView(searchView());
 }
 function searchView(){
@@ -722,28 +736,42 @@ function renderSearchRes(){
     box.innerHTML=h;return;
   }
   const res=searchFoods(q,50,ADD.mode);
-  let h=res.length?`<ul class="res">${res.map(f=>foodRow(f,'pick')).join('')}</ul>`:`<div class="empty" style="padding:14px">Nothing in the offline database${dbReady.u?'':' yet (still loading)'}.</div>`;
+  const near=res.length<5?searchPartial(q,new Set(res.map(f=>f.id)),8,ADD.mode):[];
+  let h=res.length?`<ul class="res">${res.map(f=>foodRow(f,'pick')).join('')}</ul>`:`<div class="empty" style="padding:12px">No exact match in the offline database${dbReady.u?'':' yet (still loading)'}.</div>`;
+  if(near.length)h+=`<div class="sec">Closest matches</div><ul class="res">${near.map(f=>foodRow(f,'pick')).join('')}</ul>`;
   const on=ADD.online&&ADD.online.q===q?ADD.online:null;
+  // nothing (or little) offline: ask Open Food Facts automatically once per query
+  if(res.length<3&&S.settings.off&&navigator.onLine&&!(on&&on.auto)){
+    if(on)on.auto=true;else ADD.online={q,auto:true};
+    clearTimeout(window._autoOn);window._autoOn=setTimeout(()=>{if(ADD&&ADD.q.trim()===q&&$('#sres'))searchOnline('off');},650);
+  }
+  const on2=ADD.online&&ADD.online.q===q?ADD.online:null;
   h+=`<div class="sec">Online${!navigator.onLine?' · offline now':''}</div>`;
-  if(on&&on.off)h+=on.off.length?`<ul class="res">${on.off.map((f,i)=>foodRow(f,'pick-online').replace(`data-id="${esc(f.id)}"`,`data-id="${esc(f.id)}" data-src="off" data-i="${i}"`)).join('')}</ul>`:`<p class="muted" style="margin:0 2px 10px">Open Food Facts: nothing found.</p>`;
-  if(on&&on.usda)h+=on.usda.length?`<ul class="res">${on.usda.map((f,i)=>foodRow(f,'pick-online').replace(`data-id="${esc(f.id)}"`,`data-id="${esc(f.id)}" data-src="usda" data-i="${i}"`)).join('')}</ul>`:`<p class="muted" style="margin:0 2px 10px">USDA: nothing found.</p>`;
-  if(on&&on.err)h+=`<p class="muted" style="margin:0 2px 10px;color:var(--danger)">${esc(on.err)}</p>`;
-  h+=`<div class="stack" style="margin-bottom:12px">${S.settings.off&&!(on&&on.off)?`<button class="btn small" data-act="online" data-w="off" ${on&&on.busy==='off'?'disabled':''}>${on&&on.busy==='off'?'<span class="spin"></span>Searching…':'Search packaged products'}</button>`:''}
-    ${!(on&&on.usda)?`<button class="btn small" data-act="online" data-w="usda" ${on&&on.busy==='usda'?'disabled':''}>${on&&on.busy==='usda'?'<span class="spin"></span>Searching…':'Search USDA online'}</button>`:''}
-    <button class="btn small" data-act="food-new" data-name="${esc(q)}">Create “${esc(q.slice(0,24))}”</button></div>`;
+  if(on2&&on2.busy==='off'&&!on2.off)h+=`<p class="muted" style="margin:0 2px 10px"><span class="spin"></span>Searching Open Food Facts…</p>`;
+  if(on2&&on2.off)h+=on2.off.length?`<ul class="res">${on2.off.map((f,i)=>foodRow(f,'pick-online').replace(`data-id="${esc(f.id)}"`,`data-id="${esc(f.id)}" data-src="off" data-i="${i}"`)).join('')}</ul>`:`<p class="muted" style="margin:0 2px 10px">Open Food Facts: nothing found.</p>`;
+  if(on2&&on2.usda)h+=on2.usda.length?`<ul class="res">${on2.usda.map((f,i)=>foodRow(f,'pick-online').replace(`data-id="${esc(f.id)}"`,`data-id="${esc(f.id)}" data-src="usda" data-i="${i}"`)).join('')}</ul>`:`<p class="muted" style="margin:0 2px 10px">USDA: nothing found.</p>`;
+  if(on2&&on2.err)h+=`<p class="muted" style="margin:0 2px 10px;color:var(--danger)">${esc(on2.err)}</p>`;
+  h+=`<div class="stack" style="margin-bottom:12px">${S.settings.off&&!(on2&&(on2.off||on2.busy==='off'))?`<button class="btn small" data-act="online" data-w="off">Search packaged products</button>`:''}
+    ${!(on2&&on2.usda)?`<button class="btn small" data-act="online" data-w="usda" ${on2&&on2.busy==='usda'?'disabled':''}>${on2&&on2.busy==='usda'?'<span class="spin"></span>Searching…':'Search USDA online'}</button>`:''}</div>`;
+  if(ADD.mode==='log')h+=`<div class="sec">Not found?</div><ul class="res"><li><button class="it" data-act="estimate"><span class="nm"><b>Estimate “${esc(q.slice(0,30))}” from ingredients</b><small>e.g. milk + matcha + sugar. Saved as your recipe for next time</small></span><span class="kc">${I.plus.replace('<svg','<svg style="width:20px;height:20px"')}</span></button></li>
+    <li><button class="it" data-act="food-new" data-name="${esc(q)}"><span class="nm"><b>Create “${esc(q.slice(0,30))}” from a label</b><small>Enter kcal, protein, carbs, fat</small></span></button></li>
+    <li><button class="it" data-act="quick"><span class="nm"><b>Quick add calories</b><small>Just a number</small></span></button></li></ul>`;
   box.innerHTML=h;
 }
 async function searchOnline(which){
-  const q=ADD.q.trim();if(!q)return;
+  if(!ADD)return;const q=ADD.q.trim();if(!q)return;
   if(!navigator.onLine)return toast('You are offline. Try again when online.');
   if(!ADD.online||ADD.online.q!==q)ADD.online={q};
-  ADD.online.busy=which;ADD.online.err='';renderSearchRes();
+  const o=ADD.online;o.busy=which;o.err='';renderSearchRes();
   try{
-    if(which==='off')ADD.online.off=(await offSearch(q)).filter(visible);
-    else ADD.online.usda=(await usdaSearch(q)).filter(visible);
-  }catch(e){ADD.online.err=which==='off'?'Open Food Facts did not answer. Try again in a minute.':(String(e.message)==='limit'?'USDA limit reached for now. Add your own free API key in Settings → Online sources.':'USDA did not answer. Try again later.');}
-  if(ADD&&ADD.online&&ADD.online.q===q){ADD.online.busy='';renderSearchRes();}
+    if(which==='off')o.off=(await offSearch(q)).filter(visible);
+    else o.usda=(await usdaSearch(q)).filter(visible);
+  }catch(e){o.err=which==='off'?'Open Food Facts did not answer. Try again in a minute.':(String(e.message)==='limit'?'USDA limit reached for now. Add your own free API key in Settings → Online sources.':'USDA did not answer. Try again later.');}
+  o.busy='';
+  if(ADD&&ADD.online===o&&$('#sres'))renderSearchRes();
 }
+
+function restoreAddMode(){if(ADD&&ADD.mode==='recipe'){ADD.mode=ADD.prevMode||'log';ADD.q=ADD.prevQ||'';ADD.online=ADD.prevOnline||null;}}
 
 /* ---------- portion picker ---------- */
 let PORT=null;
@@ -794,7 +822,7 @@ function portionAdd(){
   if((f.src==='o'||f.src==='f')&&!PF.has(f.id))f=savePersonalFood({...f});
   if(PORT.mode==='recipe'){
     RC.ings.push({fid:f.id,name:f.name,g:r1(g),n:PORT.n.slice(),tags:f.tags||''});
-    STACK.pop();STACK.pop();ADD.mode=ADD.prevMode||'log';showView(STACK[STACK.length-1]);return;
+    STACK.pop();STACK.pop();restoreAddMode();showView(STACK[STACK.length-1]);return;
   }
   const p=prof();
   const e={id:uid(),pid:p.id,type:'food',day:PORT.day,meal:PORT.meal,ts:Date.now(),name:f.name+(f.brand&&!f.name.toLowerCase().includes(f.brand.toLowerCase())?` (${f.brand})`:''),fid:f.id,src:f.src,g:r1(g),q:PORT.u==='g'?null:PORT.q,u:PORT.u,n:PORT.n.slice()};
@@ -914,6 +942,19 @@ function ffDelete(){
 
 /* ---------- recipes ---------- */
 let RC=null;
+function openEstimate(name){
+  RC={id:null,name:name||'',ings:[],yieldG:'',servings:1,est:true,save:true};
+  pushView(recipeView());
+}
+/* ingredient ideas for an estimate: for each meaningful word of the name, the best plain ingredients */
+function estSuggest(){
+  const words=norm(RC.name).split(' ').filter(w=>w.length>=3&&!STOPW.has(w));const have=new Set(RC.ings.map(x=>x.fid));const out=[],seen=new Set();
+  for(const w of words){
+    const hits=searchFoods(w,12,'recipe').filter(f=>(f.src==='t'||f.src==='c'||f.src==='o')&&!have.has(f.id)&&!seen.has(f.id)).slice(0,2);
+    hits.forEach(f=>{seen.add(f.id);out.push(f);});
+  }
+  return out.slice(0,8);
+}
 function openRecipe(src){
   if(src&&src.src==='r'){const raw=S.foods.find(x=>x.id===src.id);RC={id:src.id,name:src.name,ings:(raw.ing||[]).map(x=>({...x})),yieldG:raw.yieldG||'',servings:raw.servings||2};}
   else RC={id:null,name:'',ings:[],yieldG:'',servings:2};
@@ -925,26 +966,49 @@ function recipeTotals(){
   return {t,raw,y,sv,per100:t.map(v=>y?v/y*100:0),portion:y/sv};
 }
 function recipeView(){
-  return {full:true,html:()=>{const R=recipeTotals();
-    return `${head(RC.id?'Edit recipe':'New recipe',{back:STACK.length>1})}<div class="sh-body">
-    <label class="fld"><span>Recipe name</span><input id="rc-name" value="${esc(RC.name)}" placeholder="e.g. Dal tadka (our version)"></label>
-    <div class="sec">Ingredients (raw weight)<span class="r">${fmt(R.raw)} g</span></div>
-    ${RC.ings.length?`<ul class="list">${RC.ings.map((x,i)=>`<li class="ing"><span class="nm"><b>${esc(x.name)}</b><small>${fmt((x.n[0]||0)*x.g/100)} kcal</small></span><input class="rc-g" data-i="${i}" inputmode="decimal" value="${fmtG(x.g)}" aria-label="grams"><span class="muted">g</span><button class="x" data-act="rc-rm" data-i="${i}" aria-label="Remove">${I.x}</button></li>`).join('')}</ul>`:'<p class="muted">Add each ingredient with its raw amount: dal, oil, onion, ghee…</p>'}
-    <button class="btn small" style="margin-top:10px" data-act="rc-add">+ Add ingredient</button>
-    <div class="g2" style="margin-top:16px"><label class="fld"><span>Cooked weight (g)</span><input id="rc-y" inputmode="decimal" value="${esc(RC.yieldG)}" placeholder="${fmt(R.raw)} (raw)"></label>
+  return {full:true,html:()=>{const R=recipeTotals(),est=RC.est;
+    const sug=est?estSuggest():[];
+    return `${head(est?'Estimate from ingredients':RC.id?'Edit recipe':'New recipe',{back:STACK.length>1})}<div class="sh-body">
+    <label class="fld"><span>${est?'What you had':'Recipe name'}</span><input id="rc-name" value="${esc(RC.name)}" placeholder="${est?'e.g. Matcha milk tea':'e.g. Dal tadka (our version)'}"></label>
+    ${est?`<p class="hint">Add what went into it for one serving. Tap a suggestion, then adjust the grams (1 ml ≈ 1 g for drinks).</p>`:''}
+    ${sug.length?`<div class="chips" style="margin:0 0 12px">${sug.map(f=>{const d=defPortion(f);return `<button class="chip k" data-act="rc-sug" data-id="${esc(f.id)}">+ ${esc(f.name.length>28?f.name.slice(0,27)+'…':f.name)} · ${fmtG(d[1])} g</button>`;}).join('')}</div>`:''}
+    <div class="sec">Ingredients${est?'':' (raw weight)'}<span class="r">${fmt(R.raw)} g</span></div>
+    ${RC.ings.length?`<ul class="list">${RC.ings.map((x,i)=>`<li class="ing"><span class="nm"><b>${esc(x.name)}</b><small>${fmt((x.n[0]||0)*x.g/100)} kcal</small></span><input class="rc-g" data-i="${i}" inputmode="decimal" value="${fmtG(x.g)}" aria-label="grams"><span class="muted">g</span><button class="x" data-act="rc-rm" data-i="${i}" aria-label="Remove">${I.x}</button></li>`).join('')}</ul>`:`<p class="muted">${est?'Nothing added yet.':'Add each ingredient with its raw amount: dal, oil, onion, ghee…'}</p>`}
+    <button class="btn small" style="margin-top:10px" data-act="rc-add">+ ${est?'Search an ingredient':'Add ingredient'}</button>
+    ${est?`<div class="calc" id="rc-calc" style="margin-top:14px">${estCalc(R)}</div>
+      <div class="tog"><span>Save to my recipes<small>So “${esc(RC.name||'it')}” is found directly next time</small></span><button class="sw ${RC.save?'on':''}" data-act="rc-savetog" aria-label="Save to my recipes"></button></div>`:
+    `<div class="g2" style="margin-top:16px"><label class="fld"><span>Cooked weight (g)</span><input id="rc-y" inputmode="decimal" value="${esc(RC.yieldG)}" placeholder="${fmt(R.raw)} (raw)"></label>
     <label class="fld"><span>Portions</span><input id="rc-s" inputmode="decimal" value="${esc(RC.servings)}"></label></div>
     <p class="hint">Weigh the pot after cooking (minus the pot) for accurate per-gram values. Dal and rice gain water, sabzi loses some.</p>
     <div class="calc" id="rc-calc">${recipeCalc(R)}</div>
     ${RC.id?`<button class="btn small" style="margin-top:4px" data-act="rs-open" data-id="${esc(RC.id)}">${I.cart.replace('<svg','<svg style="width:15px;height:15px;vertical-align:-2px;margin-right:4px"')}Shop for this recipe</button>
-    <button class="link" data-act="rc-del" style="color:var(--danger)">Delete recipe</button>`:''}
-    </div><div class="sh-foot"><button class="btn primary" style="width:100%" data-act="rc-save">Save recipe</button></div>`;},
+    <button class="link" data-act="rc-del" style="color:var(--danger)">Delete recipe</button>`:''}`}
+    </div><div class="sh-foot">${est?`<button class="btn primary" style="width:100%" data-act="rc-log">Add to ${esc(MEALNAME[(ADD&&ADD.meal)||defaultMeal()].toLowerCase())}</button>`:`<button class="btn primary" style="width:100%" data-act="rc-save">Save recipe</button>`}</div>`;},
   mount:()=>{
+    restoreAddMode();
     $('#rc-name').addEventListener('input',e=>RC.name=e.target.value);
-    const upd=()=>{$('#rc-calc').innerHTML=recipeCalc(recipeTotals());};
-    $('#rc-y').addEventListener('input',e=>{RC.yieldG=e.target.value;upd();});
-    $('#rc-s').addEventListener('input',e=>{RC.servings=e.target.value;upd();});
+    const upd=()=>{const c=$('#rc-calc');if(c)c.innerHTML=RC.est?estCalc(recipeTotals()):recipeCalc(recipeTotals());};
+    const y=$('#rc-y');if(y)y.addEventListener('input',e=>{RC.yieldG=e.target.value;upd();});
+    const sv=$('#rc-s');if(sv)sv.addEventListener('input',e=>{RC.servings=e.target.value;upd();});
+    if(RC.est)$('#rc-name').addEventListener('change',()=>refreshView());
     $$('.rc-g').forEach(el=>el.addEventListener('input',()=>{const v=num(el.value);if(!isNaN(v)){RC.ings[+el.dataset.i].g=v;upd();}}));
   }};
+}
+function estCalc(R){
+  return R.raw?`Estimate for ${fmt(R.raw)} g: <b>${fmt(R.t[0])} kcal</b> · P ${fmtG(R.t[1])} · C ${fmtG(R.t[2])} · F ${fmtG(R.t[3])} g<br><span class="small">An estimate: as good as the amounts you enter.</span>`:'Add ingredients to see the estimate.';
+}
+function rcLog(){
+  RC.name=($('#rc-name').value||'').trim();if(!RC.name)return toast('Give it a name.');
+  if(!RC.ings.length)return toast('Add at least one ingredient.');
+  const R=recipeTotals(),p=prof();
+  const tags=RC.ings.some(x=>/n/.test(x.tags||''))?'n':RC.ings.some(x=>/e/.test(x.tags||''))?'e':'';
+  const per100=R.per100.map(r1);let fid='',src='c';
+  if(RC.save){const f=savePersonalFood({id:'r:'+uid(),kind:'recipe',name:RC.name,brand:'',n:per100,ps:[['1 serving',Math.round(R.raw)]],
+      ing:RC.ings.map(x=>({fid:x.fid,name:x.name,g:x.g,n:x.n,tags:x.tags||''})),yieldG:'',servings:1,tags});fid=f.id;src='r';}
+  const e={id:uid(),pid:p.id,type:'food',day:ADD?ADD.day:VIEW.day,meal:ADD?ADD.meal:defaultMeal(),ts:Date.now(),name:RC.name,fid,src,g:r1(R.raw),q:1,u:'1 serving',n:per100};
+  putEntry(e);vib();if(ADD)ADD.added.push(e.id);
+  toast(`Added ${RC.name.slice(0,30)} · ${fmt(R.t[0])} kcal`);
+  RC=null;STACK.pop();if(STACK.length)showView(STACK[STACK.length-1]);else closeSheet();
 }
 function recipeCalc(R){
   const pp=R.t.map(v=>v/R.sv);
@@ -1579,6 +1643,10 @@ const A={
   'recipe-new':()=>openRecipe(null),
   'rc-add':()=>{RC.name=$('#rc-name').value;ADD=ADD||{meal:defaultMeal(),day:VIEW.day,added:[],mode:'log',q:''};openAdd(null,'recipe');},
   'rc-rm':b=>{RC.ings.splice(+b.dataset.i,1);refreshView();},
+  estimate:()=>openEstimate(ADD?ADD.q.trim():''),
+  'rc-sug':b=>{const f=getFood(b.dataset.id);if(!f)return;RC.name=$('#rc-name').value;const d=defPortion(f);RC.ings.push({fid:f.id,name:f.name,g:r1(d[1]),n:f.n.slice(),tags:f.tags||''});refreshView();},
+  'rc-savetog':b=>{RC.save=!RC.save;b.classList.toggle('on',RC.save);},
+  'rc-log':()=>rcLog(),
   'rc-save':()=>rcSave(),'rc-del':()=>rcDelete(),
   'foods-seg':b=>{S.settings.foodsSeg=b.dataset.s;save();render();if(b.dataset.s==='db'){renderDbResults();}},
   range:b=>{S.settings.trendRange=+b.dataset.n;save();render();},
