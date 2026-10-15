@@ -159,6 +159,20 @@ nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:6;display:flex;justify-c
 .spin{display:inline-block;width:16px;height:16px;border:2px solid var(--line);border-top-color:var(--kcal);border-radius:50%;animation:sp .8s linear infinite;vertical-align:-3px;margin-right:6px}
 @keyframes sp{to{transform:rotate(360deg)}}
 .foodlist .it .kc{min-width:58px}
+.tab{position:relative}.tab .badge{position:absolute;top:0;left:calc(50% + 6px);min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--kcal);color:var(--on);font-size:11px;font-style:normal;font-weight:700;line-height:18px;text-align:center}
+.addbox .in>svg{color:var(--kcal)}.addbox input{width:100%;padding:11px 12px 11px 38px;border-radius:14px;border:1px solid var(--line);background:var(--surface);font-size:16px;-webkit-appearance:none;appearance:none}
+.chips.sug{margin:-4px 0 8px}.chips.sug:empty{display:none}
+.res.shop .srow{display:flex;align-items:center;gap:10px;padding:4px 12px 4px 8px;min-height:50px}
+.res.shop .srow .nm{flex:1;min-width:0;text-align:left;padding:8px 0}.res.shop .srow .nm b{display:block;font-weight:600;font-size:15.5px}.res.shop .srow .nm small{color:var(--muted);font-size:13px}
+.tick{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;flex:none;position:relative}
+.tick::before{content:"";position:absolute;inset:7px;border-radius:50%;border:2px solid var(--line)}
+.tick.on::before{background:var(--pro);border-color:var(--pro)}.tick svg{position:relative;width:15px;height:15px;color:#fff;stroke-width:3}
+.res.shop.done .nm b{text-decoration:line-through;color:var(--muted);font-weight:500}
+.pill{flex:none;padding:6px 10px;border-radius:999px;font-size:12.5px;font-weight:700;background:color-mix(in srgb,var(--pro) 14%,var(--surface));color:var(--pro);min-width:94px}
+.pill.low{background:color-mix(in srgb,#D99A0B 18%,var(--surface));color:#A86F00}.pill.out{background:color-mix(in srgb,var(--danger) 14%,var(--surface));color:var(--danger)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .pill.low{color:#F2B83A}}:root[data-theme="dark"] .pill.low{color:#F2B83A}
+.onlist{color:var(--kcal);display:grid;place-items:center}.onlist svg{width:18px;height:18px}
+.red{color:var(--danger)}.warmcard h3 svg{width:18px;height:18px;color:var(--kcal)}
 .top8 li{display:flex;gap:10px;padding:8px 12px;font-size:14px}.top8 li span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.top8 li b{white-space:nowrap}
 </style>
 </head>
@@ -179,7 +193,7 @@ nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:6;display:flex;justify-c
 /* Thali – private calorie & macro log. Offline-first PWA.
    All personal data lives on this phone (IndexedDB). Optional: automatic sync through the
    owner's private GitHub repository; online lookups at Open Food Facts / USDA FoodData Central. */
-const APP_VERSION='1.0.0',APP_DATE='2026-10-15',SYNC_DIR='thali';
+const APP_VERSION='1.1.0',APP_DATE='2026-10-15',SYNC_DIR='thali';
 const MEALS=[['b','Breakfast'],['l','Lunch'],['d','Dinner'],['s','Snacks']];
 const MEALNAME=Object.fromEntries(MEALS);
 
@@ -208,6 +222,9 @@ const I={
   globe:ic('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>'),
   edit:ic('<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>'),
   camera:ic('<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/>'),
+  check:ic('<path d="M5 12.5l4.5 4.5L19 7.5"/>'),
+  cart:ic('<circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2.5 3.5h2.6l2.4 11.2a1.6 1.6 0 0 0 1.6 1.3h8.6a1.6 1.6 0 0 0 1.6-1.2L21 7.5H6.2"/>'),
+  clock:ic('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'),
   users:ic('<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/>'),
 };
 const MEALICON={b:I.sun,l:I.bowl,d:I.moon,s:I.apple};
@@ -242,11 +259,11 @@ function vib(){try{navigator.vibrate&&navigator.vibrate(10);}catch(e){}}
 
 /* ---------- state ---------- */
 function blank(){return {v:1,
-  settings:{device:'',theme:'auto',pid:'',hideNV:true,hideEgg:false,off:true,offDE:true,usdaKey:'',lastBackup:0,trendRange:7,foodsSeg:'mine'},
-  profiles:[],entries:[],foods:[],
+  settings:{device:'',theme:'auto',pid:'',hideNV:true,hideEgg:false,off:true,offDE:true,usdaKey:'',lastBackup:0,trendRange:7,foodsSeg:'mine',autoList:true},
+  profiles:[],entries:[],foods:[],shop:[],pantry:[],
   sync:{repo:'',token:'',on:false,shas:{},dirty:{},last:0,err:''}};}
 function hydrate(d){const b=blank();return {...b,...d,settings:{...b.settings,...(d.settings||{})},sync:{...b.sync,...(d.sync||{})},
-  profiles:Array.isArray(d.profiles)?d.profiles:[],entries:Array.isArray(d.entries)?d.entries:[],foods:Array.isArray(d.foods)?d.foods:[]};}
+  profiles:Array.isArray(d.profiles)?d.profiles:[],entries:Array.isArray(d.entries)?d.entries:[],foods:Array.isArray(d.foods)?d.foods:[],shop:Array.isArray(d.shop)?d.shop:[],pantry:Array.isArray(d.pantry)?d.pantry:[]};}
 let S=blank(),IDB=null,storeMode='idb',saving=false,saveAgain=false;
 const LSKEY='thali-state';
 function idbOpen(){return new Promise((res,rej)=>{try{if(!window.indexedDB)return rej(new Error('none'));const r=indexedDB.open('thali',1);
@@ -454,9 +471,10 @@ function savePersonalFood(f){
 const VIEW={tab:'today',day:today()};
 function defaultMeal(){const h=new Date().getHours()+new Date().getMinutes()/60;return h<10.5?'b':h<15?'l':h<17.5?'s':h<22?'d':'s';}
 function renderTabs(){
-  const t=[['today','Today',I.plate],['foods','Foods',I.book],['add','Add',I.plus],['trends','Trends',I.bars]];
+  const t=[['today','Today',I.plate],['foods','Foods',I.book],['add','Add',I.plus],['shop','Shop',I.cart],['trends','Trends',I.bars]];
+  const nOpen=openShop().length;
   $('#tabs').innerHTML=t.map(([k,l,i])=>k==='add'?`<button class="tab add" data-act="add" aria-label="Add food"><span class="plus">${i}</span><em>${l}</em></button>`
-    :`<button class="tab ${VIEW.tab===k?'on':''}" data-act="tab" data-t="${k}">${i}<span>${l}</span></button>`).join('');
+    :`<button class="tab ${VIEW.tab===k?'on':''}" data-act="tab" data-t="${k}">${i}<span>${l}</span>${k==='shop'&&nOpen?`<i class="badge">${nOpen>99?'99+':nOpen}</i>`:''}</button>`).join('');
 }
 function renderHeader(){
   const p=prof();
@@ -470,6 +488,7 @@ function render(){
   renderHeader();renderTabs();
   const m=$('#main');
   if(!prof()){m.innerHTML=onboardHtml();return;}
+  if(VIEW.tab==='shop'){m.innerHTML=shopHtml();mountShop();return;}
   m.innerHTML=VIEW.tab==='foods'?foodsHtml():VIEW.tab==='trends'?trendsHtml():todayHtml();
 }
 function onboardHtml(){
@@ -755,7 +774,9 @@ function portionView(){
       ${PORT.mode==='recipe'?'':`<div class="sec">Meal</div>${mealChips(PORT.meal,'port-meal')}`}
       ${PORT.editId?`<label class="fld" style="margin-top:12px"><span>Day</span><input type="date" id="pday" value="${PORT.day}" max="${today()}"></label>`:''}
       <div class="stack" style="margin-top:14px">${personal?`<button class="btn small" data-act="food-edit" data-id="${esc(f.id)}">${I.edit.replace('<svg','<svg style="width:15px;height:15px;vertical-align:-2px;margin-right:4px"')}Edit food</button>`:
-        (f.src!=='o'&&f.src!=='f'?`<button class="btn small" data-act="food-copy" data-id="${esc(f.id)}">Copy to my foods & adjust</button>`:'')}</div>
+        (f.src!=='o'&&f.src!=='f'?`<button class="btn small" data-act="food-copy" data-id="${esc(f.id)}">Copy to my foods & adjust</button>`:'')}
+        ${PORT.mode==='recipe'?'':f.src==='r'?`<button class="btn small" data-act="rs-open" data-id="${esc(f.id)}">${I.cart.replace('<svg','<svg style="width:15px;height:15px;vertical-align:-2px;margin-right:4px"')}Shop for this recipe</button>`
+          :`<button class="btn small" data-act="port-tolist">${I.cart.replace('<svg','<svg style="width:15px;height:15px;vertical-align:-2px;margin-right:4px"')}Shopping list</button>`}</div>
       ${f.src==='i'?`<p class="muted small" style="margin-top:10px">INDB values come from standard textbook recipes. Home cooking with more oil or ghee will be higher.</p>`:''}
       ${f.src==='t'?`<p class="muted small" style="margin-top:10px">Estimate for a typical home recipe.</p>`:''}
     </div>
@@ -914,7 +935,8 @@ function recipeView(){
     <label class="fld"><span>Portions</span><input id="rc-s" inputmode="decimal" value="${esc(RC.servings)}"></label></div>
     <p class="hint">Weigh the pot after cooking (minus the pot) for accurate per-gram values. Dal and rice gain water, sabzi loses some.</p>
     <div class="calc" id="rc-calc">${recipeCalc(R)}</div>
-    ${RC.id?`<button class="link" data-act="rc-del" style="color:var(--danger)">Delete recipe</button>`:''}
+    ${RC.id?`<button class="btn small" style="margin-top:4px" data-act="rs-open" data-id="${esc(RC.id)}">${I.cart.replace('<svg','<svg style="width:15px;height:15px;vertical-align:-2px;margin-right:4px"')}Shop for this recipe</button>
+    <button class="link" data-act="rc-del" style="color:var(--danger)">Delete recipe</button>`:''}
     </div><div class="sh-foot"><button class="btn primary" style="width:100%" data-act="rc-save">Save recipe</button></div>`;},
   mount:()=>{
     $('#rc-name').addEventListener('input',e=>RC.name=e.target.value);
@@ -1048,6 +1070,7 @@ function settingsView(){
     f+=`<div class="set-sec">Profile</div><ul class="list"><li><button class="it" data-act="profiles"><span class="nm"><b>${esc(p?p.name:'No profile')}</b><small>${p?`On this phone · ${fmt(calcTargets(p,today()).k)} kcal target`:'Set up a profile'}</small></span>${I.right.replace('<svg','<svg style="width:18px;height:18px;color:var(--muted)"')}</button></li>
       ${p?`<li><button class="it" data-act="profile-edit"><span class="nm"><b>Targets & body data</b><small>Calories, protein, activity, goal</small></span>${I.right.replace('<svg','<svg style="width:18px;height:18px;color:var(--muted)"')}</button></li>`:''}</ul>`;
     f+=`<div class="set-sec">Foods shown</div>${tog('t-nv',st.hideNV,'Hide meat & fish','In search and the database')}${tog('t-egg',st.hideEgg,'Hide egg dishes')}`;
+    f+=`<div class="set-sec">Shopping & pantry</div>${tog('t-autolist',st.autoList,'Add to list when running low','Marking a pantry item low or out puts it on the shopping list')}`;
     f+=`<div class="set-sec">Online sources</div>${tog('t-off',st.off,'Open Food Facts','Barcode scans and packaged-product search')}${tog('t-offde',st.offDE,'Prefer products sold in Germany')}
       <label class="fld" style="margin-top:12px"><span>USDA FoodData Central API key (optional)</span><input id="s-usda" value="${esc(st.usdaKey)}" placeholder="DEMO_KEY is used if empty" autocapitalize="off" autocorrect="off" spellcheck="false"></label>
       <p class="hint">A free key from api.data.gov/signup lifts the low shared limit of DEMO_KEY.</p>
@@ -1061,10 +1084,10 @@ function settingsView(){
       <label class="fld"><span>Access token for this phone</span><input id="s-token" type="password" placeholder="github_pat_…" autocomplete="off" autocapitalize="off" spellcheck="false"></label>
       <button class="btn primary" style="width:100%" data-act="sync-on">Test and turn on</button>`;
     f+=`<label class="fld" style="margin-top:12px"><span>This phone's name (shown in sync history)</span><input id="s-dev" value="${esc(st.device)}" placeholder="e.g. My iPhone"></label>`;
-    f+=`<div class="set-sec">Backup</div><p class="muted" style="margin-bottom:10px">${st.lastBackup?`Last backup ${esc(dayLabel(dayKey(st.lastBackup)).toLowerCase())}.`:'No backup yet.'} A backup holds all profiles, entries, foods and recipes.</p>
+    f+=`<div class="set-sec">Backup</div><p class="muted" style="margin-bottom:10px">${st.lastBackup?`Last backup ${esc(dayLabel(dayKey(st.lastBackup)).toLowerCase())}.`:'No backup yet.'} A backup holds all profiles, entries, foods, recipes, the shopping list and the pantry.</p>
       <div class="stack"><button class="btn small" data-act="backup">Back up to Files</button><button class="btn small" data-act="import">Import backup</button><button class="btn small" data-act="csv">Export CSV</button></div>`;
     f+=`<div class="set-sec">Appearance</div><div class="seg">${[['auto','Automatic'],['light','Light'],['dark','Dark']].map(([k,l])=>`<button class="${st.theme===k?'on':''}" data-act="theme" data-v="${k}">${l}</button>`).join('')}</div>`;
-    f+=`<div class="set-sec">Storage</div><p class="muted">${storeMode==='idb'?'Saved in IndexedDB on this phone.':'Saved in local storage on this phone.'} ${fmt(liveEntries().length)} entries, ${fmt(S.foods.filter(x=>!x.deleted).length)} own foods & recipes.</p>`;
+    f+=`<div class="set-sec">Storage</div><p class="muted">${storeMode==='idb'?'Saved in IndexedDB on this phone.':'Saved in local storage on this phone.'} ${fmt(liveEntries().length)} entries, ${fmt(S.foods.filter(x=>!x.deleted).length)} own foods & recipes, ${fmt(liveShop().length)} list items, ${fmt(livePantry().length)} pantry items.</p>`;
     f+=`<div class="set-sec">About</div><p class="muted small" style="line-height:1.55">Thali ${APP_VERSION} (${APP_DATE}). Food data: Thali curated list (estimates for home recipes); Indian Nutrient Databank, Jaacks et al., Current Developments in Nutrition 2024 (rows with implausible values removed); USDA FoodData Central SR Legacy (public domain); Open Food Facts (ODbL, openfoodfacts.org). Barcode reading: zxing-wasm (MIT). Calorie targets use the Mifflin–St Jeor equation; they are estimates, not medical advice.</p>`;
     return f+`</div>`;},
   mount:()=>{const save1=(id,k)=>{const el=$('#'+id);if(el)el.addEventListener('change',()=>{S.settings[k]=el.value.trim();save();});};save1('s-usda','usdaKey');save1('s-dev','device');}};
@@ -1078,7 +1101,7 @@ async function shareFile(name,text,mime){
   const a=document.createElement('a');a.href=URL.createObjectURL(file);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);return true;
 }
 async function doBackup(){
-  const body={app:'thali',kind:'backup',version:APP_VERSION,exportedAt:Date.now(),device:S.settings.device,profiles:S.profiles,entries:S.entries,foods:S.foods};
+  const body={app:'thali',kind:'backup',version:APP_VERSION,exportedAt:Date.now(),device:S.settings.device,profiles:S.profiles,entries:S.entries,foods:S.foods,shop:S.shop,pantry:S.pantry};
   const dev=(S.settings.device||'').replace(/[^\w-]+/g,'');
   if(await shareFile(`thali-backup-${stamp()}${dev?'-'+dev:''}.json`,JSON.stringify(body),'application/json')){S.settings.lastBackup=Date.now();save();toast('Backup ready');}
 }
@@ -1093,9 +1116,10 @@ async function importFile(file){
   let d;try{d=JSON.parse(await file.text());}catch(e){return toast('That file is not a Thali backup.');}
   if(!d||d.app!=='thali')return toast('That file is not a Thali backup.');
   const a=mergeList(S.profiles,d.profiles),b=mergeList(S.entries,d.entries,(o,r)=>{markDirty(monthOf(r.day));if(o&&monthOf(o.day)!==monthOf(r.day))markDirty(monthOf(o.day));}),c=mergeList(S.foods,d.foods);
-  if(a)markDirty('profiles');if(c)markDirty('foods');
+  const h=mergeList(S.shop,d.shop)+mergeList(S.pantry,d.pantry);
+  if(a)markDirty('profiles');if(c)markDirty('foods');if(h)markDirty('household');
   if(!prof()&&liveProfiles().length)S.settings.pid=liveProfiles()[0].id;
-  rebuildPersonal();save();closeSheet();toast(`Imported: ${a} profiles, ${b} entries, ${c} foods updated`);
+  rebuildPersonal();save();closeSheet();toast(`Imported: ${a} profiles, ${b} entries, ${c} foods, ${h} list/pantry items updated`);
 }
 function exportCsv(){
   const q=v=>{v=String(v??'');return /[",\n;]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;};
@@ -1123,6 +1147,7 @@ async function dbUpdate(){
    thali/YYYY-MM.json  entries of that month (all profiles)
    thali/profiles.json profiles and their targets/favourites
    thali/foods.json    own foods, recipes and saved products
+   thali/household.json shopping list and pantry (shared by everyone)
    Pull: list folder, fetch only changed files, merge by id + updatedAt (deletions travel as flags).
    Push: rewrite only files changed on this phone, using the file's version as a lock; on a clash re-pull and retry. */
 let syncing=false,syncTimer=null,syncAgain=false;
@@ -1149,12 +1174,14 @@ function setSyncUI(){const el=$('#syncStatus');if(el){el.textContent=syncStatus(
 function fileFor(k){
   if(k==='profiles')return JSON.stringify({app:'thali',kind:'profiles',profiles:S.profiles});
   if(k==='foods')return JSON.stringify({app:'thali',kind:'foods',foods:S.foods});
+  if(k==='household')return JSON.stringify({app:'thali',kind:'household',shop:S.shop,pantry:S.pantry});
   return JSON.stringify({app:'thali',kind:'month',month:k,entries:S.entries.filter(e=>monthOf(e.day)===k).sort((a,b)=>a.day<b.day?-1:a.day>b.day?1:a.ts-b.ts)});
 }
 function mergeRemote(obj){
   if(!obj||obj.app!=='thali')return false;
   if(obj.kind==='profiles'){const n=mergeList(S.profiles,obj.profiles);if(n&&!prof()&&liveProfiles().length)S.settings.pid=liveProfiles()[0].id;return n>0;}
   if(obj.kind==='foods'){const n=mergeList(S.foods,obj.foods);if(n)rebuildPersonal();return n>0;}
+  if(obj.kind==='household')return (mergeList(S.shop,obj.shop)+mergeList(S.pantry,obj.pantry))>0;
   if(obj.kind==='month')return mergeList(S.entries,(obj.entries||[]).filter(e=>e&&e.id&&e.type&&e.day),(o,r)=>{if(o&&monthOf(o.day)!==monthOf(r.day))S.sync.dirty[monthOf(o.day)]=1;})>0;
   return false;
 }
@@ -1181,7 +1208,7 @@ async function autoSync(){
       let clash=false;
       for(const k of Object.keys(s.dirty||{})){
         const name=k+'.json';
-        if(k!=='profiles'&&k!=='foods'&&!remote[name]&&!S.entries.some(e=>monthOf(e.day)===k)){delete s.dirty[k];continue;}
+        if(k!=='profiles'&&k!=='foods'&&k!=='household'&&!remote[name]&&!S.entries.some(e=>monthOf(e.day)===k)){delete s.dirty[k];continue;}
         const pr=await gh('/contents/'+SYNC_DIR+'/'+name,{method:'PUT',body:JSON.stringify({message:`${S.settings.device||'Thali'}: ${k}`,content:b64enc(fileFor(k)),...(remote[name]?{sha:remote[name]}:{})})});
         if(pr.status===409||pr.status===422){clash=true;break;}
         if(!pr.ok)throw pr.status;
@@ -1195,7 +1222,7 @@ async function autoSync(){
   }catch(e){s.err=syncErrText(e instanceof TypeError?'net':e);}
   finally{
     syncing=false;save();
-    if(changed&&!sheetOpen())render();else if(changed)renderHeader();
+    if(changed&&!sheetOpen()&&!(document.activeElement&&document.activeElement.matches('#main input')))render();else if(changed){renderHeader();renderTabs();}
     setSyncUI();
     if(syncAgain){syncAgain=false;scheduleSync(2000);}
   }
@@ -1212,7 +1239,7 @@ async function syncTurnOn(){
   if(!info.private)return toast('That repository is public. Use a private one for your food log.');
   Object.assign(S.sync,{repo,token,on:true,err:'',shas:{},dirty:{}});
   new Set(S.entries.map(e=>monthOf(e.day))).forEach(k=>S.sync.dirty[k]=1);
-  if(S.profiles.length)S.sync.dirty.profiles=1;if(S.foods.length)S.sync.dirty.foods=1;
+  if(S.profiles.length)S.sync.dirty.profiles=1;if(S.foods.length)S.sync.dirty.foods=1;if(S.shop.length||S.pantry.length)S.sync.dirty.household=1;
   save();refreshView();toast('Sync is on. First sync running…');autoSync();
 }
 function syncTurnOff(){
@@ -1292,6 +1319,212 @@ async function lookupCode(code){
     openFoodForm(null,{code,name:r.name||''});
   }catch(e){STACK.pop();toast('Open Food Facts did not answer. Enter it from the label or try later.');openFoodForm(null,{code});}
 }
+/* ---------- shopping list & pantry (v1.1) ----------
+   Shared by both phones (not per profile). Synced in thali/household.json.
+   shop item:   {id,name,qty,cat,done,doneAt,src,updatedAt,by,deleted}
+   pantry item: {id,name,qty,cat,state:'ok'|'low'|'out',exp,updatedAt,by,deleted}
+   Loop: pantry item marked low/out → added to the list → ticked and cleared → pantry item back to "ok". */
+const AISLES=[['veg','Fruit & veg'],['bread','Bread & bakery'],['dairy','Dairy & eggs'],['fridge','Tofu, paneer & chilled'],['frozen','Frozen'],
+  ['dry','Atta, rice, dals & pasta'],['spice','Spices & masala'],['oil','Oil, ghee & sauces'],['snack','Snacks, nuts & sweets'],['drink','Drinks'],
+  ['indian','Indian store'],['baby','Baby'],['home','Household & care'],['other','Other']];
+const AISLE=Object.fromEntries(AISLES),AISLEORD=Object.fromEntries(AISLES.map(([k],i)=>[k,i]));
+const AISLE_RX=[
+  ['baby',/\b(windel|diaper|nappy|pampers|feuchttuch|wet wipe|baby|pre milch|folgemilch|formula|brei|hipp|alete)/],
+  ['home',/\b(spul|dish|tab|waschmittel|detergent|toilet|klopapier|kuchenrolle|tissue|taschentuch|mull|bin bag|beutel|seife|soap|shampoo|zahnpasta|toothpaste|deo|schwamm|sponge|alufolie|foil|frischhalte|cling|batter|lamp|reiniger|cleaner|essig essenz)/],
+  ['frozen',/\b(tk|tiefkuhl|frozen|gefroren|eis|ice cream|erbsen tk|pizza)/],
+  ['spice',/\b(masala|haldi|turmeric|kurkuma|jeera|cumin|kreuzkummel|rai|mustard seed|senfsaat|hing|asafoetida|garam|chilli powder|chili pulver|paprika pulver|dhania powder|coriander powder|kasuri|ajwain|elaichi|cardamom|kardamom|laung|clove|nelke|dalchini|cinnamon|zimt|pepper|pfeffer|salz|salt|saffron|safran|kesar|amchur|chaat|methi seed|sambar|rasam|pav bhaji masala)/],
+  ['oil',/\b(oil|ol|tel|ghee|butterschmalz|vinegar|essig|ketchup|sauce|sosse|sojasauce|soy sauce|mayo|senf|mustard|pickle|achar|chutney|honig|honey|jam|marmelade|nutella|peanut butter|erdnussbutter|tahini)/],
+  ['dairy',/\b(milk|milch|dahi|curd|yog|jog|skyr|quark|kase|cheese|butter|sahne|cream|schmand|creme|egg|ei|eier|buttermilch|kefir|chaas|mozzarella|feta|halloumi|parmesan)/],
+  ['fridge',/\b(tofu|paneer|tempeh|hummus|wurst|aufschnitt|seitan|falafel|gnocchi|teig|dough|frischkase)/],
+  ['bread',/\b(brot|bread|brotchen|roll|semmel|toast|bagel|croissant|naan|pav|bun|wrap|tortilla|laugen|breze)/],
+  ['dry',/\b(atta|mehl|flour|maida|besan|sooji|suji|semolina|griess|rice|reis|chawal|basmati|poha|dal|daal|toor|tuvar|moong|mung|masoor|urad|chana|rajma|linsen|lentil|kichererbsen|chickpea|bohnen|beans|pasta|nudeln|noodle|spaghetti|penne|oats|hafer|muesli|musli|cornflakes|zucker|sugar|jaggery|gud|sabudana|quinoa|bulgur|couscous|polenta|vermicelli|sevai|maggi)/],
+  ['snack',/\b(nuts|nusse|badam|almond|mandel|kaju|cashew|walnut|walnuss|pista|raisin|rosine|kishmish|dates|datteln|khajur|chocolate|schokolade|keks|biscuit|cookie|chips|namkeen|bhujia|sev|chakri|khakhra|mathri|popcorn|makhana|kuchen|cake|sweet|mithai|gummi)/],
+  ['drink',/\b(water|wasser|sprudel|juice|saft|coffee|kaffee|tea|tee|chai|beer|bier|wine|wein|cola|limo|mate|kombucha|hafermilch|oat drink|soy drink|sojadrink)/],
+  ['veg',/\b(apple|apfel|banana|banane|kela|orange|mandarin|clementine|lemon|zitrone|nimbu|lime|limette|mango|grape|traube|berry|beeren|erdbeer|blaubeer|heidelbeer|kiwi|pear|birne|melon|pomegranate|granatapfel|avocado|onion|zwiebel|kanda|pyaz|garlic|knoblauch|lasan|ginger|ingwer|adrak|tomato|tomate|tameta|potato|kartoffel|aloo|bataka|carrot|karotte|mohre|gajar|cucumber|gurke|kakdi|spinach|spinat|palak|salat|lettuce|cabbage|kohl|cauliflower|blumenkohl|gobi|broccoli|brokkoli|paprika|capsicum|pepper|chilli|chili|okra|bhindi|aubergine|eggplant|baingan|zucchini|lauki|dudhi|pumpkin|kurbis|beans fresh|peas|erbsen|corn|mais|mushroom|pilz|champignon|coriander|koriander|dhania|cilantro|mint|minze|pudina|curry leaves|curryblatter|methi|fenugreek|herbs|krauter|sweet potato|susskartoffel|radish|rettich|radieschen|beet|rote bete|leek|lauch|celery|sellerie|fenchel|fennel|spring onion|lauchzwiebel)/],
+];
+function guessAisle(name){
+  const n=norm(name);
+  const hist=[...S.shop,...S.pantry].filter(x=>x.cat&&x.catSet&&norm(x.name)===n).sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0))[0];
+  if(hist)return hist.cat;
+  for(const [k,rx] of AISLE_RX)if(rx.test(n))return k;
+  return 'other';
+}
+// "2 Milch", "Milch 2 l", "500g paneer", "Bananen x6" → {name,qty}
+function parseItem(txt){
+  const t=String(txt||'').trim().replace(/\s+/g,' ');if(!t)return null;
+  const U='(?:x|×|kg|g|gr|l|ltr|ml|pcs|pc|pack|packs|pkg|stk|stuck|st|bunch|bund|dozen|doz)';
+  let m=t.match(new RegExp(`^(\\d+(?:[.,]\\d+)?\\s*${U}?\\.?)\\s+(.+)$`,'i'));
+  if(m)return {name:m[2],qty:m[1].replace(/\s+/g,' ')};
+  m=t.match(new RegExp(`^(.+?)\\s+((?:x|×)\\s*\\d+|\\d+(?:[.,]\\d+)?\\s*${U}?\\.?)$`,'i'));
+  if(m&&!/^\d+$/.test(m[1]))return {name:m[1],qty:m[2].replace(/\s+/g,' ')};
+  return {name:t,qty:''};
+}
+const cap=s=>s?s.charAt(0).toUpperCase()+s.slice(1):s;
+const liveShop=()=>S.shop.filter(x=>!x.deleted);
+const livePantry=()=>S.pantry.filter(x=>!x.deleted);
+const openShop=()=>liveShop().filter(x=>!x.done);
+function onList(name){const n=norm(name);return liveShop().find(x=>!x.done&&norm(x.name)===n)||null;}
+function inPantry(name){const n=norm(name);return livePantry().find(x=>norm(x.name)===n)||null;}
+function houseChanged(){markDirty('household');save();}
+function addToList(txt,opts={}){
+  const p=typeof txt==='string'?parseItem(txt):txt;if(!p||!p.name)return null;
+  p.name=cap(p.name.trim());
+  const ex=onList(p.name);
+  if(ex){if(p.qty&&ex.qty!==p.qty){ex.qty=ex.qty?ex.qty+' + '+p.qty:p.qty;touch(ex);houseChanged();}return {item:ex,dup:true};}
+  const item=touch({id:uid(),name:p.name,qty:p.qty||'',cat:opts.cat||guessAisle(p.name),done:false,doneAt:0,src:opts.src||'manual',deleted:false});
+  S.shop.push(item);houseChanged();return {item,dup:false};
+}
+function usualItems(limit=14){
+  const cut=Date.now()-150*864e5,cnt=new Map();
+  for(const x of S.shop){if((x.updatedAt||0)<cut)continue;const k=norm(x.name);const c=cnt.get(k)||{n:0,name:x.name,last:0};c.n++;if((x.updatedAt||0)>c.last){c.last=x.updatedAt||0;c.name=x.name;}cnt.set(k,c);}
+  for(const x of livePantry()){const k=norm(x.name);if(!cnt.has(k))cnt.set(k,{n:0.5,name:x.name,last:0});}
+  const open=new Set(openShop().map(x=>norm(x.name)));
+  return [...cnt.entries()].filter(([k])=>!open.has(k)).sort((a,b)=>b[1].n-a[1].n||b[1].last-a[1].last).slice(0,limit).map(([,c])=>c.name);
+}
+function shopSuggest(q){
+  const n=norm((parseItem(q)||{}).name||'');if(n.length<2)return [];
+  const names=new Map();
+  for(const x of [...S.shop,...S.pantry]){const k=norm(x.name);if(!names.has(k))names.set(k,x.name);}
+  const open=new Set(openShop().map(x=>norm(x.name)));
+  return [...names.entries()].filter(([k])=>!open.has(k)&&k!==n&&(k.startsWith(n)||k.includes(' '+n)||(n.length>=3&&k.includes(n)))).slice(0,6).map(([,v])=>v);
+}
+const expDays=x=>x.exp?Math.round((dayTs(x.exp)-dayTs(today()))/864e5):null;
+function expLabel(x){const d=expDays(x);if(d==null)return '';if(d<0)return `expired ${-d} d ago`;if(d===0)return 'use today';if(d===1)return 'use by tomorrow';if(d<=7)return `use within ${d} days`;return 'best before '+shortDate(x.exp);}
+const STATE={ok:['In stock','ok'],low:['Running low','low'],out:['Out','out']};
+
+function shopHtml(){
+  const seg=VIEW.shopSeg||'list';
+  const nOpen=openShop().length,nLow=livePantry().filter(x=>x.state!=='ok').length;
+  let h=`<div class="seg"><button class="${seg==='list'?'on':''}" data-act="shop-seg" data-s="list">Shopping list${nOpen?` · ${nOpen}`:''}</button><button class="${seg==='pantry'?'on':''}" data-act="shop-seg" data-s="pantry">Pantry${nLow?` · ${nLow} low`:''}</button></div>`;
+  return h+(seg==='pantry'?pantryHtml():listHtml());
+}
+function addBox(id,ph){
+  return `<div class="search addbox"><div class="in">${I.plus}<input id="${id}" type="text" placeholder="${ph}" autocomplete="off" autocorrect="off" enterkeyhint="done"></div><button class="icon-btn" data-act="${id}-go" aria-label="Add">${I.plus}</button></div><div id="${id}-sug" class="chips sug"></div>`;
+}
+function listHtml(){
+  const items=liveShop(),open=items.filter(x=>!x.done),done=items.filter(x=>x.done).sort((a,b)=>(b.doneAt||0)-(a.doneAt||0));
+  let h=addBox('sh-in','Add e.g. 2 Milch, paneer, Bananen x6');
+  const us=usualItems();
+  if(us.length)h+=`<div class="sec">Usuals<span class="r muted small">tap to add</span></div><div class="chips scroll" style="margin-bottom:6px">${us.map(n=>`<button class="chip" data-act="shop-usual" data-n="${esc(n)}">+ ${esc(n)}</button>`).join('')}</div>`;
+  if(!open.length&&!done.length)return h+`<div class="empty">The list is empty.<br>Type above, tap a usual, or mark pantry items as running low. Both phones see the same list when sync is on.</div>`;
+  if(open.length){
+    const groups=new Map();for(const x of open){const k=x.cat||'other';if(!groups.has(k))groups.set(k,[]);groups.get(k).push(x);}
+    for(const k of [...groups.keys()].sort((a,b)=>(AISLEORD[a]??99)-(AISLEORD[b]??99))){
+      h+=`<div class="sec">${esc(AISLE[k]||'Other')}<span class="r">${groups.get(k).length}</span></div><ul class="res shop">${groups.get(k).sort((a,b)=>a.name.localeCompare(b.name)).map(shopRow).join('')}</ul>`;
+    }
+  }else h+=`<div class="empty" style="padding:16px 10px">Everything is in the trolley.</div>`;
+  if(done.length)h+=`<div class="sec">In the trolley<span class="r"><button class="chip k" data-act="shop-clear">Clear ${done.length}</button></span></div><ul class="res shop done">${done.map(shopRow).join('')}</ul>`;
+  h+=`<div class="row-btns" style="margin-top:6px"><button class="btn small" data-act="shop-share">Share list</button>${open.length?`<button class="btn small" data-act="shop-tickall">Tick all</button>`:''}</div>`;
+  return h;
+}
+function shopRow(x){
+  const pn=inPantry(x.name);
+  return `<li><div class="it srow"><button class="tick ${x.done?'on':''}" data-act="shop-tick" data-id="${x.id}" aria-label="${x.done?'Untick':'Tick'} ${esc(x.name)}">${x.done?I.check:''}</button>
+    <button class="nm" data-act="shop-edit" data-id="${x.id}"><b>${esc(x.name)}</b>${x.qty||x.note||x.src==='recipe'||(pn&&pn.state!=='ok')?`<small>${[x.qty,x.note,x.src==='recipe'&&x.from?'for '+x.from:'',pn&&pn.state!=='ok'?'pantry: '+STATE[pn.state][0].toLowerCase():''].filter(Boolean).map(esc).join(' · ')}</small>`:''}</button></div></li>`;
+}
+function pantryHtml(){
+  const items=livePantry();
+  let h=addBox('pa-in','Add to pantry e.g. Toor dal, Ghee, Basmati');
+  if(!items.length)return h+`<div class="empty">Keep track of what is at home: dals, atta, spices, ghee, baby things.<br>Mark something as running low or out and it goes onto the shopping list. When you clear it from the list, it is back in stock here.</div>`;
+  const soon=items.filter(x=>{const d=expDays(x);return d!=null&&d<=7;}).sort((a,b)=>a.exp<b.exp?-1:1);
+  if(soon.length)h+=`<div class="card warmcard"><h3>${I.clock}Use soon</h3><ul class="top8" style="list-style:none;margin:6px -12px 0">${soon.map(x=>`<li><span>${esc(x.name)}</span><b class="${expDays(x)<0?'red':''}">${esc(expLabel(x))}</b></li>`).join('')}</ul></div>`;
+  const low=items.filter(x=>x.state!=='ok'),lowOff=low.filter(x=>!onList(x.name));
+  if(lowOff.length)h+=`<div class="nudge"><span>${lowOff.length} low or out, not on the list yet.</span><button class="btn small" data-act="pa-listall">Add to list</button></div>`;
+  const f=VIEW.paFilter||'all';
+  h+=`<div class="chips" style="margin:2px 0 4px">${[['all','All'],['low','Low & out']].map(([k,l])=>`<button class="chip ${f===k?'on':''}" data-act="pa-filter" data-f="${k}">${l}</button>`).join('')}</div>`;
+  const show=f==='low'?low:items;
+  if(!show.length)return h+`<div class="empty" style="padding:16px">Nothing is running low.</div>`;
+  const groups=new Map();for(const x of show){const k=x.cat||'other';if(!groups.has(k))groups.set(k,[]);groups.get(k).push(x);}
+  for(const k of [...groups.keys()].sort((a,b)=>(AISLEORD[a]??99)-(AISLEORD[b]??99))){
+    h+=`<div class="sec">${esc(AISLE[k]||'Other')}</div><ul class="res shop">${groups.get(k).sort((a,b)=>a.name.localeCompare(b.name)).map(x=>{const el=expLabel(x),d=expDays(x);
+      return `<li><div class="it srow"><button class="nm" data-act="pa-edit" data-id="${x.id}"><b>${esc(x.name)}</b>${x.qty||el?`<small>${[x.qty?esc(x.qty):'',el?`<span class="${d!=null&&d<=3?'red':''}">${esc(el)}</span>`:''].filter(Boolean).join(' · ')}</small>`:''}</button>
+      ${onList(x.name)&&x.state!=='ok'?`<span class="onlist" title="On the shopping list">${I.cart}</span>`:''}<button class="pill ${x.state}" data-act="pa-cycle" data-id="${x.id}" aria-label="Change stock state of ${esc(x.name)}">${STATE[x.state][0]}</button></div></li>`;}).join('')}</ul>`;
+  }
+  h+=`<p class="muted small" style="margin:8px 2px">Tap the state to cycle: in stock → running low → out. ${S.settings.autoList?'Low and out items go onto the shopping list automatically.':'Automatic adding to the list is off (Settings).'}</p>`;
+  return h;
+}
+function mountAddBox(id,onAdd){
+  const el=$('#'+id);if(!el)return;const sug=$('#'+id+'-sug');
+  const upd=()=>{if(!sug)return;const s=shopSuggest(el.value);sug.innerHTML=s.map(n=>`<button class="chip" data-act="${id}-sug" data-n="${esc(n)}">${esc(n)}</button>`).join('');};
+  el.addEventListener('input',upd);
+  el.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();const v=el.value;if(v.trim()){onAdd(v);el.value='';upd();}}});
+  A[id+'-go']=()=>{const v=el.value;if(!v.trim())return el.focus();onAdd(v);el.value='';upd();el.focus();};
+  A[id+'-sug']=b=>{const p=parseItem(el.value);onAdd({name:b.dataset.n,qty:p&&p.name&&norm(p.name)!==norm(b.dataset.n)&&!norm(b.dataset.n).startsWith(norm(p.name))?'':(p?p.qty:'')});el.value='';upd();el.focus();};
+}
+function mountShop(){
+  mountAddBox('sh-in',v=>{const r=addToList(v);if(!r)return;vib();renderShopKeepFocus('sh-in');if(r.dup)toast(`${r.item.name} is already on the list`);});
+  mountAddBox('pa-in',v=>{const p=typeof v==='string'?parseItem(v):v;if(!p||!p.name)return;const name=cap(p.name.trim());
+    if(inPantry(name))return toast(`${name} is already in the pantry`);
+    S.pantry.push(touch({id:uid(),name,qty:p.qty||'',cat:guessAisle(name),state:'ok',exp:'',deleted:false}));houseChanged();vib();renderShopKeepFocus('pa-in');});
+}
+function renderShopKeepFocus(id){const y=window.scrollY;render();window.scrollTo(0,y);const el=id?$('#'+id):null;if(el&&document.activeElement!==el){try{el.focus({preventScroll:true});}catch(e){}}}
+function setPantryState(x,st){
+  x.state=st;touch(x);let added=false;
+  if(st!=='ok'&&S.settings.autoList&&!onList(x.name)){addToList({name:x.name,qty:''},{cat:x.cat,src:'pantry'});added=true;}
+  houseChanged();return added;
+}
+function clearBought(){
+  const done=liveShop().filter(x=>x.done);let restocked=0;
+  for(const x of done){x.deleted=true;x.bought=Date.now();touch(x);const p=inPantry(x.name);if(p&&p.state!=='ok'){p.state='ok';touch(p);restocked++;}}
+  houseChanged();render();
+  toast(`Cleared ${done.length}${restocked?`, ${restocked} back in stock in the pantry`:''}`,()=>{for(const x of done){x.deleted=false;delete x.bought;touch(x);}houseChanged();render();});
+}
+function shareList(){
+  const open=openShop();if(!open.length)return toast('The list is empty.');
+  const groups=new Map();for(const x of open){const k=x.cat||'other';if(!groups.has(k))groups.set(k,[]);groups.get(k).push(x);}
+  const txt=[...groups.keys()].sort((a,b)=>(AISLEORD[a]??99)-(AISLEORD[b]??99)).map(k=>`${AISLE[k]||'Other'}\n`+groups.get(k).map(x=>`• ${x.name}${x.qty?' – '+x.qty:''}`).join('\n')).join('\n\n');
+  if(navigator.share)navigator.share({title:'Shopping list',text:txt}).catch(()=>{});
+  else if(navigator.clipboard)navigator.clipboard.writeText(txt).then(()=>toast('List copied'),()=>toast('Could not copy'));
+}
+let SE=null; // item being edited
+function shopItemView(kind,id){
+  const arr=kind==='shop'?S.shop:S.pantry;const x=arr.find(i=>i.id===id);if(!x)return null;
+  SE={kind,id,cat:x.cat||'other',state:x.state||'ok'};
+  return {full:true,html:()=>`${head(kind==='shop'?'List item':'Pantry item',{back:STACK.length>1})}<div class="sh-body">
+    <label class="fld"><span>Name</span><input id="se-name" value="${esc(x.name)}"></label>
+    <div class="g2"><label class="fld"><span>${kind==='shop'?'Amount':'Amount at home'}</span><input id="se-qty" value="${esc(x.qty||'')}" placeholder="e.g. 2 l, 1 kg, x6"></label>
+    ${kind==='pantry'?`<label class="fld"><span>Best before</span><input id="se-exp" type="date" value="${esc(x.exp||'')}"></label>`:`<label class="fld"><span>Note</span><input id="se-note" value="${esc(x.note||'')}" placeholder="e.g. Bio, brand"></label>`}</div>
+    ${kind==='pantry'?`<div class="sec">Stock</div><div class="chips" style="margin-bottom:6px">${Object.entries(STATE).map(([k,[l]])=>`<button class="chip ${SE.state===k?'on':''}" data-act="se-state" data-v="${k}">${l}</button>`).join('')}</div>`:''}
+    <div class="sec">Aisle</div><div class="chips">${AISLES.map(([k,l])=>`<button class="chip ${SE.cat===k?'on':''}" data-act="se-cat" data-v="${k}">${l}</button>`).join('')}</div>
+    <p class="hint" style="margin-top:8px">The aisle you choose is remembered for this item next time.</p>
+    <div class="stack" style="margin-top:6px">${kind==='shop'&&!inPantry(x.name)?`<button class="btn small" data-act="se-topantry">Also keep in pantry</button>`:''}${kind==='pantry'&&!onList(x.name)?`<button class="btn small" data-act="se-tolist">Add to shopping list</button>`:''}</div>
+    </div><div class="sh-foot"><div class="row-btns"><button class="btn danger" data-act="se-del">Delete</button><button class="btn primary" data-act="se-save">Save</button></div></div>`};
+}
+function seRead(){const arr=SE.kind==='shop'?S.shop:S.pantry;return arr.find(i=>i.id===SE.id);}
+function seSave(){
+  const x=seRead();if(!x)return closeSheet();
+  const name=cap(($('#se-name').value||'').trim());if(!name)return toast('Enter a name.');
+  if(SE.cat!==x.cat){x.catSet=true;}
+  x.name=name;x.qty=($('#se-qty').value||'').trim();x.cat=SE.cat;
+  if(SE.kind==='shop')x.note=($('#se-note').value||'').trim();
+  else{x.exp=$('#se-exp').value||'';if(SE.state!==x.state){const added=setPantryState(x,SE.state);if(added)toast(`${x.name} added to the shopping list`);}}
+  touch(x);houseChanged();closeSheet();
+}
+function seDelete(){const x=seRead();if(!x)return closeSheet();x.deleted=true;touch(x);houseChanged();closeSheet();
+  toast(`${x.name} removed`,()=>{x.deleted=false;touch(x);houseChanged();render();});}
+
+/* recipe → shopping list */
+const DESCR=/^(raw|dry|dried|fresh|whole|ripe|red|green|yellow|white|uncooked|unprepared|plain|regular|mature seeds|without salt|with salt|year round average|all varieties|commercial|home ?made|boiled|cooked|unenriched|enriched|peeled|unpeeled|with skin|without skin|edible portion)$/i;
+function ingShopName(n){
+  const s=String(n||'').replace(/\s*\((raw|dry|uncooked|cooked|boiled)\)/ig,'').trim();
+  const c=s.split(',').map(x=>x.trim()).filter(Boolean);if(c.length<2)return cap(s);
+  const rest=c.slice(1).filter(x=>!DESCR.test(x));
+  return cap(rest.length?rest[0]+' '+c[0].toLowerCase():c[0]);
+}
+let RS=null;
+function recipeShopView(raw){
+  const ings=(raw.ing||[]).map(x=>({name:ingShopName(x.name),g:x.g}));
+  RS={from:raw.name,items:ings.map(x=>{const p=inPantry(x.name);return {...x,on:!(p&&p.state==='ok')&&!onList(x.name),pantry:p,listed:!!onList(x.name)};})};
+  return {full:true,html:()=>`${head('Shop for '+raw.name,{back:STACK.length>1})}<div class="sh-body">
+    <p class="muted" style="margin-bottom:10px">Pick what you need to buy. Items already in stock in the pantry, or already on the list, start unticked.</p>
+    <ul class="res shop">${RS.items.map((x,i)=>`<li><div class="it srow"><button class="tick ${x.on?'on':''}" data-act="rs-tick" data-i="${i}" aria-label="Toggle">${x.on?I.check:''}</button><span class="nm"><b>${esc(x.name)}</b><small>${fmt(x.g)} g in the recipe${x.listed?' · on the list':x.pantry?' · pantry: '+STATE[x.pantry.state][0].toLowerCase():''}</small></span></div></li>`).join('')}</ul>
+    </div><div class="sh-foot"><button class="btn primary" style="width:100%" data-act="rs-add">Add ${RS.items.filter(x=>x.on).length} to the list</button></div>`};
+}
+function recipeShopAdd(){
+  let n=0;for(const x of RS.items){if(!x.on)continue;const r=addToList({name:x.name,qty:''},{src:'recipe'});if(r&&!r.dup){r.item.from=RS.from;n++;}}
+  houseChanged();RS=null;closeSheet();VIEW.tab='shop';VIEW.shopSeg='list';render();toast(n?`${n} added to the shopping list`:'Nothing new to add');
+}
+
 /* ---------- actions ---------- */
 const A={
   tab:b=>{VIEW.tab=b.dataset.t;window.scrollTo(0,0);render();},
@@ -1364,6 +1597,28 @@ const A={
   theme:b=>{S.settings.theme=b.dataset.v;save();document.documentElement.dataset.theme=S.settings.theme==='auto'?'':S.settings.theme;refreshView();},
   backup:()=>doBackup(),import:()=>$('#fileIn').click(),csv:()=>exportCsv(),
   'db-update':()=>dbUpdate(),
+  'shop-seg':b=>{VIEW.shopSeg=b.dataset.s;render();},
+  'shop-usual':b=>{addToList({name:b.dataset.n,qty:''});vib();renderShopKeepFocus('');},
+  'shop-tick':b=>{const x=S.shop.find(i=>i.id===b.dataset.id);if(!x)return;x.done=!x.done;x.doneAt=x.done?Date.now():0;touch(x);vib();houseChanged();const y=window.scrollY;render();window.scrollTo(0,y);},
+  'shop-edit':b=>{const v=shopItemView('shop',b.dataset.id);if(v)pushView(v);},
+  'shop-clear':()=>clearBought(),
+  'shop-tickall':()=>{if(!confirm('Tick everything on the list?'))return;const t=Date.now();openShop().forEach(x=>{x.done=true;x.doneAt=t;touch(x);});houseChanged();render();},
+  'shop-share':()=>shareList(),
+  'pa-edit':b=>{const v=shopItemView('pantry',b.dataset.id);if(v)pushView(v);},
+  'pa-cycle':b=>{const x=S.pantry.find(i=>i.id===b.dataset.id);if(!x)return;const nx={ok:'low',low:'out',out:'ok'}[x.state]||'ok';const added=setPantryState(x,nx);vib();
+    const y=window.scrollY;render();window.scrollTo(0,y);if(added)toast(`${x.name} added to the shopping list`);},
+  'pa-filter':b=>{VIEW.paFilter=b.dataset.f;render();},
+  'pa-listall':()=>{let n=0;for(const x of livePantry())if(x.state!=='ok'&&!onList(x.name)){addToList({name:x.name,qty:''},{cat:x.cat,src:'pantry'});n++;}render();toast(`${n} added to the shopping list`);},
+  'se-cat':b=>{SE.cat=b.dataset.v;$$('[data-act="se-cat"]').forEach(x=>x.classList.toggle('on',x===b));},
+  'se-state':b=>{SE.state=b.dataset.v;$$('[data-act="se-state"]').forEach(x=>x.classList.toggle('on',x===b));},
+  'se-save':()=>seSave(),'se-del':()=>seDelete(),
+  'se-topantry':()=>{const x=seRead();if(!x)return;S.pantry.push(touch({id:uid(),name:x.name,qty:'',cat:SE.cat,state:x.done?'ok':'low',exp:'',deleted:false}));houseChanged();toast(`${x.name} is now tracked in the pantry`);refreshView();},
+  'se-tolist':()=>{const x=seRead();if(!x)return;addToList({name:x.name,qty:''},{cat:x.cat,src:'pantry'});toast(`${x.name} added to the shopping list`);refreshView();},
+  'port-tolist':()=>{const f=PORT.f;const r=addToList({name:ingShopName(f.brand?f.name:f.name),qty:''});if(r)toast(r.dup?`${r.item.name} is already on the list`:`${r.item.name} added to the shopping list`);},
+  'rs-open':b=>{const raw=S.foods.find(x=>x.id===b.dataset.id);if(!raw||!(raw.ing||[]).length)return toast('This recipe has no ingredients.');pushView(recipeShopView(raw));},
+  'rs-tick':b=>{const x=RS.items[+b.dataset.i];x.on=!x.on;refreshView();},
+  'rs-add':()=>recipeShopAdd(),
+  't-autolist':b=>{S.settings.autoList=!S.settings.autoList;b.classList.toggle('on',S.settings.autoList);save();},
   'sync-on':()=>syncTurnOn(),'sync-off':()=>syncTurnOff(),'sync-now':()=>{autoSync();setSyncUI();},
 };
 document.addEventListener('click',e=>{

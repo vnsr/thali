@@ -37,6 +37,13 @@ Foods → Recipes → + New recipe. Add each ingredient with its **raw** weight 
 the **cooked weight** (weigh the pot after cooking, minus the pot) and the number of portions. Thali works out kcal and
 macros per portion and per 100 g. To log it, search its name and pick "1 portion", "1 katori", or grams.
 
+## Shopping list & pantry (v1.1)
+The **Shop** tab is shared by both phones (not per profile).
+- **Shopping list:** type `2 Milch`, `paneer 400g` or `Bananen x6`; the amount is split off and the item is sorted into its aisle (Fruit & veg, Dairy, Indian store…). Change an item's aisle once and Thali remembers it. **Usuals** are the things you buy most often, one tap to re-add. Tick items in the shop, then **Clear**. **Share list** sends it as text (WhatsApp, Notes…).
+- **Pantry:** what is at home, with an optional best-before date ("Use soon" shows anything due within 7 days). Tap the state to cycle *In stock → Running low → Out*. Low and out items go onto the shopping list automatically (can be turned off in Settings); clearing them from the list puts them back *In stock*.
+- **From a recipe:** open a recipe → **Shop for this recipe** → pick the ingredients you need. Items already in stock or on the list start unticked. Any food also has a **Shopping list** button.
+- Synced in `thali/household.json`; included in backups.
+
 ## Food database
 Everything here works offline.
 
@@ -66,7 +73,7 @@ Uses the same setup as Yupu baby. **You can reuse the private data repository an
 Thali writes only to a separate `thali/` folder.
 On each phone: Settings → Automatic sync → Repository `username/my-app-data` → paste that phone's token → **Test and turn on**.
 (Or create a new private repo plus fine-grained tokens with Repository access: only that repo; Contents: Read and write.)
-Files: `thali/YYYY-MM.json` (entries per month), `thali/profiles.json`, `thali/foods.json` (own foods, recipes, scanned products).
+Files: `thali/YYYY-MM.json` (entries per month), `thali/profiles.json`, `thali/foods.json` (own foods, recipes, scanned products), `thali/household.json` (shopping list and pantry).
 Syncs when the app opens, about 15 s after each change, and every minute while open. iPhone doesn't allow background sync.
 Turn sync on first on the phone that already has data, then on the second phone.
 
@@ -92,3 +99,7 @@ Replace the files in this repo. The phone picks up the new version on the second
 First version: profiles with calculated or manual targets, meals, search across about 8,500 offline foods, Open Food Facts and USDA online search,
 barcode scanning (camera, photo or typing), own foods, recipe builder, favourites, recent foods, copying yesterday's meals, quick add, water, weight,
 trends (calories, protein, macro split, weight trend, top calorie sources), GitHub sync, backup/import, CSV export, light/dark theme, and a vegetarian filter.
+
+## v1.1.0 (15 Oct 2026)
+New **Shop** tab: shared shopping list sorted by aisle (amount parsing, usuals, share as text, remembered aisles) and a pantry with stock states and best-before dates.
+Running low → list → bought → back in stock. "Shop for this recipe" and a Shopping list button on every food. Synced and backed up.
