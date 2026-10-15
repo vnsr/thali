@@ -96,6 +96,9 @@ Replace the files in this repo. The phone picks up the new version on the second
 - zxing-wasm: MIT licence (lib/zxing-LICENSE.txt)
 - Calorie targets are estimates, not medical advice.
 
+## v1.2.1 (15 Oct 2026)
+- The bottom bar and the header now stay put when scrolling or pulling past the top/bottom on iPhone; only the content area scrolls.
+
 ## v1.2.0 (15 Oct 2026)
 - **Not in the database? Thali now helps:**
   - **Closest matches**: when your exact words find little, foods that match some of the words are shown (e.g. "iced matcha with honey" → matcha latte, matcha powder, honey).
