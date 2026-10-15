@@ -24,7 +24,7 @@ Your log stays on the phone. Nothing is sent anywhere unless you turn on automat
 - **Not found?** Closest matches appear, Open Food Facts is searched automatically, and **Estimate from ingredients** builds it from parts (e.g. milk + matcha + sugar) and saves it for next time.
 - **Quick add** is for a number only (restaurant meal, office cake).
 - Tap any entry to change the amount, the meal or the day, or to delete it (Undo appears for 5 s).
-- Water: tap + for each glass (glass size is set in the profile). Weight: "Log weight" on Today.
+- Water: tap + for each glass. Tap the amount on the Water card to change the daily target and glass size. Weight: "Log weight" on Today.
 
 ## Barcode scanning
 Tap the barcode icon in search (or Foods → My foods → Scan barcode). Point the camera at the barcode.
@@ -95,6 +95,9 @@ Replace the files in this repo. The phone picks up the new version on the second
 - Open Food Facts: data under the Open Database License (ODbL), openfoodfacts.org
 - zxing-wasm: MIT licence (lib/zxing-LICENSE.txt)
 - Calorie targets are estimates, not medical advice.
+
+## v1.2.2 (15 Oct 2026)
+- **Water target right on Today:** tap the amount on the Water card (e.g. “750 / 3000 ml ✎”) to pick 1,5–4 L or an exact amount, and the glass size. Per profile, synced.
 
 ## v1.2.1 (15 Oct 2026)
 - The bottom bar and the header now stay put when scrolling or pulling past the top/bottom on iPhone; only the content area scrolls.

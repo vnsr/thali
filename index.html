@@ -193,7 +193,7 @@ nav.tabs{position:relative;flex:none;z-index:6;display:flex;justify-content:cent
 /* Thali – private calorie & macro log. Offline-first PWA.
    All personal data lives on this phone (IndexedDB). Optional: automatic sync through the
    owner's private GitHub repository; online lookups at Open Food Facts / USDA FoodData Central. */
-const APP_VERSION='1.2.1',APP_DATE='2026-10-15',SYNC_DIR='thali';
+const APP_VERSION='1.2.2',APP_DATE='2026-10-15',SYNC_DIR='thali';
 const MEALS=[['b','Breakfast'],['l','Lunch'],['d','Dinner'],['s','Snacks']];
 const MEALNAME=Object.fromEntries(MEALS);
 
@@ -546,8 +546,8 @@ function todayHtml(){
     }
     h+=`</div>`;
   }
-  const ml=list.filter(e=>e.type==='water').reduce((a,e)=>a+(e.ml||0),0),gl=p.glass||250,n=Math.min(12,Math.max(4,Math.ceil(T.w/gl))),full=Math.floor(ml/gl);
-  h+=`<div class="card" style="--c:var(--water)"><h3>Water<span class="r">${fmt(ml)} / ${fmt(T.w)} ml</span></h3><div class="water" style="margin-top:10px">
+  const ml=list.filter(e=>e.type==='water').reduce((a,e)=>a+(e.ml||0),0),gl=p.glass||250,n=Math.min(16,Math.max(4,Math.ceil(T.w/gl))),full=Math.floor(ml/gl);
+  h+=`<div class="card" style="--c:var(--water)"><h3>Water<button class="r" data-act="water-target" style="color:var(--muted);font-weight:600;font-size:14px;display:flex;align-items:center;gap:6px" aria-label="Change water target">${fmt(ml)} / ${fmt(T.w)} ml${I.edit.replace('<svg','<svg style="width:15px;height:15px"')}</button></h3><div class="water" style="margin-top:10px">
     <button class="rbtn" data-act="water" data-ml="-1" aria-label="Remove last glass" ${ml?'':'disabled'}>−</button>
     <div class="glasses">${Array.from({length:Math.max(n,full)},(_,i)=>`<i class="glass ${i<full?'full':''}"></i>`).join('')}</div>
     <button class="rbtn" data-act="water" data-ml="${gl}" aria-label="Add a glass">${I.plus}</button></div></div>`;
@@ -1027,6 +1027,29 @@ function rcDelete(){
   if(!confirm('Delete this recipe? Entries you already logged keep their values.'))return;
   const i=S.foods.findIndex(x=>x.id===RC.id);if(i>=0){S.foods[i].deleted=true;touch(S.foods[i]);rebuildPersonal();markDirty('foods');save();}
   toast('Recipe deleted');closeSheet();
+}
+
+/* ---------- water target ---------- */
+function waterView(){
+  const p=prof();let w=p.water||2000,g=p.glass||250;
+  const chips=(vals,cur,act,fmtv)=>`<div class="chips" style="margin-bottom:12px">${vals.map(v=>`<button class="chip ${v===cur?'on':''}" data-act="${act}" data-v="${v}">${fmtv(v)}</button>`).join('')}</div>`;
+  return {html:()=>`${head('Water target')}<div class="sh-body">
+    <div class="sec">Daily target for ${esc(p.name)}</div>
+    ${chips([1500,2000,2500,3000,3500,4000],w,'wt-pick',v=>String(v/1000).replace('.',',')+' L')}
+    <label class="fld"><span>Or exact amount (ml)</span><input id="wt-ml" inputmode="numeric" value="${w}"></label>
+    <div class="sec">Glass size (one tap on +)</div>
+    ${chips([200,250,300,330,400,500],g,'wg-pick',v=>v+' ml')}
+    <label class="fld"><span>Or exact size (ml)</span><input id="wg-ml" inputmode="numeric" value="${g}"></label>
+    <p class="hint" id="wt-hint"></p></div>
+    <div class="sh-foot"><button class="btn primary" style="width:100%" data-act="wt-save">Save</button></div>`,
+  mount:()=>{const upd=()=>{const a=parseInt($('#wt-ml').value)||0,b=parseInt($('#wg-ml').value)||0;$('#wt-hint').textContent=a&&b?`= ${Math.round(a/b*10)/10} glasses of ${b} ml a day. Includes tea, coffee and other drinks you count as water.`:'';};
+    $('#wt-ml').addEventListener('input',upd);$('#wg-ml').addEventListener('input',upd);upd();}};
+}
+function waterSave(){
+  const w=parseInt($('#wt-ml').value),g=parseInt($('#wg-ml').value);
+  if(!(w>=500&&w<=8000))return toast('Enter a target between 500 and 8000 ml.');
+  if(!(g>=50&&g<=1500))return toast('Enter a glass size between 50 and 1500 ml.');
+  const p=prof();p.water=w;p.glass=g;touch(p);markDirty('profiles');save();toast(`Water target ${String(w/1000).replace('.',',')} L`);closeSheet();
 }
 
 /* ---------- weight ---------- */
@@ -1625,6 +1648,10 @@ const A={
     if(ml<0){const l=dayEntries(VIEW.day,p.id).filter(e=>e.type==='water').sort((a,b)=>b.ts-a.ts)[0];if(l){delEntry(l.id,true);}}
     else putEntry({id:uid(),pid:p.id,type:'water',day:VIEW.day,ts:Date.now(),ml});vib();render();},
   weight:()=>pushView(weightView(VIEW.day)),
+  'water-target':()=>pushView(waterView()),
+  'wt-pick':b=>{$('#wt-ml').value=b.dataset.v;$$('[data-act="wt-pick"]').forEach(x=>x.classList.toggle('on',x===b));$('#wt-ml').dispatchEvent(new Event('input'));},
+  'wg-pick':b=>{$('#wg-ml').value=b.dataset.v;$$('[data-act="wg-pick"]').forEach(x=>x.classList.toggle('on',x===b));$('#wg-ml').dispatchEvent(new Event('input'));},
+  'wt-save':()=>waterSave(),
   'w-step':b=>{const el=$('#wkg');const v=num(el.value)||latestWeight(prof(),today())||70;el.value=String(r1(v+(+b.dataset.d))).replace('.',',');},
   'w-save':b=>weightSave(b.dataset.id),
   scan:()=>{if(!S.settings.off)toast('Open Food Facts is off in Settings: scans only find foods you saved.');pushView(scanView());},
