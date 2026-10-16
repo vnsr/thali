@@ -148,3 +148,6 @@ Running low → list → bought → back in stock. "Shop for this recipe" and a 
 First version: profiles with calculated or manual targets, meals, search across about 8,500 offline foods, Open Food Facts and USDA online search,
 barcode scanning (camera, photo or typing), own foods, recipe builder, favourites, recent foods, copying yesterday's meals, quick add, water, weight,
 trends (calories, protein, macro split, weight trend, top calorie sources), GitHub sync, backup/import, CSV export, light/dark theme, and a vegetarian filter.
+
+## v1.3.2 (16 Oct 2026)
+New app icon in the shared high-tech style (Steaming katori). To see it on the home screen, remove the app and add it to the Home Screen again (back up or turn on sync first: removing the app deletes its data on that phone).
