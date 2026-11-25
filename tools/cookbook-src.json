@@ -3,13 +3,13 @@
   "recipes": [
     {
       "id": "r:cb-banana-choc-cake",
-      "rev": 1,
-      "ts": "2026-11-25T12:00:00Z",
+      "rev": 2,
+      "ts": "2026-11-25T20:00:00Z",
       "name": "Fluffy protein banana chocolate cake",
       "emoji": "🍌",
       "cat": "Baking",
       "desc": "Soft banana-chocolate cake in an Auflauf form. Whipped egg whites make it fluffy, crème fraîche keeps the whey from drying it out, and it has very little added sugar.",
-      "time": "20 min + 28 min baking",
+      "time": "25 min + 28 min baking",
       "pan": "Auflauf form, about 20×20 cm",
       "servings": 8,
       "unit": "piece",
@@ -128,28 +128,36 @@
       ],
       "steps": [
         {
-          "t": "Oven and form",
-          "c": "Heat the oven to 170 °C Ober-/Unterhitze (150 °C Umluft). Grease the form or line it with baking paper."
+          "t": "Prep (by hand)",
+          "c": "Heat the oven to 170 °C Ober-/Unterhitze (150 °C Umluft) and grease the form. Separate the eggs: whites into a large, clean, dry bowl (A), yolks into bowl B. Mash the bananas with a fork, melt the butter and let it cool, chop the chocolate (and walnuts). In bowl C stir the whey, flour, Backkakao, Backpulver and salt together with a spoon."
         },
         {
-          "t": "Wet mix",
-          "c": "Mash the bananas until smooth. Whisk in the egg yolks, crème fraîche, milk, melted butter, Vanillezucker and half of the sugar until creamy."
+          "t": "Whites (beater, bowl A)",
+          "c": "Beat on low for 30 s until foamy, then on high. At soft peaks add half the sugar a spoonful at a time. Beat until stiff and glossy, 3–4 min in total. Set aside."
         },
         {
-          "t": "Dry mix",
-          "c": "In a second bowl mix the whey, flour, Backkakao, Backpulver and salt. Sift the cocoa if it is lumpy. Fold into the wet mix until just combined. The batter is thick; don't overmix."
+          "t": "Yolks (beater, bowl B)",
+          "c": "Same beaters, no need to wash. Beat the yolks with the other half of the sugar and the Vanillezucker on medium for 2 min, until pale and thick."
         },
         {
-          "t": "Whip the whites",
-          "c": "Beat the egg whites with the rest of the sugar to stiff peaks. This is what makes it fluffy."
+          "t": "Wet mix (beater, bowl B)",
+          "c": "Add the bananas, crème fraîche, milk and melted butter. Beat on medium for about 1 min until smooth. Now put the beater away."
         },
         {
-          "t": "Fold together",
-          "c": "Stir a third of the whites into the batter to loosen it, then gently fold in the rest in two goes. Fold in about three quarters of the chocolate."
+          "t": "Dry mix (spatula)",
+          "c": "Tip bowl C into bowl B and fold until no dry flour is visible. Stop there: overmixing makes it tough."
         },
         {
-          "t": "Bake",
-          "c": "Spread into the form and scatter the rest of the chocolate on top. Bake 25–30 min, until a skewer comes out with a few moist crumbs. Whey dries out fast: check at 25 min, and cover loosely with foil if the top browns too quickly.",
+          "t": "Whites (spatula)",
+          "c": "Stir a third of the whites into the batter to loosen it. Fold in the rest gently in two goes: cut down the middle, scrape along the bottom, turn the bowl. White streaks are fine."
+        },
+        {
+          "t": "Chocolate (spatula)",
+          "c": "Fold in about three quarters of the chocolate (and walnuts)."
+        },
+        {
+          "t": "Fill and bake",
+          "c": "Fill the form about ⅔ full (3–4 cm of batter) and smooth gently. Scatter the rest of the chocolate on top and bake straight away, 25–30 min, until a skewer comes out with a few moist crumbs. Check at 25 min; cover loosely with foil if the top browns too fast.",
           "sec": 1680
         },
         {
@@ -158,7 +166,7 @@
           "sec": 1200
         }
       ],
-      "notes": "No crème fraîche? Use about 120 ml Schlagsahne instead of the crème fraîche and milk. Leaner: swap 100 g crème fraîche for Skyr or Magerquark. Best slightly warm, with unsweetened whipped Schlagsahne and a pinch of flaky salt on top. Not sweet enough? Add 15–20 g sugar or a drizzle of honey next time. Brownie style: don't separate the eggs and bake about 20 min."
+      "notes": "Walnuts: 40–50 g, toasted 3–4 min in a dry pan and chopped; then use 60 g chocolate. Small form (about 15–20 × 10–15 cm): make the full recipe and put the extra batter in muffin cases (bake 15–18 min), or use ½× with 1 banana and 1 large egg + 1 extra white. No crème fraîche? Use about 120 ml Schlagsahne instead of the crème fraîche and milk. Leaner: swap 100 g crème fraîche for Skyr or Magerquark. Best slightly warm, with unsweetened whipped Schlagsahne and a pinch of flaky salt. Not sweet enough? Add 15–20 g sugar or a drizzle of honey next time."
     },
     {
       "id": "r:cb-protein-muffins",
