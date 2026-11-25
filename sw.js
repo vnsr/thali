@@ -1,7 +1,7 @@
 // Thali offline cache: serves the app and food database from the phone, refreshes them in the background when online.
-const CACHE = 'thali-v1-3-2';
+const CACHE = 'thali-v1-4-0';
 const FILES = ['./', './index.html', './manifest.webmanifest', './icon-180.png', './icon-192.png', './icon-512.png',
-  './data/db-version.json', './data/foods-thali.json', './data/foods-indb.json', './data/foods-usda.json',
+  './data/db-version.json', './data/cookbook.json', './data/foods-thali.json', './data/foods-indb.json', './data/foods-usda.json',
   './lib/zxing-reader.js', './lib/zxing_reader.wasm'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));

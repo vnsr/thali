@@ -1,0 +1,81 @@
+{
+  "_about": "Source for the built-in Cookbook. Run: python3 tools/build_cookbook.py  → data/cookbook.json. Each ingredient: name, amt + u (shown, scaled), g (grams for nutrition), fid (food id in the built-in database) or n ([kcal, protein, carbs, fat, fibre] per 100 g). Raise rev when a recipe changes so phones that have not edited it get the new version. sec = step timer in seconds.",
+  "recipes": [
+    {
+      "id": "r:cb-banana-choc-cake",
+      "rev": 1,
+      "ts": "2026-11-25T12:00:00Z",
+      "name": "Fluffy protein banana chocolate cake",
+      "emoji": "🍌",
+      "cat": "Baking",
+      "desc": "Soft banana-chocolate cake in an Auflauf form. Whipped egg whites make it fluffy, crème fraîche keeps the whey from drying it out, and it has very little added sugar.",
+      "time": "20 min + 28 min baking",
+      "pan": "Auflauf form, about 20×20 cm",
+      "servings": 8,
+      "unit": "piece",
+      "units": "pieces",
+      "bake": 0.9,
+      "ing": [
+        {"name": "Very ripe bananas", "amt": 2, "u": "", "g": 240, "fid": "t:banana"},
+        {"name": "Eggs, separated", "amt": 3, "u": "", "g": 165, "fid": "t:egg-boiled-or-raw"},
+        {"name": "Crème fraîche", "amt": 150, "u": "g", "g": 150, "n": [292, 2.4, 2.6, 30, 0]},
+        {"name": "Schlagsahne", "amt": 50, "u": "ml", "g": 50, "fid": "t:cream-30-sahne"},
+        {"name": "Butter, melted", "amt": 40, "u": "g", "g": 40, "fid": "t:butter"},
+        {"name": "Sugar (half for the yolks, half for the whites)", "amt": 17, "u": "g", "g": 17, "fid": "t:sugar"},
+        {"name": "Vanillezucker", "amt": 1, "u": "packet", "g": 8, "fid": "t:sugar"},
+        {"name": "Unflavoured whey protein", "amt": 60, "u": "g", "g": 60, "fid": "t:whey-protein-powder"},
+        {"name": "Flour (Type 405 or spelt 630)", "amt": 100, "u": "g", "g": 100, "fid": "t:maida-white-flour"},
+        {"name": "Backkakao", "amt": 20, "u": "g", "g": 20, "n": [355, 22, 12, 18, 32]},
+        {"name": "Backpulver", "amt": 2, "u": "tsp", "g": 8, "fid": "u:16319"},
+        {"name": "Salt", "amt": 1, "u": "pinch", "g": 0.5, "n": [0, 0, 0, 0, 0]},
+        {"name": "Dark chocolate 75%, chopped", "amt": 80, "u": "g", "g": 80, "fid": "t:dark-chocolate-70"}
+      ],
+      "steps": [
+        {"t": "Oven and form", "c": "Heat the oven to 170 °C Ober-/Unterhitze (150 °C Umluft). Grease the form or line it with baking paper."},
+        {"t": "Wet mix", "c": "Mash the bananas until smooth. Whisk in the egg yolks, crème fraîche, Schlagsahne, melted butter, Vanillezucker and half of the sugar until creamy."},
+        {"t": "Dry mix", "c": "In a second bowl mix the whey, flour, Backkakao, Backpulver and salt. Sift the cocoa if it is lumpy. Fold into the wet mix until just combined. The batter is thick; don't overmix."},
+        {"t": "Whip the whites", "c": "Beat the egg whites with the rest of the sugar to stiff peaks. This is what makes it fluffy."},
+        {"t": "Fold together", "c": "Stir a third of the whites into the batter to loosen it, then gently fold in the rest in two goes. Fold in about three quarters of the chocolate."},
+        {"t": "Bake", "c": "Spread into the form and scatter the rest of the chocolate on top. Bake 25–30 min, until a skewer comes out with a few moist crumbs. Whey dries out fast: check at 25 min, and cover loosely with foil if the top browns too quickly.", "sec": 1680},
+        {"t": "Cool", "c": "Let it cool in the form for at least 20 min before cutting. It firms up as it cools.", "sec": 1200}
+      ],
+      "notes": "Only one of crème fraîche or Schlagsahne is needed: 150 g crème fraîche + 3 tbsp milk, or about 120 ml Schlagsahne instead of both. Leaner: swap 100 g crème fraîche for Skyr or Magerquark. Best slightly warm, with unsweetened whipped Schlagsahne and a pinch of flaky salt on top. Not sweet enough? Add 15–20 g sugar or a drizzle of honey next time. Brownie style: don't separate the eggs and bake about 20 min."
+    },
+    {
+      "id": "r:cb-protein-muffins",
+      "rev": 1,
+      "ts": "2026-11-25T12:00:00Z",
+      "name": "Protein muffins (Rührteig)",
+      "emoji": "🧁",
+      "cat": "Baking",
+      "desc": "Classic German Rührteig muffins with a quarter of the flour swapped for whey and less sugar. Full butter and extra milk keep them moist.",
+      "time": "15 min + 18 min baking",
+      "pan": "12-cup muffin tin with paper cases",
+      "servings": 12,
+      "unit": "muffin",
+      "units": "muffins",
+      "bake": 0.9,
+      "ing": [
+        {"name": "Soft butter", "amt": 150, "u": "g", "g": 150, "fid": "t:butter"},
+        {"name": "Sugar", "amt": 90, "u": "g", "g": 90, "fid": "t:sugar"},
+        {"name": "Vanillezucker", "amt": 1, "u": "packet", "g": 8, "fid": "t:sugar"},
+        {"name": "Eggs", "amt": 2, "u": "", "g": 110, "fid": "t:egg-boiled-or-raw"},
+        {"name": "Flour (Type 405)", "amt": 150, "u": "g", "g": 150, "fid": "t:maida-white-flour"},
+        {"name": "Unflavoured whey protein", "amt": 40, "u": "g", "g": 40, "fid": "t:whey-protein-powder"},
+        {"name": "Backpulver", "amt": 0.75, "u": "packet", "g": 11, "fid": "u:16319"},
+        {"name": "Salt", "amt": 1, "u": "pinch", "g": 0.5, "n": [0, 0, 0, 0, 0]},
+        {"name": "Milk", "amt": 4, "u": "tbsp", "g": 60, "fid": "t:milk-3-5"}
+      ],
+      "steps": [
+        {"t": "Oven and tin", "c": "Heat the oven to 175 °C Ober-/Unterhitze (155 °C Umluft). Put paper cases in the muffin tin."},
+        {"t": "Cream the butter", "c": "Beat the soft butter with the sugar and Vanillezucker for 2–3 min until pale and fluffy."},
+        {"t": "Eggs", "c": "Beat in the eggs one at a time."},
+        {"t": "Dry mix", "c": "Mix the flour, whey, Backpulver and salt."},
+        {"t": "Combine", "c": "Stir the dry mix into the butter mix in two goes, alternating with the milk, only until combined. The batter should be soft and almost pourable, looser than a normal Rührteig; add another tbsp of milk if it is stiff. Let it rest 5 min so the whey can soak up the liquid.", "sec": 300},
+        {"t": "Bake", "c": "Fill the cases about two thirds full. Bake about 18 min, until a toothpick comes out barely clean. Don't overbake: whey makes them dry.", "sec": 1080},
+        {"t": "Cool", "c": "Leave 5 min in the tin, then cool on a rack.", "sec": 300}
+      ],
+      "notes": "With vanilla whey: use 70–80 g sugar and leave out the Vanillezucker. Never swap more than about a third of the flour for whey, or they turn dry and spongy. Add-ins that work: chopped dark chocolate, blueberries, a mashed banana (then 2 tbsp less milk)."
+    }
+  ]
+}

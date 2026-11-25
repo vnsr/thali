@@ -15,6 +15,7 @@ Your log stays on the phone. Nothing is sent anywhere unless you turn on automat
 | **When a food is missing** | Closest matches, automatic Open Food Facts search, **estimate from ingredients** (saved as your recipe), create a food from a label. |
 | **Barcode scanning** | Camera, photo or typed number → Open Food Facts; products are kept for offline use. |
 | **Recipes** | Build dishes from raw ingredients and the cooked weight; kcal, macros and vitamins per portion. |
+| **Cookbook** | Recipes with method: scalable ingredients (½×–2×), step timers, keep-screen-on, "Log 1 piece", notes, your tweaks and a rated "I made it" log. Built-in recipes arrive with updates. |
 | **Two people** | Separate profiles and targets. **Also log for** your partner with their own portion (½, ¾, same, 1¼…), or **copy your partner's meal** and adjust each item. |
 | **Planning** | Plan future days or use the **Week plan**; planned food counts once you tick ✓. **Shopping list for the week's plan** splits recipes into ingredients and skips what is in stock. |
 | **Staying on track** | **Ideas for the next meal** from what you usually eat, sized to the calories left; **protein boost** ideas when protein is short. |
@@ -59,6 +60,14 @@ If a product is missing, the app opens "New food" with the barcode filled in. Co
 Foods → Recipes → + New recipe. Add each ingredient with its **raw** weight (dal, oil, ghee, onion…). Then enter
 the **cooked weight** (weigh the pot after cooking, minus the pot) and the number of portions. Thali works out kcal and
 macros per portion and per 100 g. To log it, search its name and pick "1 portion", "1 katori", or grams.
+
+## Cookbook (v1.4)
+Foods → Recipes → **Cookbook**. Recipes with ingredients, a method and notes; nutrition per piece is worked out from the ingredients.
+- **Cook from it:** scale the amounts (½×, 1×, 1½×, 2×), tick ingredients and steps off, start a step's timer (it beeps while the app is open), and keep the screen on.
+- **Log 1 piece** adds it to the current meal. It is also found in normal search.
+- **I made it:** rate the result and add a note. **My tweaks** holds what to change next time. Both sync to the other phone.
+- **Edit:** “Ingredients & amounts” opens the recipe builder; “Edit method” edits steps (one per line, `Title: text`, `[28 min]` at the end adds a timer). Any recipe can get a method with **Add method (Cookbook)**, or start with **+ Cookbook recipe**.
+- **Built-in recipes** live in `tools/cookbook-src.json`; `python3 tools/build_cookbook.py` writes `data/cookbook.json`. The app copies new ones in once; raising `rev` updates phones that have not edited that recipe. A recipe you edited keeps your version (“Restore the original” brings the built-in one back, keeping your tweaks and log).
 
 ## Shopping list & pantry (v1.1)
 The **Shop** tab is shared by both phones (not per profile).
@@ -108,8 +117,8 @@ Settings → Backup → **Back up to Files** (save it to iCloud Drive). **Import
 Replace the files in this repo. The phone picks up the new version on the second launch while online.
 
 ## Files
-`index.html` (the app), `sw.js` (offline cache), `manifest.webmanifest`, icons, `data/` (food database),
-`lib/` (zxing-wasm barcode reader, MIT licence), `tools/` (curated food list source and the database build script).
+`index.html` (the app), `sw.js` (offline cache), `manifest.webmanifest`, icons, `data/` (food database and `cookbook.json`),
+`lib/` (zxing-wasm barcode reader, MIT licence), `tools/` (curated food list source, the database build script, and the Cookbook source and build script).
 
 ## Credits & licences
 - Indian Nutrient Databank (INDB): Jaacks LM et al., *Current Developments in Nutrition* 2024, github.com/lindsayjaacks/Indian-Nutrient-Databank-INDB-
@@ -117,6 +126,11 @@ Replace the files in this repo. The phone picks up the new version on the second
 - Open Food Facts: data under the Open Database License (ODbL), openfoodfacts.org
 - zxing-wasm: MIT licence (lib/zxing-LICENSE.txt)
 - Calorie targets are estimates, not medical advice.
+
+## v1.4.0 (25 Nov 2026)
+- **Cookbook** in Foods → Recipes: recipes with steps, timers, scaling, notes, tweaks and an “I made it” log; log a piece with one tap.
+- First recipes: fluffy protein banana chocolate cake and protein muffins (Rührteig).
+- Recipe shopping lists show the recipe's amounts (e.g. “2”, “1 packet”) instead of grams where available.
 
 ## v1.3.0 (15 Oct 2026)
 - **What Thali can do**: an in-app guide (Settings, or on the welcome screen) and a features table in this README.
