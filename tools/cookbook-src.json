@@ -287,6 +287,142 @@
         }
       ],
       "notes": "With vanilla whey: use 70–80 g sugar and leave out the Vanillezucker. Never swap more than about a third of the flour for whey, or they turn dry and spongy. Add-ins that work: chopped dark chocolate, blueberries, a mashed banana (then 2 tbsp less milk)."
+    },
+    {
+      "id": "r:cb-protein-cheesecake",
+      "rev": 1,
+      "ts": "2026-11-25T21:30:00Z",
+      "name": "High-protein baked cheesecake (Quark)",
+      "emoji": "🍰",
+      "cat": "Baking",
+      "desc": "Creamy German-style Käsekuchen with mostly Magerquark and a little Frischkäse on a crunchy oat base. High in protein and lightly sweet; the slow cool-down keeps it from cracking.",
+      "time": "20 min + 50 min baking + 1 h in the oven + 4 h chilling",
+      "pan": "20 cm springform (or a 20×20 cm form lined with baking paper)",
+      "servings": 10,
+      "unit": "slice",
+      "units": "slices",
+      "bake": 0.95,
+      "ing": [
+        {
+          "name": "Haferflocken (oats)",
+          "amt": 100,
+          "u": "g",
+          "g": 100,
+          "n": [
+            370,
+            13.5,
+            58.7,
+            7,
+            10
+          ]
+        },
+        {
+          "name": "Butter, melted (base)",
+          "amt": 35,
+          "u": "g",
+          "g": 35,
+          "fid": "t:butter"
+        },
+        {
+          "name": "Honey (base)",
+          "amt": 1,
+          "u": "tbsp",
+          "g": 20,
+          "fid": "t:honey"
+        },
+        {
+          "name": "Magerquark",
+          "amt": 500,
+          "u": "g",
+          "g": 500,
+          "fid": "t:magerquark"
+        },
+        {
+          "name": "Frischkäse (Doppelrahmstufe)",
+          "amt": 200,
+          "u": "g",
+          "g": 200,
+          "fid": "t:cream-cheese"
+        },
+        {
+          "name": "Eggs, room temperature",
+          "amt": 3,
+          "u": "",
+          "g": 165,
+          "fid": "t:egg-boiled-or-raw"
+        },
+        {
+          "name": "Sugar",
+          "amt": 60,
+          "u": "g",
+          "g": 60,
+          "fid": "t:sugar"
+        },
+        {
+          "name": "Vanillezucker",
+          "amt": 1,
+          "u": "packet",
+          "g": 8,
+          "fid": "t:sugar"
+        },
+        {
+          "name": "Speisestärke (cornflour)",
+          "amt": 30,
+          "u": "g",
+          "g": 30,
+          "fid": "u:13478"
+        },
+        {
+          "name": "Lemon, zest + 2 tbsp juice",
+          "amt": 1,
+          "u": "",
+          "g": 30,
+          "fid": "u:11628"
+        },
+        {
+          "name": "Salt",
+          "amt": 1,
+          "u": "pinch",
+          "g": 0.5,
+          "n": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "t": "Prep",
+          "c": "Take the Quark, Frischkäse and eggs out of the fridge 30–60 min before, so they are at room temperature (cold ones give lumps and cracks). Heat the oven to 160 °C Ober-/Unterhitze; not Umluft, which dries and cracks the top. Line the bottom of the springform with baking paper."
+        },
+        {
+          "t": "Base (by hand)",
+          "c": "Blitz the oats briefly, or use them whole for more crunch. Mix with the melted butter and honey, press firmly into the form with the back of a spoon. Bake 10 min.",
+          "sec": 600
+        },
+        {
+          "t": "Filling (beater, LOW speed only)",
+          "c": "Beat the Frischkäse with the sugar, Vanillezucker and salt until smooth. Add the Quark, Speisestärke, lemon zest and juice and mix until smooth. Add the eggs one at a time, mixing only until each is just combined. Keep the beater on low the whole time: unlike the banana cake, you want NO air in a cheesecake, or it puffs up and cracks."
+        },
+        {
+          "t": "Bake",
+          "c": "Pour the filling onto the base and tap the form on the counter twice to pop bubbles. Bake 45–55 min, until the edge is set and the middle still wobbles slightly like jelly when you nudge the form.",
+          "sec": 3000
+        },
+        {
+          "t": "Cool slowly in the oven",
+          "c": "Turn the oven off, open the door a crack with a wooden spoon and leave the cheesecake inside for 1 hour. After the first 10 min, run a thin knife around the edge so it can shrink without cracking.",
+          "sec": 3600
+        },
+        {
+          "t": "Chill",
+          "c": "Cool to room temperature, then cover and chill at least 4 h, best overnight. It sets and slices cleanly only when cold."
+        }
+      ],
+      "notes": "Small form (about 15–20 × 10–15 cm): use ½× with 2 eggs and bake about 35–40 min. Cracks are only cosmetic; cover them with berries. Topping: warm frozen berries with a little honey, or a thin layer of Skyr with vanilla. More protein: use Skyr instead of Frischkäse (a bit firmer and tangier). With vanilla whey you can swap 20 g of the Speisestärke for 30 g whey and leave out the Vanillezucker, but it gets firmer."
     }
   ]
 }
