@@ -184,6 +184,20 @@ nav.tabs{position:relative;flex:none;z-index:6;display:flex;justify-content:cent
 .sugc h3 .x{display:grid;place-items:center;width:26px;height:26px}
 .guide h3{font-size:16px;margin:18px 0 6px}.guide ul{margin-left:18px}.guide li{margin:5px 0;font-size:15px;line-height:1.45}
 textarea{width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);font-size:16px;resize:vertical}
+/* v1.4 cookbook */
+.ckemo{width:40px;height:40px;border-radius:12px;background:var(--surface2);display:grid;place-items:center;font-size:22px;flex:none}
+.ckn{padding:10px 12px}.ckn .m4{margin:0}
+.sec .r .chips{gap:4px;flex-wrap:nowrap}.sec .r .chip{padding:4px 9px;font-size:13px}
+.ckl .it{padding:6px 12px 6px 6px}.ckl .tick{pointer-events:none}.ckl .amt{font-weight:700;font-size:15px;white-space:nowrap;text-align:right}
+.ckl li.on .nm b,.ckl li.on .amt{text-decoration:line-through;color:var(--muted);font-weight:500}
+.cks{list-style:none;margin-bottom:12px}.cks li{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}.cks li:last-child{border-bottom:0}
+.cks .no{width:30px;height:30px;border-radius:50%;background:var(--kcal);color:var(--on);font-weight:700;font-size:14px;display:grid;place-items:center;flex:none;margin-top:1px}
+.cks .no svg{width:16px;height:16px;stroke-width:3}.cks li.done .no{background:var(--ok)}.cks li.done p,.cks li.done b{color:var(--muted)}
+.cks b{display:block;font-size:15.5px;margin-bottom:2px}.cks p{font-size:15.5px;line-height:1.5}
+.tmr{margin-top:8px;padding:7px 12px;border-radius:999px;background:color-mix(in srgb,var(--kcal) 14%,var(--surface));color:var(--kcal);font-weight:700;font-size:14px}
+.tmr.run{background:var(--kcal);color:var(--on)}
+.cklog li{display:flex;align-items:center;gap:10px;padding:10px 12px}.cklog .ckr{font-size:22px}.cklog .x{width:32px;height:32px;display:grid;place-items:center;color:var(--muted)}.cklog .x svg{width:16px;height:16px}
+.ckin{width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);font-size:16px}
 </style>
 </head>
 <body>
@@ -203,7 +217,7 @@ textarea{width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--
 /* Thali – private calorie & macro log. Offline-first PWA.
    All personal data lives on this phone (IndexedDB). Optional: automatic sync through the
    owner's private GitHub repository; online lookups at Open Food Facts / USDA FoodData Central. */
-const APP_VERSION='1.3.2',APP_DATE='2026-10-16',SYNC_DIR='thali';
+const APP_VERSION='1.4.0',APP_DATE='2026-11-25',SYNC_DIR='thali';
 const MEALS=[['b','Breakfast'],['l','Lunch'],['d','Dinner'],['s','Snacks']];
 const MEALNAME=Object.fromEntries(MEALS);
 
@@ -603,8 +617,11 @@ function foodsHtml(){
     const list=[...PF.values()].filter(f=>f.src==='c'||f.src==='o'||f.src==='f').sort((a,b)=>a.name.localeCompare(b.name));
     h+=list.length?`<ul class="res foodlist">${list.map(f=>foodRow(f)).join('')}</ul>`:`<div class="empty">Foods you create, scan or find online appear here, on both phones when sync is on.</div>`;
   }else if(seg==='recipes'){
-    h+=`<button class="btn primary" style="width:100%;margin-bottom:12px" data-act="recipe-new">+ New recipe</button>`;
-    const list=[...PF.values()].filter(f=>f.src==='r').sort((a,b)=>a.name.localeCompare(b.name));
+    const ck=cookList().sort((a,b)=>a.name.localeCompare(b.name));
+    h+=`<div class="sec" style="margin-top:2px">Cookbook<span class="r">${ck.length?ck.length+' with method':''}</span></div>`;
+    h+=ck.length?`<ul class="res foodlist">${ck.map(cookRow).join('')}</ul>`:`<div class="empty" style="padding:14px 10px">Recipes with steps, timers and your notes appear here.</div>`;
+    h+=`<div class="sec">Nutrition recipes</div><div class="row-btns" style="margin-bottom:12px"><button class="btn primary" data-act="recipe-new">+ New recipe</button><button class="btn" data-act="ck-new">+ Cookbook recipe</button></div>`;
+    const list=[...PF.values()].filter(f=>f.src==='r'&&!f.cook).sort((a,b)=>a.name.localeCompare(b.name));
     h+=list.length?`<ul class="res foodlist">${list.map(f=>foodRow(f)).join('')}</ul>`:`<div class="empty">Build your own dishes, like your dal tadka for two, from ingredients. Thali works out kcal and macros per portion.</div>`;
   }else{
     const c=dbInfo.counts||{};
@@ -703,7 +720,7 @@ function replaceView(v){if(STACK.length)STACK[STACK.length-1]=v;else STACK.push(
 function refreshView(){if(STACK.length){const b=$('.sh-body');const st=b?b.scrollTop:0;showView(STACK[STACK.length-1]);const nb=$('.sh-body');if(nb)nb.scrollTop=st;}}
 function backView(){STACK.pop();if(STACK.length)showView(STACK[STACK.length-1]);else closeSheet();}
 function closeSheet(){
-  STACK=[];stopCamera();ADD=null;
+  STACK=[];stopCamera();ADD=null;if(window._wl){window._wl.release().catch(()=>{});window._wl=null;}
   const sh=$('#sheet');sh.classList.remove('on');$('#scrim').classList.remove('on');render();
   clearTimeout(closeSheet._t);closeSheet._t=setTimeout(()=>{if(!sh.classList.contains('on'))sh.innerHTML='';},320);
 }
@@ -834,6 +851,7 @@ function portionView(){
       ${PORT.editId?`<label class="fld" style="margin-top:12px"><span>Day</span><input type="date" id="pday" value="${PORT.day}" max="${PORT.etype==='plan'?addDay(today(),13):today()}"></label>`:''}
       <div class="stack" style="margin-top:14px">${personal?`<button class="btn small" data-act="food-edit" data-id="${esc(f.id)}">${I.edit.replace('<svg','<svg style="width:15px;height:15px;vertical-align:-2px;margin-right:4px"')}Edit food</button>`:
         (f.src!=='o'&&f.src!=='f'?`<button class="btn small" data-act="food-copy" data-id="${esc(f.id)}">Copy to my foods & adjust</button>`:'')}
+        ${PORT.mode!=='recipe'&&f.cook&&!(STACK.length>1&&STACK[STACK.length-2].cook)?`<button class="btn small" data-act="cook-open" data-id="${esc(f.id)}">${I.book.replace('<svg','<svg style="width:15px;height:15px;vertical-align:-2px;margin-right:4px"')}Open recipe</button>`:''}
         ${PORT.mode==='recipe'?'':f.src==='r'?`<button class="btn small" data-act="rs-open" data-id="${esc(f.id)}">${I.cart.replace('<svg','<svg style="width:15px;height:15px;vertical-align:-2px;margin-right:4px"')}Shop for this recipe</button>`
           :`<button class="btn small" data-act="port-tolist">${I.cart.replace('<svg','<svg style="width:15px;height:15px;vertical-align:-2px;margin-right:4px"')}Shopping list</button>`}</div>
       ${f.src==='i'?`<p class="muted small" style="margin-top:10px">INDB values come from standard textbook recipes. Home cooking with more oil or ghee will be higher.</p>`:''}
@@ -1005,7 +1023,7 @@ function recipeView(){
     ${est?`<p class="hint">Add what went into it for one serving. Tap a suggestion, then adjust the grams (1 ml ≈ 1 g for drinks).</p>`:''}
     ${sug.length?`<div class="chips" style="margin:0 0 12px">${sug.map(f=>{const d=defPortion(f);return `<button class="chip k" data-act="rc-sug" data-id="${esc(f.id)}">+ ${esc(f.name.length>28?f.name.slice(0,27)+'…':f.name)} · ${fmtG(d[1])} g</button>`;}).join('')}</div>`:''}
     <div class="sec">Ingredients${est?'':' (raw weight)'}<span class="r">${fmt(R.raw)} g</span></div>
-    ${RC.ings.length?`<ul class="list">${RC.ings.map((x,i)=>`<li class="ing"><span class="nm"><b>${esc(x.name)}</b><small>${fmt((x.n[0]||0)*x.g/100)} kcal</small></span><input class="rc-g" data-i="${i}" inputmode="decimal" value="${fmtG(x.g)}" aria-label="grams"><span class="muted">g</span><button class="x" data-act="rc-rm" data-i="${i}" aria-label="Remove">${I.x}</button></li>`).join('')}</ul>`:`<p class="muted">${est?'Nothing added yet.':'Add each ingredient with its raw amount: dal, oil, onion, ghee…'}</p>`}
+    ${RC.ings.length?`<ul class="list">${RC.ings.map((x,i)=>`<li class="ing"><span class="nm"><b>${esc(x.name)}</b><small>${x.amt!=null&&x.u!=='g'&&x.u!=='ml'?esc(amtTxt(x))+' · ':''}${fmt((x.n[0]||0)*x.g/100)} kcal</small></span><input class="rc-g" data-i="${i}" inputmode="decimal" value="${fmtG(x.g)}" aria-label="grams"><span class="muted">g</span><button class="x" data-act="rc-rm" data-i="${i}" aria-label="Remove">${I.x}</button></li>`).join('')}</ul>`:`<p class="muted">${est?'Nothing added yet.':'Add each ingredient with its raw amount: dal, oil, onion, ghee…'}</p>`}
     <button class="btn small" style="margin-top:10px" data-act="rc-add">+ ${est?'Search an ingredient':'Add ingredient'}</button>
     ${est?`<div class="calc" id="rc-calc" style="margin-top:14px">${estCalc(R)}</div>
       <div class="tog"><span>Save to my recipes<small>So “${esc(RC.name||'it')}” is found directly next time</small></span><button class="sw ${RC.save?'on':''}" data-act="rc-savetog" aria-label="Save to my recipes"></button></div>`:
@@ -1014,6 +1032,7 @@ function recipeView(){
     <p class="hint">Weigh the pot after cooking (minus the pot) for accurate per-gram values. Dal and rice gain water, sabzi loses some.</p>
     <div class="calc" id="rc-calc">${recipeCalc(R)}</div>
     ${RC.id?`<button class="btn small" style="margin-top:4px" data-act="rs-open" data-id="${esc(RC.id)}">${I.cart.replace('<svg','<svg style="width:15px;height:15px;vertical-align:-2px;margin-right:4px"')}Shop for this recipe</button>
+    ${(cookRaw(RC.id)||{}).cook?'':`<button class="btn small" style="margin-top:4px" data-act="ck-edit" data-id="${esc(RC.id)}">${I.book.replace('<svg','<svg style="width:15px;height:15px;vertical-align:-2px;margin-right:4px"')}Add method (Cookbook)</button>`}
     <button class="link" data-act="rc-del" style="color:var(--danger)">Delete recipe</button>`:''}`}
     </div><div class="sh-foot">${est?`<button class="btn primary" style="width:100%" data-act="rc-log">Add to ${esc(MEALNAME[(ADD&&ADD.meal)||defaultMeal()].toLowerCase())}</button>`:`<button class="btn primary" style="width:100%" data-act="rc-save">Save recipe</button>`}</div>`;},
   mount:()=>{
@@ -1023,7 +1042,7 @@ function recipeView(){
     const y=$('#rc-y');if(y)y.addEventListener('input',e=>{RC.yieldG=e.target.value;upd();});
     const sv=$('#rc-s');if(sv)sv.addEventListener('input',e=>{RC.servings=e.target.value;upd();});
     if(RC.est)$('#rc-name').addEventListener('change',()=>refreshView());
-    $$('.rc-g').forEach(el=>el.addEventListener('input',()=>{const v=num(el.value);if(!isNaN(v)){RC.ings[+el.dataset.i].g=v;upd();}}));
+    $$('.rc-g').forEach(el=>el.addEventListener('input',()=>{const v=num(el.value);if(!isNaN(v)){const x=RC.ings[+el.dataset.i];x.g=v;x.amt=null;x.u='';upd();}}));
   }};
 }
 function estCalc(R){
@@ -1051,8 +1070,11 @@ function rcSave(){
   if(!RC.ings.length)return toast('Add at least one ingredient.');
   const R=recipeTotals();
   const tags=RC.ings.some(x=>/n/.test(x.tags||''))?'n':RC.ings.some(x=>/e/.test(x.tags||''))?'e':'';
-  savePersonalFood({id:RC.id||'r:'+uid(),kind:'recipe',name:RC.name,brand:'',n:R.per100.map(r1),ps:[['1 portion',Math.round(R.portion)],['1 katori',150]],
-    ing:RC.ings.map(x=>({fid:x.fid,name:x.name,g:x.g,n:x.n,m:x.m||null,tags:x.tags||''})),yieldG:num(RC.yieldG)>0?num(RC.yieldG):'',servings:R.sv,tags,m:recipeMicros(RC.ings,R.y)});
+  const old=RC.id?cookRaw(RC.id):null,ck=old&&old.cook;
+  const rec={id:RC.id||'r:'+uid(),kind:'recipe',name:RC.name,brand:'',n:R.per100.map(r1),ps:ck?[['1 '+ck.unit,r1(R.portion)]]:[['1 portion',Math.round(R.portion)],['1 katori',150]],
+    ing:RC.ings.map(x=>({fid:x.fid,name:x.name,g:x.g,n:x.n,m:x.m||null,tags:x.tags||'',...(x.amt!=null?{amt:x.amt,u:x.u||''}:{})})),yieldG:num(RC.yieldG)>0?num(RC.yieldG):'',servings:R.sv,tags,m:recipeMicros(RC.ings,R.y)};
+  if(ck)rec.cook={...ck,edited:true};
+  savePersonalFood(rec);
   toast('Recipe saved');RC=null;STACK.pop();if(STACK.length)showView(STACK[STACK.length-1]);else closeSheet();
 }
 function rcDelete(){
@@ -1257,7 +1279,7 @@ async function dbUpdate(){
   if(!navigator.onLine)return toast('You are offline.');
   toast('Checking for an update…');
   const before=dbInfo.version;
-  try{await loadDb(true);}catch(e){return toast('Could not reach the app server.');}
+  try{await loadDb(true);await loadCookbook(true);}catch(e){return toast('Could not reach the app server.');}
   toast(dbInfo.version&&dbInfo.version!==before?`Database updated to ${dbInfo.version}`:`Database is up to date (${dbInfo.version||'–'})`);
   if(sheetOpen())refreshView();else render();
 }
@@ -1632,11 +1654,11 @@ function ingShopName(n){
 }
 let RS=null;
 function recipeShopView(raw){
-  const ings=(raw.ing||[]).map(x=>({name:ingShopName(x.name),g:x.g}));
+  const ings=(raw.ing||[]).map(x=>({name:ingShopName(x.name),g:x.g,amt:x.amt!=null?amtTxt(x):''}));
   RS={from:raw.name,items:ings.map(x=>{const p=inPantry(x.name);return {...x,on:!(p&&p.state==='ok')&&!onList(x.name),pantry:p,listed:!!onList(x.name)};})};
   return {full:true,html:()=>`${head('Shop for '+raw.name,{back:STACK.length>1})}<div class="sh-body">
     <p class="muted" style="margin-bottom:10px">Pick what you need to buy. Items already in stock in the pantry, or already on the list, start unticked.</p>
-    <ul class="res shop">${RS.items.map((x,i)=>`<li><div class="it srow"><button class="tick ${x.on?'on':''}" data-act="rs-tick" data-i="${i}" aria-label="Toggle">${x.on?I.check:''}</button><span class="nm"><b>${esc(x.name)}</b><small>${fmt(x.g)} g in the recipe${x.listed?' · on the list':x.pantry?' · pantry: '+STATE[x.pantry.state][0].toLowerCase():''}</small></span></div></li>`).join('')}</ul>
+    <ul class="res shop">${RS.items.map((x,i)=>`<li><div class="it srow"><button class="tick ${x.on?'on':''}" data-act="rs-tick" data-i="${i}" aria-label="Toggle">${x.on?I.check:''}</button><span class="nm"><b>${esc(x.name)}</b><small>${x.amt?esc(x.amt):fmt(x.g)+' g'} in the recipe${x.listed?' · on the list':x.pantry?' · pantry: '+STATE[x.pantry.state][0].toLowerCase():''}</small></span></div></li>`).join('')}</ul>
     </div><div class="sh-foot"><button class="btn primary" style="width:100%" data-act="rs-add">Add ${RS.items.filter(x=>x.on).length} to the list</button></div>`};
 }
 function recipeShopAdd(){
@@ -1933,6 +1955,7 @@ function guideView(){
   <p class="muted">Thali is a private calorie, protein and nutrient log with Indian and international foods. It works offline. Your data stays on your phone unless you turn on sync to your own GitHub repository. Version ${APP_VERSION}.</p>
   ${sec('Logging food',['<b>+ (Add)</b> or the + on a meal → search → pick a portion (roti, katori, Brötchen, grams…) → Add. The sheet stays open for the whole meal.','<b>Recent</b> shows your usual foods for that meal with your last portion. <b>☆</b> keeps a food in Favourites.','<b>Type a whole meal</b>: “3 roti, 1 katori dal tadka, salad” adds everything at once.','<b>Same as yesterday</b> copies a meal. <b>Quick add</b> is for a number only.','Tap any entry to change the amount, meal or day, or to delete it (Undo for 5 s).'])}
   ${sec('Finding foods',['About 8,500 foods offline: Thali’s own list with home portions, the Indian Nutrient Databank and USDA. Words in English, Hindi, Gujarati and German work (aloo, dahi, Käse).','If little is found: <b>closest matches</b> show up, Open Food Facts is searched online automatically, and <b>Estimate from ingredients</b> builds it from parts and saves it for next time.','<b>Barcode</b>: scan with the camera, a photo or by typing the number. Products are saved for offline use.','<b>Create a food</b> from a label (per 100 g or per serving). <b>Copy to my foods & adjust</b> changes any value.'])}
+  ${sec('Cookbook',['Foods → Recipes → <b>Cookbook</b>: recipes with ingredients, steps and timers. Scale the amounts (½× to 2×), tick ingredients and steps off while cooking, and keep the screen on.','<b>Log 1 piece</b> adds it with kcal and protein worked out from the ingredients.','After cooking, tap <b>I made it</b> to rate it and note what to change. <b>My tweaks</b>, the log and edits sync to the other phone.','Any of your recipes can get a method: open it and tap <b>Add method (Cookbook)</b>. Built-in recipes arrive with app updates.'])}
   ${sec('Recipes',['Foods → Recipes: add raw ingredients, the cooked weight and portions. Thali works out kcal, macros and vitamins per portion.','<b>Shop for this recipe</b> puts the ingredients on the shopping list.'])}
   ${sec('Two people',['Profiles for each person, with separate targets. Tap the name at the top to switch.','<b>Also log for</b> (when adding food): log the same dish for your partner too, with their own portion (½, ¾, same, 1¼…).','<b>Same as [partner]’s lunch</b>: copy what they logged and adjust each item to your amount.','Foods, recipes, the shopping list and the pantry are shared.'])}
   ${sec('Planning',['Go to a future day (› on Today) or open <b>Week plan</b> to plan meals. Planned food is shown dashed and counts as eaten only after you tick ✓.','<b>Shopping list for this week’s plan</b> splits planned recipes into ingredients, skips what is in stock, and adds the rest.'])}
@@ -2086,13 +2109,204 @@ document.addEventListener('input',e=>{if(e.target.id==='dbq'){VIEW.dbq=e.target.
   sh.addEventListener('touchend',e=>{if(y0==null)return;const dy=(e.changedTouches[0].clientY-y0);sh.style.transform='';y0=null;if(dy>90)closeSheet();});
 })();
 
+/* ====================== v1.4: Cookbook ====================== */
+/* A cookbook recipe is a personal recipe (S.foods, kind 'recipe') with a `cook` part: method, notes,
+   your tweaks and a "made it" log. So it syncs, is found in search, can be logged per piece and shopped for.
+   Built-in ones come from data/cookbook.json (built by tools/build_cookbook.py) and are copied in once with a
+   stable id and the seed's timestamp, so edits from either phone always win over the copy. */
+let COOKBOOK=null,COOK=null,COOKE=null;
+const RATE=[['great','😋','Great'],['good','👍','Good'],['ok','😐','OK'],['bad','👎','Didn’t work']];
+const RATEI=Object.fromEntries(RATE.map(r=>[r[0],r]));
+function cookCalc(ing,servings,yieldG){
+  const t=[0,0,0,0,0];let raw=0;for(const x of ing||[]){raw+=x.g||0;for(let i=0;i<5;i++)t[i]+=((x.n||[])[i]||0)*(x.g||0)/100;}
+  const y=num(yieldG)>0?num(yieldG):raw;return {t,raw,y,sv:Math.max(1,num(servings)||1)};
+}
+function cookFood(s,keep){
+  const ing=(s.ing||[]).map(x=>({fid:x.fid||'',name:x.name,g:x.g,n:x.n.slice(),tags:x.tags||'',amt:x.amt??null,u:x.u||''}));
+  const raw=ing.reduce((a,x)=>a+(x.g||0),0),y=Math.round(raw*(s.bake||1)),C=cookCalc(ing,s.servings,y);
+  const tags=ing.some(x=>/n/.test(x.tags))?'n':ing.some(x=>/e/.test(x.tags))?'e':'';
+  return {id:s.id,kind:'recipe',name:s.name,brand:'',n:C.t.map(v=>r1(C.y?v/C.y*100:0)),ps:[['1 '+(s.unit||'portion'),r1(C.y/C.sv)]],ing,yieldG:y,servings:C.sv,tags,
+    cook:{rev:s.rev||1,seed:true,emoji:s.emoji||'',desc:s.desc||'',time:s.time||'',pan:s.pan||'',unit:s.unit||'portion',units:s.units||'portions',
+      steps:(s.steps||[]).map(x=>({t:x.t||'',c:x.c||'',sec:x.sec||0})),notes:s.notes||'',mine:keep&&keep.mine||'',log:keep&&keep.log||[],edited:false}};
+}
+async function loadCookbook(fresh){
+  try{const r=await fetch('data/cookbook.json',fresh?{cache:'no-store'}:{});if(!r.ok)return;COOKBOOK=await r.json();seedCookbook();}catch(e){}
+}
+function seedCookbook(){
+  if(!COOKBOOK)return 0;let n=0;
+  for(const s of COOKBOOK.recipes||[]){
+    const ts=Date.parse(s.ts)||0,i=S.foods.findIndex(x=>x.id===s.id),cur=i>=0?S.foods[i]:null;
+    if(cur&&(cur.deleted||!cur.cook||cur.cook.edited||(cur.cook.rev||0)>=(s.rev||1)))continue;
+    const rec=cookFood(s,cur&&cur.cook);rec.updatedAt=cur?Math.max(ts,(cur.updatedAt||0)+1):ts;rec.by='';
+    if(cur)S.foods[i]=rec;else S.foods.push(rec);n++;
+  }
+  if(n){rebuildPersonal();markDirty('foods');save();if(!sheetOpen()&&VIEW.tab==='foods')render();}
+  return n;
+}
+const cookList=()=>[...PF.values()].filter(f=>f.src==='r'&&f.cook);
+const cookRaw=id=>S.foods.find(x=>x.id===id&&!x.deleted);
+function cookPatch(id,fn){const r=cookRaw(id);if(!r||!r.cook)return;fn(r.cook);touch(r);rebuildPersonal();markDirty('foods');save();}
+function frac(a){const w=Math.floor(a+1e-9),r=a-w;const F=[[0,''],[.25,'¼'],[1/3,'⅓'],[.5,'½'],[2/3,'⅔'],[.75,'¾'],[1,'']];
+  let b=F[0];for(const q of F)if(Math.abs(r-q[0])<Math.abs(r-b[0]))b=q;const W=b[0]===1?w+1:w;return ((W||!b[1]?String(W):'')+b[1])||'0';}
+function amtTxt(x,f=1){
+  if(x.amt==null||x.amt==='')return fmtG((x.g||0)*f)+' g';
+  const a=x.amt*f,u=x.u||'';
+  if(u==='g'||u==='ml')return fmtG(a)+' '+u;
+  return frac(a)+(u?' '+(a>1&&u==='packet'?'packets':u):'');
+}
+function cookPer(f){const C=cookCalc(f.ing,f.servings,f.yieldG);return C.t.map(v=>v/C.sv);}
+function cookRow(f){
+  const c=f.cook,pp=cookPer(f),last=(c.log||[])[0];
+  return `<li><button class="it" data-act="cook-open" data-id="${esc(f.id)}"><span class="ckemo">${esc(c.emoji||'🍽️')}</span><span class="nm"><b>${esc(f.name)}</b>
+    <small>${fmt(f.servings)} ${esc(c.units)}${c.time?' · '+esc(c.time):''}${last?` · ${RATEI[last.r]?RATEI[last.r][1]:''} made ${esc(shortDate(last.day))}`:''}</small></span>
+    <span class="kc">${fmt(pp[0])}<small>kcal · P ${fmtG(pp[1])}</small></span></button></li>`;
+}
+function openCook(id){if(!cookRaw(id))return toast('Recipe not found.');COOK={id,f:1,done:new Set(),sdone:new Set(),made:null};pushView(cookView());}
+function cookView(){
+  return {full:true,cook:true,html:()=>{
+    const r=cookRaw(COOK.id);if(!r||!r.cook)return `${head('Cookbook',{back:STACK.length>1})}<div class="sh-body"><div class="empty">This recipe was deleted.</div></div>`;
+    const c=r.cook,f=COOK.f,C=cookCalc(r.ing,r.servings,r.yieldG),pp=C.t.map(v=>v/C.sv);
+    const ic15=s=>s.replace('<svg','<svg style="width:15px;height:15px;vertical-align:-2px;margin-right:4px"');
+    let h=`${head(c.emoji?c.emoji+' Cookbook':'Cookbook',{back:STACK.length>1})}<div class="sh-body">
+      <h2 style="font-size:22px;line-height:1.25">${esc(r.name)}</h2>
+      ${c.desc?`<p class="muted" style="margin:4px 0 8px;font-size:15px">${esc(c.desc)}</p>`:''}
+      <div class="chips" style="margin:6px 0 10px">${c.time?`<span class="chip">${ic15(I.clock)}${esc(c.time)}</span>`:''}<span class="chip">Makes ${frac(r.servings*f)} ${esc(r.servings*f===1?c.unit:c.units)}</span>${c.pan?`<span class="chip">${esc(c.pan)}</span>`:''}</div>
+      ${r.ing.length?`<div class="card ckn"><div class="m4">${[['kcal',0,'--kcal'],['Protein g',1,'--pro'],['Carbs g',2,'--carb'],['Fat g',3,'--fat']].map(([l,i,v])=>`<div style="--c:var(${v})"><b>${i?fmtG(pp[i]):fmt(pp[i])}</b><span>${l}</span></div>`).join('')}</div>
+        <p class="muted small" style="margin-top:6px;text-align:center">Per ${esc(c.unit)} · whole batch ${fmt(C.t[0])} kcal, ${fmt(C.t[1])} g protein. Estimate from the ingredients.</p></div>
+      <div class="row-btns" style="margin-bottom:6px"><button class="btn primary" data-act="cook-log" data-id="${esc(r.id)}">Log 1 ${esc(c.unit)}</button><button class="btn" data-act="cook-made">${COOK.made?'Cancel':'I made it'}</button></div>`:`<div class="card"><p class="muted" style="margin-bottom:10px">Add the ingredients so Thali can work out kcal and protein per ${esc(c.unit)}.</p><div class="row-btns"><button class="btn primary" data-act="food-edit" data-id="${esc(r.id)}">Add ingredients</button><button class="btn" data-act="cook-made">${COOK.made?'Cancel':'I made it'}</button></div></div>`}
+      ${COOK.made?madeForm():''}
+      <div class="sec">Ingredients<span class="r"><span class="chips">${[[.5,'½×'],[1,'1×'],[1.5,'1½×'],[2,'2×']].map(([v,l])=>`<button class="chip ${f===v?'on':''}" data-act="cook-scale" data-f="${v}">${l}</button>`).join('')}</span></span></div>
+      ${f!==1?`<p class="hint" style="margin-top:0">Amounts ×${String(f).replace('.',',')}. Use a ${f>1?'bigger':'smaller'} form, or the same form and adjust the baking time; check early.</p>`:''}
+      ${r.ing.length?`<ul class="res ckl">${r.ing.map((x,i)=>`<li class="${COOK.done.has(i)?'on':''}"><button class="it" data-act="cook-tick" data-i="${i}"><span class="tick ${COOK.done.has(i)?'on':''}">${COOK.done.has(i)?I.check:''}</span><span class="nm"><b>${esc(x.name)}</b>${x.amt!=null&&x.u!=='g'&&x.u!=='ml'?`<small>${fmtG(x.g*f)} g</small>`:''}</span><span class="amt">${esc(amtTxt(x,f))}</span></button></li>`).join('')}</ul>`
+        :`<p class="muted" style="margin-bottom:10px">No ingredients yet.</p>`}
+      <div class="sec">Method</div>
+      ${(c.steps||[]).length?`<ol class="cks">${c.steps.map((s,i)=>{const k=r.id+':'+i,lab=s.sec?(s.sec%60?mmss(s.sec*1000):Math.round(s.sec/60)+' min'):'';
+        return `<li class="${COOK.sdone.has(i)?'done':''}"><button class="no" data-act="cook-step" data-i="${i}" aria-label="Step ${i+1} done">${COOK.sdone.has(i)?I.check:i+1}</button><div>${s.t?`<b>${esc(s.t)}</b>`:''}<p>${esc(s.c)}</p>
+          ${s.sec?`<button class="tmr" data-act="cook-timer" data-k="${esc(k)}" data-s="${s.sec}" data-l="${esc(s.t||'Step '+(i+1))}" data-timer="${esc(k)}" data-lab="${esc(lab)}">${ic15(I.clock)}<span>${esc(lab)}</span></button>`:''}</div></li>`;}).join('')}</ol>`
+        :`<p class="muted">No method yet. Tap “Edit method” to add the steps.</p>`}
+      <div class="tog"><span>Keep the screen on<small>While this recipe is open</small></span><button class="sw ${window._wl?'on':''}" data-act="cook-wake" aria-label="Keep the screen on"></button></div>
+      ${c.notes?`<div class="sec">Notes</div><div class="calc" style="color:var(--ink);font-size:14.5px;line-height:1.5">${esc(c.notes)}</div>`:''}
+      <div class="sec">My tweaks</div>
+      <textarea id="ck-mine" rows="3" placeholder="What to change next time, e.g. 10 g more sugar, bake 2 min less">${esc(c.mine||'')}</textarea>
+      ${(c.log||[]).length?`<div class="sec">Made it<span class="r">${c.log.length}×</span></div><ul class="list cklog">${c.log.map(l=>`<li><span class="ckr">${RATEI[l.r]?RATEI[l.r][1]:'•'}</span><span class="nm"><b>${esc(dayLabel(l.day))}${RATEI[l.r]?' · '+RATEI[l.r][2]:''}</b>${l.note?`<small>${esc(l.note)}</small>`:''}</span><button class="x" data-act="cook-logdel" data-id="${esc(l.id)}" aria-label="Remove">${I.x}</button></li>`).join('')}</ul>`:''}
+      <div class="stack" style="margin-top:16px">
+        <button class="btn small" data-act="food-edit" data-id="${esc(r.id)}">${ic15(I.edit)}Ingredients & amounts</button>
+        <button class="btn small" data-act="ck-edit" data-id="${esc(r.id)}">${ic15(I.edit)}Edit method</button>
+        ${r.ing.length?`<button class="btn small" data-act="rs-open" data-id="${esc(r.id)}">${ic15(I.cart)}Shop for this recipe</button>`:''}
+        <button class="btn small" data-act="cook-share" data-id="${esc(r.id)}">Share as text</button></div>
+      ${c.seed&&c.edited?`<button class="link" data-act="cook-restore" data-id="${esc(r.id)}">Restore the original recipe (keeps your tweaks and log)</button>`:''}
+    </div>`;return h;},
+  mount:()=>{const t=$('#ck-mine');if(t)t.addEventListener('change',()=>{const v=t.value.trim();cookPatch(COOK.id,c=>c.mine=v);toast('Tweaks saved');});
+    const mn=$('#ck-note');if(mn)mn.addEventListener('input',()=>{COOK.made.note=mn.value;});updTimers();}};
+}
+function madeForm(){
+  return `<div class="card" style="margin-top:4px"><b>How did it turn out?</b><div class="chips" style="margin:8px 0">${RATE.map(([k,e,l])=>`<button class="chip ${COOK.made.r===k?'on':''}" data-act="cook-rate" data-r="${k}">${e} ${l}</button>`).join('')}</div>
+    <input id="ck-note" class="ckin" value="${esc(COOK.made.note||'')}" placeholder="Note, e.g. a bit dry, take out at 24 min">
+    <button class="btn primary" style="width:100%;margin-top:10px" data-act="cook-madesave">Save</button></div>`;
+}
+function cookShare(id){
+  const r=cookRaw(id);if(!r)return;const c=r.cook;
+  const t=[`${c.emoji?c.emoji+' ':''}${r.name}`,c.desc,[c.time,`makes ${r.servings} ${c.units}`,c.pan].filter(Boolean).join(' · '),'','Ingredients:',...r.ing.map(x=>`- ${amtTxt(x)} ${x.name}`),'','Method:',
+    ...(c.steps||[]).map((s,i)=>`${i+1}. ${s.t?s.t+': ':''}${s.c}`),...(c.notes?['','Notes: '+c.notes]:[]),...(c.mine?['','My tweaks: '+c.mine]:[])].filter(x=>x!=null).join('\n');
+  if(navigator.share)navigator.share({title:r.name,text:t}).catch(()=>{});
+  else if(navigator.clipboard)navigator.clipboard.writeText(t).then(()=>toast('Copied')).catch(()=>toast('Could not share.'));
+}
+/* method editor (also adds a method to any of your recipes, or makes a new cookbook recipe) */
+const stepLine=s=>`${s.t?s.t+': ':''}${s.c}${s.sec?` [${s.sec%60?r1(s.sec/60):s.sec/60} min]`:''}`;
+function parseSteps(txt){
+  return String(txt||'').split(/\n+/).map(l=>l.trim()).filter(Boolean).map(l=>{let sec=0;
+    l=l.replace(/^\d+[.)]\s*/,'').replace(/\s*\[(\d+(?:[.,]\d+)?)\s*min\]\s*$/i,(m,v)=>{sec=Math.round(num(v)*60);return '';});
+    const m=l.match(/^([^:]{2,40}):\s+(.+)$/);return m?{t:m[1].trim(),c:m[2].trim(),sec}:{t:'',c:l,sec};});
+}
+function openCookEdit(id){
+  const r=id?S.foods.find(x=>x.id===id&&!x.deleted):null,c=(r&&r.cook)||{};
+  COOKE={id:r?r.id:null,name:r?r.name:'',emoji:c.emoji||'',desc:c.desc||'',time:c.time||'',pan:c.pan||'',servings:r?r.servings||1:8,unit:c.unit||'piece',units:c.units||'pieces',
+    steps:(c.steps||[]).map(stepLine).join('\n\n'),notes:c.notes||''};
+  pushView(cookEditView());
+}
+function readCE(){const v=id=>{const el=$('#'+id);return el?el.value:'';};Object.assign(COOKE,{name:v('ce-name'),emoji:v('ce-emo'),desc:v('ce-desc'),time:v('ce-time'),pan:v('ce-pan'),servings:v('ce-sv'),unit:v('ce-u'),units:v('ce-us'),steps:v('ce-steps'),notes:v('ce-notes')});}
+function cookEditView(){
+  return {full:true,html:()=>`${head(COOKE.id?'Edit method':'New cookbook recipe',{back:STACK.length>1})}<div class="sh-body">
+    <div class="g2" style="grid-template-columns:70px 1fr"><label class="fld"><span>Icon</span><input id="ce-emo" value="${esc(COOKE.emoji)}" placeholder="🍰" style="text-align:center"></label>
+    <label class="fld"><span>Name</span><input id="ce-name" value="${esc(COOKE.name)}" placeholder="e.g. Besan chilla"></label></div>
+    <label class="fld"><span>Short description</span><input id="ce-desc" value="${esc(COOKE.desc)}" placeholder="optional"></label>
+    <div class="g2"><label class="fld"><span>Time</span><input id="ce-time" value="${esc(COOKE.time)}" placeholder="15 min + 25 min baking"></label>
+    <label class="fld"><span>Form / pan</span><input id="ce-pan" value="${esc(COOKE.pan)}" placeholder="optional"></label></div>
+    <div class="g3"><label class="fld"><span>Makes</span><input id="ce-sv" inputmode="numeric" value="${esc(COOKE.servings)}"></label>
+    <label class="fld"><span>One is a</span><input id="ce-u" value="${esc(COOKE.unit)}" placeholder="piece"></label>
+    <label class="fld"><span>Plural</span><input id="ce-us" value="${esc(COOKE.units)}" placeholder="pieces"></label></div>
+    <label class="fld"><span>Method: one step per line (blank lines are fine)</span><textarea id="ce-steps" rows="9" placeholder="Wet mix: mash the bananas…&#10;Bake: 25–30 min at 170 °C [28 min]">${esc(COOKE.steps)}</textarea></label>
+    <p class="hint">Start a line with “Title:” for a step title. End it with [28 min] to get a timer button.</p>
+    <label class="fld"><span>Notes</span><textarea id="ce-notes" rows="4" placeholder="Swaps, serving tips…">${esc(COOKE.notes)}</textarea></label>
+    ${COOKE.id?'':`<p class="hint">After saving, add the ingredients with “Ingredients & amounts” so Thali can work out kcal and protein per piece.</p>`}
+    ${COOKE.id&&(cookRaw(COOKE.id)||{}).cook?`<button class="link" data-act="ck-unlist" style="color:var(--danger)">${cookRaw(COOKE.id).cook.seed?'Delete this recipe':'Remove from the Cookbook (keeps it as a nutrition recipe)'}</button>`:''}
+    </div><div class="sh-foot"><button class="btn primary" style="width:100%" data-act="ck-save">Save</button></div>`};
+}
+function ckSave(){
+  readCE();const name=COOKE.name.trim();if(!name)return toast('Give the recipe a name.');
+  const sv=Math.max(1,Math.round(num(COOKE.servings))||1),unit=COOKE.unit.trim()||'portion',units=COOKE.units.trim()||unit+'s';
+  const cur=COOKE.id?cookRaw(COOKE.id):null;
+  const cook={...((cur&&cur.cook)||{rev:0,log:[],mine:''}),emoji:COOKE.emoji.trim().slice(0,4),desc:COOKE.desc.trim(),time:COOKE.time.trim(),pan:COOKE.pan.trim(),unit,units,
+    steps:parseSteps(COOKE.steps),notes:COOKE.notes.trim(),edited:true};
+  let id;
+  if(cur){const y=num(cur.yieldG)>0?num(cur.yieldG):(cur.ing||[]).reduce((a,x)=>a+(x.g||0),0);
+    id=savePersonalFood({id:cur.id,name,servings:sv,ps:[['1 '+unit,r1(y/sv)]],cook}).id;}
+  else id=savePersonalFood({id:'r:'+uid(),kind:'recipe',name,brand:'',n:[0,0,0,0,0],ps:[['1 '+unit,0]],ing:[],yieldG:'',servings:sv,tags:'',cook}).id;
+  COOKE=null;STACK.pop();toast('Saved to the Cookbook');
+  const top=STACK[STACK.length-1];
+  if(top&&top.cook&&COOK&&COOK.id===id)showView(top);else{if(top&&!top.cook)STACK.pop();openCook(id);}
+}
+/* timers (run while the app is open; iPhone pauses web apps in the background) */
+const TIMERS={};let tickH=null,ACX=null;
+const mmss=ms=>{const s=Math.max(0,Math.ceil(ms/1000));return Math.floor(s/60)+':'+pad(s%60);};
+function beep(){try{if(!ACX)return;const t0=ACX.currentTime+.05;for(let i=0;i<4;i++){const o=ACX.createOscillator(),g=ACX.createGain(),t=t0+i*.5;o.frequency.value=880;o.connect(g);g.connect(ACX.destination);
+  g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.35,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+.35);o.start(t);o.stop(t+.4);}}catch(e){}}
+function timerToggle(k,sec,label){
+  if(TIMERS[k])delete TIMERS[k];
+  else{TIMERS[k]={end:Date.now()+sec*1000,label};try{ACX=ACX||new (window.AudioContext||window.webkitAudioContext)();if(ACX.resume)ACX.resume();}catch(e){}}
+  if(!tickH)tickH=setInterval(updTimers,1000);updTimers();
+}
+function updTimers(){
+  const now=Date.now();
+  for(const [k,t] of Object.entries(TIMERS))if(t.end<=now){delete TIMERS[k];beep();vib();toast(`⏰ ${t.label}: time is up`);}
+  $$('[data-timer]').forEach(el=>{const t=TIMERS[el.dataset.timer];el.classList.toggle('run',!!t);const s=el.querySelector('span');if(s)s.textContent=t?mmss(t.end-now)+' · stop':el.dataset.lab;});
+  if(!Object.keys(TIMERS).length&&tickH){clearInterval(tickH);tickH=null;}
+}
+async function wakeToggle(b){
+  try{if(window._wl){await window._wl.release();window._wl=null;}else if(navigator.wakeLock){window._wl=await navigator.wakeLock.request('screen');window._wl.addEventListener('release',()=>{window._wl=null;});}
+    else return toast('This phone does not support keeping the screen on.');}catch(e){return toast('Could not keep the screen on.');}
+  if(b)b.classList.toggle('on',!!window._wl);
+}
+Object.assign(A,{
+  'cook-open':b=>openCook(b.dataset.id),
+  'cook-scale':b=>{COOK.f=+b.dataset.f;refreshView();},
+  'cook-tick':b=>{const i=+b.dataset.i;COOK.done.has(i)?COOK.done.delete(i):COOK.done.add(i);refreshView();},
+  'cook-step':b=>{const i=+b.dataset.i;COOK.sdone.has(i)?COOK.sdone.delete(i):COOK.sdone.add(i);refreshView();},
+  'cook-timer':b=>timerToggle(b.dataset.k,+b.dataset.s,b.dataset.l),
+  'cook-wake':b=>wakeToggle(b),
+  'cook-log':b=>{const f=getFood(b.dataset.id);if(!f)return;if(!(f.n[0]>0))return toast('Add the ingredients first.');ADD=null;openPortion(f,{},'log');},
+  'cook-made':()=>{COOK.made=COOK.made?null:{r:'',note:''};refreshView();},
+  'cook-rate':b=>{COOK.made.r=b.dataset.r;$$('[data-act="cook-rate"]').forEach(x=>x.classList.toggle('on',x===b));},
+  'cook-madesave':()=>{const m=COOK.made;if(!m.r&&!m.note.trim())return toast('Pick how it turned out.');
+    cookPatch(COOK.id,c=>{c.log=[{id:uid(),day:today(),r:m.r,note:m.note.trim()},...(c.log||[])].slice(0,50);});COOK.made=null;toast('Saved');refreshView();},
+  'cook-logdel':b=>{if(!confirm('Remove this entry?'))return;cookPatch(COOK.id,c=>{c.log=(c.log||[]).filter(l=>l.id!==b.dataset.id);});refreshView();},
+  'cook-share':b=>cookShare(b.dataset.id),
+  'cook-restore':b=>{if(!confirm('Go back to the original amounts and method? Your tweaks and log stay.'))return;cookPatch(b.dataset.id,c=>{c.edited=false;c.rev=0;});seedCookbook();toast('Original restored');refreshView();},
+  'ck-edit':b=>openCookEdit(b.dataset.id),
+  'ck-new':()=>openCookEdit(null),
+  'ck-save':()=>ckSave(),
+  'ck-unlist':()=>{const r=cookRaw(COOKE.id);if(!r)return;if(!confirm(r.cook&&r.cook.seed?'Delete this recipe from the Cookbook on both phones?':'Remove the method, notes and log? The recipe stays in your nutrition recipes.'))return;
+    if(r.cook&&r.cook.seed){r.deleted=true;}else delete r.cook;touch(r);rebuildPersonal();markDirty('foods');save();COOKE=null;COOK=null;closeSheet();toast(r.deleted?'Removed':'Removed from the Cookbook');},
+});
+
 /* ---------- start ---------- */
 (async()=>{
   S=await loadState();
   if(!S.settings.pid&&liveProfiles().length)S.settings.pid=liveProfiles()[0].id;
   rebuildPersonal();render();
   await loadDb(false);
-  if(VIEW.tab==='foods')render();
+  await loadCookbook(false);
+  if(VIEW.tab==='foods'&&!sheetOpen())render();
   if(S.sync.on){autoSync();setInterval(()=>{if(document.visibilityState==='visible')autoSync();},60000);}
   document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){
     if(VIEW.day!==today()&&!sheetOpen()&&VIEW._lastToday&&VIEW.day===VIEW._lastToday){VIEW.day=today();render();}
